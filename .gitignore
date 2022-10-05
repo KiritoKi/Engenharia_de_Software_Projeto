@@ -1,3 +1,6 @@
+#db
+controller/db.js
+
 # Logs
 logs
 *.log
