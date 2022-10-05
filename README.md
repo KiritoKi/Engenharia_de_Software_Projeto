@@ -30,9 +30,9 @@
 
 [MySQL - Download](https://www.mysql.com/downloads/)
 
-* Starts your MySQL Server and execute the query at `createdb.sql` !Warning
+* Starts your MySQL Server and execute the query at `createdb.sql`
 
-### Connection DATABASE (Important!)
+### Connection DATABASE
 
 * Modify the `User` and `Password` variables in the `controller/db.js` file according to your database 
 	
