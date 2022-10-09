@@ -37,7 +37,8 @@ CREATE TABLE modelo_dados (
 
 CREATE TABLE projeto (
     id numeric PRIMARY KEY,
-    nome varchar(100)
+    nome varchar(100),
+    fk_usuario_id numeric
 );
 
 CREATE TABLE requisitos (
@@ -57,6 +58,15 @@ CREATE TABLE entidades (
     nome varchar(100),
     atributos varchar(100),
     fk_Requisitos_funcionais_id numeric
+);
+
+CREATE TABLE usuario (
+    id numeric PRIMARY KEY,
+    nome varchar(100),
+    data_nascimento date,
+    username varchar(20),
+    password varchar(30),
+    email varchar(100)
 );
  
 ALTER TABLE descritivo ADD CONSTRAINT FK_descritivo_2
@@ -86,6 +96,10 @@ ALTER TABLE modelo_dados ADD CONSTRAINT FK_modelo_dados_2
 ALTER TABLE modelo_dados ADD CONSTRAINT FK_modelo_dados_3
     FOREIGN KEY (fk_entidades_id)
     REFERENCES entidades (id);
+ 
+ALTER TABLE projeto ADD CONSTRAINT FK_projeto_2
+    FOREIGN KEY (fk_usuario_id)
+    REFERENCES usuario (id);
  
 ALTER TABLE requisitos ADD CONSTRAINT FK_requisitos_2
     FOREIGN KEY (fk_Tabela_de_requisistos_id)
