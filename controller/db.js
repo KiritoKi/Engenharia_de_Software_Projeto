@@ -2,8 +2,8 @@ import { createConnection } from 'mysql';
 
 var connection = createConnection({
     host: 'localhost',
-    user: '###',
-    password: '###',
+    user: 'kirito',
+    password: 'yanVP&123456',
     database: 'db__software_engineering'
 });
 
