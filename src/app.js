@@ -9,9 +9,12 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 //import controller from "../controller/controller";
+import user from '../model/user.js';
 
 app.post('/', (request, response) => {
+    if (request.body.password == '' && request.body.login == '') {
 
+    }
 });
 
 app.get('/', (request, response) => {
