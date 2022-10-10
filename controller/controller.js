@@ -4,15 +4,14 @@ import db from './db.js';
 function register(user) {
     const params = [
         user.getNome(),
-        user.getData_nascimento(),
         user.getUsername(),
         user.getPassword(),
-        user.Email()
+        user.getEmail()
     ];
     console.log("Inserting: " + params);
 
-    let sql = "INSERT INTO user ";
-    sql += "(nome, data_nascimento, username, password, email) VALUES (?,?,?,?,?);";
+    let sql = "INSERT INTO usuario ";
+    sql += "(nome,username, password, email) VALUES (?,?,?,?);";
     db.query(sql, params,
         function (err) {
             if (err) throw console.log("INSERT-ERROR FROM = " + params + "err = " + err)
@@ -44,4 +43,4 @@ function login() {
 }
 
 
-export default {};
+export default { register, selectLogin, login };

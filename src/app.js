@@ -17,7 +17,6 @@ app.post('/signin', function (request, responde) {
     const usuario = new user(
         0,
         request.body.nome,
-        request.body.data_nascimento,
         request.body.username,
         request.body.password,
         request.body.email
@@ -26,13 +25,16 @@ app.post('/signin', function (request, responde) {
     response.redirect("/");
 });
 
-app.post('/login', function (request, response) {
+app.post('/', function (request, response) {
+    console.log(request.body.username);
+    console.log(request.body.password);
     const usuario = new user(
         0, "", "",
         request.body.username,
         request.body.password,
         ""
     );
+    response.redirect("/");
 });
 
 app.get('/', function (request, response) {

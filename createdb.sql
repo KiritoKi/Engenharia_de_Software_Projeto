@@ -63,7 +63,6 @@ CREATE TABLE entidades (
 CREATE TABLE usuario (
     id int PRIMARY KEY AUTO_INCREMENT,
     nome varchar(100),
-    data_nascimento date,
     username varchar(20),
     password varchar(30),
     email varchar(100)
