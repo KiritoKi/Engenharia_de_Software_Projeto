@@ -1,0 +1,28 @@
+body{
+    display: flex;
+    flex-direction: column;
+   background-color: lightgray;
+   align-items: center;
+}
+
+form{
+    text-align: center;
+    background-color: white;
+    border-radius: 50px;
+    width: 400px;
+    margin: 50px;
+    height: fit-content;
+}
+
+form div{
+    margin: 20px;
+    padding: 20px;
+}
+
+form div label{
+    float: left;
+}
+
+form div input{
+    float: right;
+}

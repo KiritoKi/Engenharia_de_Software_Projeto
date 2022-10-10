@@ -1,6 +1,13 @@
 import express, { response } from "express";
+<<<<<<< HEAD
 import controller from "../controller/controller.js";
+=======
+import path from 'path';
+import { fileURLToPath } from 'url';
+>>>>>>> 92e5cd6a256de02800722eea25fd18166fb9fe3c
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 const app = express();
 
 var port = 3333;
@@ -9,6 +16,7 @@ app.set("view engine", "ejs");
 app.set('views', './views');
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(express.static(__dirname + '/public'));
 
 //import controller from "../controller/controller";
 import user from '../model/user.js';
@@ -51,5 +59,5 @@ app.get('/home', function (request, response) {
 });
 
 app.listen(port, () => {
-    console.log("Server is ON / port = 3333");
+    console.log("Server is ON / port = 3333. http://localhost:3333");
 });
