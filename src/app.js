@@ -1,10 +1,7 @@
 import express, { response } from "express";
-<<<<<<< HEAD
-import controller from "../controller/controller.js";
-=======
 import path from 'path';
 import { fileURLToPath } from 'url';
->>>>>>> 92e5cd6a256de02800722eea25fd18166fb9fe3c
+import controller from "../controller/controller.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
