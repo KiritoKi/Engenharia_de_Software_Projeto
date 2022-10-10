@@ -3,7 +3,7 @@ const app = express();
 
 var port = 3333;
 
-app.set("engine ejs", "ejs");
+app.set("view engine", "ejs");
 app.set('views', './views');
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -22,5 +22,5 @@ app.get('/', (request, response) => {
 });
 
 app.listen(port, () => {
-    console.log("Server is ON / port = 3333");
+    console.log("Server is ON / port = 3333. http://localhost:3333");
 });
