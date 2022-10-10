@@ -23,16 +23,13 @@ app.post('/login', function (request, response) {
         request.body.password,
         ""
     );
-
 });
 
 app.get('/', function (request, response) {
-
     response.render("index", { user: {} });
 });
 
 app.get('/signin', function (request, response) {
-
     response.render("signin", { user: {} });
 });
 
