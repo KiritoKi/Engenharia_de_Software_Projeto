@@ -1,4 +1,5 @@
 import express, { response } from "express";
+import controller from "../controller/controller.js";
 
 const app = express();
 
@@ -12,7 +13,16 @@ app.use(express.json());
 //import controller from "../controller/controller";
 import user from '../model/user.js';
 
-app.post('/signin', function (requeste, responde) {
+app.post('/signin', function (request, responde) {
+    const usuario = new user(
+        0,
+        request.body.nome,
+        request.body.data_nascimento,
+        request.body.username,
+        request.body.password,
+        request.body.email
+    );
+    controller.register(usuario);
     response.redirect("/");
 });
 
