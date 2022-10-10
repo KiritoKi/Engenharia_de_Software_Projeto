@@ -18,7 +18,7 @@ app.use(express.static(__dirname + '/public'));
 //import controller from "../controller/controller";
 import user from '../model/user.js';
 
-app.post('/signin', function (request, responde) {
+app.post('/signin', function (request, response) {
     const usuario = new user(
         0,
         request.body.nome,
@@ -29,17 +29,30 @@ app.post('/signin', function (request, responde) {
     controller.register(usuario);
     response.redirect("/");
 });
-
-app.post('/', function (request, response) {
-    console.log(request.body.username);
-    console.log(request.body.password);
+//login
+app.post('/', async function (request, response) {
     const usuario = new user(
-        0, "", "",
+        0, "",
         request.body.username,
         request.body.password,
         ""
     );
-    response.redirect("/");
+    let userSelected = await controller.login(usuario);
+
+    if (userSelected == null) {
+        return response.status(400).json({
+            erro: true,
+            mensagem: "Erro: Usuário ou a senha incorreta!"
+        });
+
+    } else if (userSelected.password != request.body.password) {
+        return response.status(400).json({
+            erro: true,
+            mensagem: "Erro: Usuario ou senha incorreta!"
+        });
+    }
+
+    response.redirect("/home");
 });
 
 app.get('/', function (request, response) {
@@ -51,10 +64,9 @@ app.get('/signin', function (request, response) {
 });
 
 app.get('/home', function (request, response) {
-
     response.render("home", { user: {} });
 });
 
 app.listen(port, () => {
-    console.log("Server is ON / port = 3333. http://localhost:3333");
+    console.log("Server is ON / http://localhost:3333");
 });
