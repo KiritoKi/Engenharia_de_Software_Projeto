@@ -1,28 +1,22 @@
 body{
+    font-family: sans-serif;
     display: flex;
     flex-direction: column;
-   background-color: lightgray;
-   align-items: center;
-}
 
-form{
     text-align: center;
-    background-color: white;
-    border-radius: 50px;
-    width: 400px;
-    margin: 50px;
+    justify-content: center;
+    align-items: center;
+}
+
+.loginform{
+    width: 300px;
     height: fit-content;
-}
-
-form div{
-    margin: 20px;
-    padding: 20px;
-}
-
-form div label{
-    float: left;
-}
-
-form div input{
-    float: right;
+        
+    position: absolute;
+    top:0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    
+    margin: auto;
 }
