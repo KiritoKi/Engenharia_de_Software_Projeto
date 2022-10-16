@@ -1,13 +1,13 @@
 /* L�gico_1: */
 
 CREATE TABLE descritivo (
-    id numeric PRIMARY KEY,
+    id int PRIMARY KEY,
     texto varchar(100000),
-    fk_Projeto_id numeric
+    fk_Projeto_id int
 );
 
 CREATE TABLE requisitos_funcionais (
-    id numeric PRIMARY KEY,
+    id int PRIMARY KEY,
     nome varchar(100),
     condicao varchar(1000),
     crud varchar(100),
@@ -16,48 +16,48 @@ CREATE TABLE requisitos_funcionais (
 );
 
 CREATE TABLE tabela_requisitos (
-    id numeric PRIMARY KEY,
+    id int PRIMARY KEY,
     tipo varchar(25),
-    fk_Projeto_id numeric
+    fk_Projeto_id int
 );
 
 CREATE TABLE casos_de_uso (
-    id numeric PRIMARY KEY,
+    id int PRIMARY KEY,
     nome varchar(100),
-    fk_Projeto_id numeric,
-    fk_processos_caso_de_uso_id numeric
+    fk_Projeto_id int,
+    fk_processos_caso_de_uso_id int
 );
 
 CREATE TABLE modelo_dados (
-    id numeric PRIMARY KEY,
+    id int PRIMARY KEY,
     atributos varchar(100),
-    fk_Projeto_id numeric,
-    fk_entidades_id numeric
+    fk_Projeto_id int,
+    fk_entidades_id int
 );
 
 CREATE TABLE projeto (
-    id numeric PRIMARY KEY,
+    id int PRIMARY KEY,
     nome varchar(100),
-    fk_usuario_id numeric
+    fk_usuario_id int
 );
 
 CREATE TABLE requisitos (
-    id numeric PRIMARY KEY,
+    id int PRIMARY KEY,
     tipo varchar(25),
     descricao varchar(10000),
-    fk_Tabela_de_requisistos_id numeric
+    fk_Tabela_de_requisistos_id int
 );
 
 CREATE TABLE processos_casos_de_uso (
-    id numeric PRIMARY KEY,
+    id int PRIMARY KEY,
     nome varchar(100)
 );
 
 CREATE TABLE entidades (
-    id numeric PRIMARY KEY,
+    id int PRIMARY KEY,
     nome varchar(100),
     atributos varchar(100),
-    fk_Requisitos_funcionais_id numeric
+    fk_Requisitos_funcionais_id int
 );
 
 CREATE TABLE usuario (
