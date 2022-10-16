@@ -1,33 +1,6 @@
 <%- include("head.ejs"); %>
 
     <body>
-        <!-- <h2>Cadastre-se</h2>
-
-        <form action='/signin' method="post">
-            <div>
-                <label for="nome">Nome</label>
-                <input type="text" name="nome" value="<%=user.nome %>" />
-            </div>
-            <div>
-                <label for="data nascimento">Data nascimento</label>
-                <input type="text" name="data nascimento" value="<%=user.data_nascimento %>" />
-            </div>
-            <div>
-                <label for="login">Username</label>
-                <input type="text" name="login" value="<%=user.username %>" />
-            </div>
-            <div>
-                <label for="password">Password</label>
-                <input type="password" name="password" value="<%=user.password %>" />
-            </div>
-            <div>
-                <label for="email">Email</label>
-                <input type="text" name="email" value="<%=user.email %>" />
-            </div>
-            <input type="submit" name="submit" value="Registrar" />
-        </form> -->
-
-
         <form action="/signin" method="post" class="loginform">
             <h1>Cadastre-se</h1>
             <!-- Name input -->
@@ -52,7 +25,7 @@
             <div class="form-outline mb-4">
                 <input type="email" id="form2Example2" class="form-control" name="email" value="<%=user.email %>" />
                 <label class="form-label" for="form2Example2">E-mail</label>
-                </div>
+            </div>
 
             
             <!-- Submit button -->

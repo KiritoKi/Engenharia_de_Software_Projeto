@@ -19,28 +19,26 @@ function register(user) {
     );
 }
 
-function selectLogin(login_name) {
+function login(user) {
     return new Promise((resolve, reject) => {
-        let sql = "SELECT * FROM users";
-        slq += "WHERE(username = ?)"
+        let sql = "SELECT * FROM usuario WHERE (username = ?) and (password = ?) limit 1;";
 
-        const params = [login_name];
+        const params = [
+            user.getUsername(),
+            user.getPassword()
+        ];
 
         db.query(sql, params,
             function (err, result, fields) {
                 if (err) {
                     reject(err);
                 }
-                console.log(result);
                 resolve(result[0]);
             }
         );
     });
 }
 
-function login() {
-
-}
 
 
-export default { register, selectLogin, login };
+export default { register, login };
