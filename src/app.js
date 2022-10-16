@@ -67,6 +67,7 @@ app.get('/home', function (request, response) {
     response.render("home", { user: {} });
 });
 
+
 app.listen(port, () => {
     console.log("Server is ON / http://localhost:3333");
 });
