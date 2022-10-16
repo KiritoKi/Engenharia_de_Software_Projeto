@@ -1,7 +1,7 @@
 <%- include("head.ejs"); %>
 
     <body>
-        <h2>Cadastre-se</h2>
+        <!-- <h2>Cadastre-se</h2>
 
         <form action='/signin' method="post">
             <div>
@@ -25,4 +25,42 @@
                 <input type="text" name="email" value="<%=user.email %>" />
             </div>
             <input type="submit" name="submit" value="Registrar" />
-        </form>
+        </form> -->
+
+
+        <form action="/signin" method="post" class="loginform">
+            <h1>Cadastre-se</h1>
+            <!-- Name input -->
+            <div class="form-outline mb-4">
+              <input type="text" id="form2Example1" class="form-control" name="nome" value="<%=user.nome %>" />
+              <label class="form-label" for="form2Example1">Nome</label>
+            </div>
+          
+            <!-- Username input -->
+            <div class="form-outline mb-4">
+              <input type="text" id="form2Example2" class="form-control" name="username" value="<%=user.username %>" />
+              <label class="form-label" for="form2Example2">Usuário</label>
+            </div>
+
+            <!-- Password input -->
+            <div class="form-outline mb-4">
+              <input type="password" id="form2Example2" class="form-control" name="password" value="<%=user.password %>" />
+              <label class="form-label" for="form2Example2">Senha</label>
+            </div>
+
+            <!-- Email input -->
+            <div class="form-outline mb-4">
+                <input type="email" id="form2Example2" class="form-control" name="email" value="<%=user.email %>" />
+                <label class="form-label" for="form2Example2">E-mail</label>
+                </div>
+
+            
+            <!-- Submit button -->
+            <input type="submit" class="btn btn-primary btn-block mb-4" name="submit" value="Log In" />
+          
+            <!-- Register buttons -->
+            <div class="text-center">
+              <p>Ainda não possui uma conta? <a href="/signin">Cadastre-se</a></p>
+            </div>
+          </form>
+    </body>
