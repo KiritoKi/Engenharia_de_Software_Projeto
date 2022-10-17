@@ -26,7 +26,8 @@ app.post('/', async function (request, response) {
         request.body.password,
         ""
     );
-    console.log(usuario);
+
+
     let userSelected = await controller.login(usuario);
 
     if (userSelected == null) {
@@ -42,7 +43,7 @@ app.post('/', async function (request, response) {
         });
     }
 
-    response.redirect("/home");
+    response.redirect(`/home/${userSelected.id}`);
 });
 //login
 app.get('/', function (request, response) {
@@ -66,8 +67,21 @@ app.post('/signin', function (request, response) {
     response.redirect("/");
 });
 //home
-app.get('/home', function (request, response) {
-    response.render("home", { user: {} });
+app.get('/home/:userId', async function (request, response) {
+    const { userId } = request.params;
+    try {
+
+        let sql = `SELECT * FROM projeto WHERE fk_usuario_id = ${userId}`;
+
+        //const {rows}  = await db.query(sql);
+        // data: rows 
+        response.render("projects.ejs", { id_user: userId });
+
+    } catch (error) {
+
+        response.send(error);
+
+    }
 });
 //home
 app.post('/home', function (request, response) {
@@ -81,6 +95,8 @@ app.get('/edituser', function (request, response) {
 app.post('/edituser', function (request, response) {
     response.render("edituser", { user: {} });
 });
+
+app.get('/listProject/')
 
 
 app.listen(port, () => {
