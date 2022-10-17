@@ -9,4 +9,4 @@ var connection = createConnection({
 
 connection.connect();
 
-export default connection;"
+export default connection;

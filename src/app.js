@@ -70,11 +70,15 @@ app.get('/home', function (request, response) {
     response.render("home", { user: {} });
 });
 //home
-app.post('/home', function () {
+app.post('/home', function (request, response) {
 
 });
-
+//editUser
 app.get('/edituser', function (request, response) {
+    response.render("edituser", { user: {} });
+});
+//editUser
+app.post('/edituser', function (request, response) {
     response.render("edituser", { user: {} });
 });
 
