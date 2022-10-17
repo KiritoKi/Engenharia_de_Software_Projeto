@@ -1,0 +1,22 @@
+<%- include("head.ejs"); %>
+
+<body>
+    <%- include("navbar.ejs"); %>
+    
+    <form action="/funcreqs" method="post" class="newprojectform">
+        <h1>Cadastre seu novo projeto</h1>
+
+        <div class="form-outline mb-4">
+            <input type="text" id="form2Example2" class="form-control" name="projecttitle" value="<%= %>" >
+            <label>Título do projeto</label>
+        </div>
+        <div class="form-outline mb-4">
+            <textarea type="text" id="form2Example2" class="form-control" name="userreq" value="<%= %>" ></textarea>
+            <label>Descritivo</label>
+        </div>
+        
+        <!-- Submit button -->
+        <input type="submit" class="btn btn-primary btn-block mb-4" name="submit" value="Enviar" />
+      
+      </form>
+</body>

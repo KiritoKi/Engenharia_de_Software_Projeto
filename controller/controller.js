@@ -39,6 +39,15 @@ function login(user) {
     });
 }
 
+function listProject(user) {
+    return new Promise((register, reject) => {
+        const params = [
+            user.getID()
+        ];
+
+        let sql = "SELECT * FROM user WHERE id = ?";
+    })
+}
 
 
-export default { register, login };
+export default { register, login, listProject };

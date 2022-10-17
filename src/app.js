@@ -96,7 +96,15 @@ app.post('/edituser', function (request, response) {
     response.render("edituser", { user: {} });
 });
 
-app.get('/listProject/')
+//app.get('/listProject/', function (request, response) {});
+
+app.get('/newproject', function (request, response) {
+    response.render("newproject", { user: {} });
+});
+
+app.get('/newfuncreq', function (request, response) {
+    response.render("newfuncreq", { user: {} });
+});
 
 
 app.listen(port, () => {
