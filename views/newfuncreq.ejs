@@ -1,0 +1,38 @@
+<%- include("head.ejs"); %>
+
+<body>
+    <%- include("navbar.ejs"); %>
+    
+    <form action="/funcreqs" method="post" class="newreqform">
+        <h1>Cadastre seu novo requisito</h1>
+
+        <div class="form-outline mb-4">
+            <input type="text" id="form2Example2" class="form-control" name="reqtitle" value="<%= %>" >
+            <label>Título do requisito</label>
+        </div>
+        <div class="form-outline mb-4">
+            <input type="text" id="form2Example2" class="form-control" name="reqmethod" value="<%= %>" >
+            <label>Método</label>
+        </div>
+        <div class="form-outline mb-4">
+            <label>CRUD</label>
+            <select name="operacao_crud" value="<%= %>">
+                <option>C</option>
+                <option>R</option>
+                <option>U</option>
+                <option>D</option>
+            </select>
+        </div>
+        <div class="form-outline mb-4">
+            <label>GET/SET</label>
+            <select name="tipo_metodo" value="<%= %>">
+                <option>GET</option>
+                <option>SET</option>
+            </select>
+        </div>
+        
+        <!-- Submit button -->
+        <input type="submit" class="btn btn-primary btn-block mb-4" name="submit" value="Enviar" />
+      
+      </form>
+</body>
