@@ -18,17 +18,6 @@ app.use(express.static(__dirname + '/public'));
 //import controller from "../controller/controller";
 import user from '../model/user.js';
 
-app.post('/signin', function (request, response) {
-    const usuario = new user(
-        0,
-        request.body.nome,
-        request.body.username,
-        request.body.password,
-        request.body.email
-    );
-    controller.register(usuario);
-    response.redirect("/");
-});
 //login
 app.post('/', async function (request, response) {
     const usuario = new user(
@@ -37,6 +26,7 @@ app.post('/', async function (request, response) {
         request.body.password,
         ""
     );
+    console.log(usuario);
     let userSelected = await controller.login(usuario);
 
     if (userSelected == null) {
@@ -54,17 +44,34 @@ app.post('/', async function (request, response) {
 
     response.redirect("/home");
 });
-
+//login
 app.get('/', function (request, response) {
     response.render("index", { user: {} });
 });
-
+//signin
 app.get('/signin', function (request, response) {
+
     response.render("signin", { user: {} });
 });
-
+//signin
+app.post('/signin', function (request, response) {
+    const usuario = new user(
+        0,
+        request.body.nome,
+        request.body.username,
+        request.body.password,
+        request.body.email
+    );
+    controller.register(usuario);
+    response.redirect("/");
+});
+//home
 app.get('/home', function (request, response) {
     response.render("home", { user: {} });
+});
+//home
+app.post('/home', function () {
+
 });
 
 app.get('/edituser', function (request, response) {
