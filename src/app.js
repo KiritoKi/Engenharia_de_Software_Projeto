@@ -74,6 +74,11 @@ app.post('/home', function () {
 
 });
 
+app.get('/edituser', function (request, response) {
+    response.render("edituser", { user: {} });
+});
+
+
 app.listen(port, () => {
     console.log("Server is ON / http://localhost:3333");
 });
