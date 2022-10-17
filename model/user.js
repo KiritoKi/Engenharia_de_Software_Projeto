@@ -13,10 +13,10 @@ class user {
         this.email = email;
     }
 
-    getID() {
+    getId() {
         return this.ID;
     }
-    setID(value) {
+    setId(value) {
         this.ID = value;
     }
     getNome() {

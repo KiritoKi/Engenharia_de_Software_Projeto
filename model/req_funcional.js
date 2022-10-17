@@ -5,14 +5,16 @@ class req_funcional {
     crud = '';
     getset = '';
     sql_projeto = '';
+    fk_projeto = 0;
 
-    constructor(ID, nome, condicao, crud, getset, sql_projeto) {
+    constructor(ID, nome, condicao, crud, getset, sql_projeto, fk_projeto) {
         this.ID = ID;
         this.nome = nome;
         this.condicao = condicao;
         this.crud = crud;
         this.getset = getset;
         this.sql_projeto = sql_projeto;
+        this.fk_projeto = fk_projeto;
     }
 
     getID() {
@@ -50,6 +52,12 @@ class req_funcional {
     }
     setSql_projeto(value) {
         this.sql_projeto = value;
+    }
+    getFk_projeto() {
+        return this.fk_projeto;
+    }
+    setFk_projeto(value) {
+        this.fk_projeto = value;
     }
 
 };

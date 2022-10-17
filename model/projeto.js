@@ -1,7 +1,7 @@
 class projeto {
     ID = 0;
     nome = '';
-    fk_usuario_id = '';
+    fk_usuario_id = 0;
 
     constructor(ID, nome, fk_usuario_id) {
         this.ID = ID;

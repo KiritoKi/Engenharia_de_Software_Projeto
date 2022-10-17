@@ -1,13 +1,38 @@
 <%- include("head.ejs"); %>
 
-<body>
-    <%- include("navbar.ejs"); %>
-    
-    <a href="/newproject">
-        <h1>Cadastrar novo projeto</h1>
-    </a>
+    <body>
+        <%- include("navbar.ejs"); %>
 
-    <div>
-
-    </div>
-</body>
+            <div class="table-responsive-lg">
+                <table class="table table-striped table-lg">
+                    <thead>
+                        <tr>
+                            <th>Identificador do Projeto</th>
+                            <th>Nome do Projeto</th>
+                            <th class="d-print-none">
+                                <a class="btn btn-sm btn-success" href="/<%=id_user%>/newproject">Cadastrar novo
+                                    projeto</a>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% for (const item of data){ %>
+                            <tr>
+                                <td>
+                                    <%= item.id %>
+                                </td>
+                                <td>
+                                    <%= item.nome %>
+                                </td>
+                                <td class="d-print-none">
+                                    <a class="btn btn-sm btn-info"
+                                        href="/<%=id_user%>/view/project/<%= item.id %>">View</a>
+                                    <a class="btn btn-sm btn-warning"
+                                        href="/<%=id_user%>/edit/project/<%= item.id %>">Edit</a>
+                                    <a class="btn btn-sm btn-danger"
+                                        href="/<%=id_user%>/delete/project/<%= item.id %>">Delete</a>
+                                </td>
+                            </tr>
+                            <% } %>
+                    </tbody>
+    </body>
