@@ -2,11 +2,11 @@ import { createConnection } from 'mysql';
 
 var connection = createConnection({
     host: 'localhost',
-    user: 'kirito',
-    password: 'yanVP&123456',
-    database: 'db_software_engineering'
+    user: 'fabio',
+    password: '123456789',
+    database: 'engenharia_software'
 });
 
 connection.connect();
 
-export default connection;"
+export default connection;
