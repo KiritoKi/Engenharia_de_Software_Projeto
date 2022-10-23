@@ -236,6 +236,7 @@ app.get(
         const project_id = request.params.id_project;
         const user_id = request.params.id_user;
         var rows = await controller.selectRequirementByProject(project_id);
+        var descr = await controller.getDescByProject(project_id);
 
         console.log(rows);
 
@@ -243,6 +244,7 @@ app.get(
             id_user: user_id,
             id_project: project_id,
             data: rows,
+            descritivo: descr,
         });
     }
 );
