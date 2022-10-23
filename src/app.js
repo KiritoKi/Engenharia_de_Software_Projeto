@@ -5,7 +5,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import controller from "../controller/controller.js";
 
-// Econtra o nome do diretório do projeto
+// Encontra o nome do diretório do projeto
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -31,7 +31,6 @@ app.use(express.static(__dirname + "/public"));
 
 //  Setup das Rotas -------------------------------------------------------
 
-//import controller from "../controller/controller";
 import user from "../model/user.js";
 import projeto from "../model/projeto.js";
 import req_funcional from "../model/req_funcional.js";
@@ -83,7 +82,7 @@ app.get("/signin", function (request, response) {
 // Parâmetros:
 //  - name: nome de registro
 //  - username: nome de usuário
-//  - passowrd: senha de login
+//  - password: senha de login
 //  - email: email do usuário
 // Resposta:
 //  - Redireciona para página de Login
@@ -154,7 +153,7 @@ app.post("/edituser/:user_id", function (request, response) {
 // Rotas para novo projeto ou edit do projeto
 // Parâmetros:
 //  - id_user: id do usuário
-//  - id_project: projeto do usuário
+//  - id_project: projeto do usuário (Opcional)
 app.get("/:id_user/project/:id_project?", async function (request, response) {
     let user_id = request.params.id_user;
     let project_id = request.params.id_project;
@@ -183,7 +182,7 @@ app.get("/:id_user/project/:id_project?", async function (request, response) {
 
 // Parâmetros:
 //  - id_user: id do usuário
-//  - id_project: projeto do usuário
+//  - id_project: projeto do usuário(Opcional)
 app.post("/:id_user/project/:id_project?", async function (request, response) {
     let id_user = request.params.id_user;
     let project_id = request.params.id_project;
@@ -193,9 +192,7 @@ app.post("/:id_user/project/:id_project?", async function (request, response) {
     // Novo projeto
     if (project_id == null) {
         controller.newProject(project);
-
         var id_newproject = await controller.selectLastProjectID();
-
         desc.setFk_Projeto_id(id_newproject);
         controller.newDesc(desc);
 
@@ -271,7 +268,7 @@ app.get(
 // Parâmetros:
 //  - id_user: id do usuário
 //  - id_project: projeto do usuário
-//  - id_requirement: requisito do projeto
+//  - id_requirement: requisito do projeto(Opcional)
 app.get(
     "/:id_user/project/:id_project/req/:id_requirement?",
     async function (request, response) {
@@ -303,7 +300,7 @@ app.get(
 // Parâmetros:
 //  - id_user: id do usuário
 //  - id_project: projeto do usuário
-//  - id_requirement: requisito do projeto
+//  - id_requirement: requisito do projeto(Opcional)
 app.post(
     "/:id_user/project/:id_project/req/:id_requirement?",
     function (request, response) {
