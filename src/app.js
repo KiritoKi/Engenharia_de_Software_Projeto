@@ -330,6 +330,15 @@ app.post(
     }
 );
 
+app.get(
+    "/:id_user/req_table",
+    function (request, response) {
+        let user_id = request.params.id_user;
+
+        response.render("reqtable", { id_user: user_id });
+    }
+);
+
 // Inicia o servidor na porta definida anteriormente
 // escreve no console o endereço
 app.listen(port, () => {
