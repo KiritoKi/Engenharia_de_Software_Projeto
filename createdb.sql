@@ -12,7 +12,7 @@ CREATE TABLE requisitos_funcionais (
     condicao varchar(1000),
     crud varchar(100),
     getset varchar(100),
-    sql_projeto varchar(10000),
+    sql_projeto varchar(10000), ---<<Without Usage
     fk_projeto_id int
 );
 
@@ -20,13 +20,13 @@ CREATE TABLE tabela_requisitos (
     id int PRIMARY KEY AUTO_INCREMENT,
     tipo varchar(25),
     fk_Projeto_id int
-);
+);  
 
 CREATE TABLE casos_de_uso (
     id int PRIMARY KEY AUTO_INCREMENT,
     nome varchar(100),
     fk_Projeto_id int,
-    fk_processos_caso_de_uso_id int
+    fk_processos_caso_de_uso_id int --<<Without Usage
 );
 
 CREATE TABLE modelo_dados (
@@ -49,7 +49,7 @@ CREATE TABLE requisitos (
     fk_Tabela_de_requisistos_id int
 );
 
-CREATE TABLE processos_casos_de_uso (
+CREATE TABLE processos_casos_de_uso ( --<<Without Usage
     id int PRIMARY KEY AUTO_INCREMENT,
     nome varchar(100)
 );
@@ -57,8 +57,13 @@ CREATE TABLE processos_casos_de_uso (
 CREATE TABLE entidades (
     id int PRIMARY KEY AUTO_INCREMENT,
     nome varchar(100),
-    atributos varchar(100),
-    fk_Requisitos_funcionais_id int
+    fk_Requisito_funcional_id int
+);
+
+CREATE TABLE atributo (
+    id int PRIMARY KEY AUTO_INCREMENT,
+    nome_atributo varchar(100),
+    fk_entidade_id int
 );
 
 CREATE TABLE usuario (

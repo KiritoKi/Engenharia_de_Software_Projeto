@@ -84,14 +84,14 @@ function getProject(project_id) {
     return new Promise((resolve, reject) => {
         const params = [project_id];
         let sql = "SELECT * FROM projeto WHERE id = ? limit 1";
-        
+
         db.query(sql, params,
             function (err, result, fields) {
                 if (err) {
                     reject(err);
                 }
                 console.log(result);
-                
+
                 resolve(result[0]);
             }
         );
@@ -107,7 +107,7 @@ function editProject(project) {
         project.getID()
     ];
     let sql = "UPDATE projeto SET nome = ? WHERE id = ?;";
-    
+
     db.query(sql, params,
         function (err) { if (err) throw console.log("UPDATE-ERROR(projeto) FROM = " + params + " err = " + err) }
     );
@@ -147,7 +147,7 @@ function selectLastProjectID() {
 // Parâmetros:
 //  - project_id: id do projeto
 // Retornos:
-//  - result: requistos encontrados na query
+//  - result: requisitos encontrados na query
 function selectRequirementByProject(project_id) {
     return new Promise((resolve, reject) => {
         const params = [project_id];
@@ -171,14 +171,14 @@ function getRequirement(req_id) {
     return new Promise((resolve, reject) => {
         const params = [req_id];
         let sql = "SELECT * FROM requisitos_funcionais WHERE id = ? limit 1";
-        
+
         db.query(sql, params,
             function (err, result, fields) {
                 if (err) {
                     reject(err);
                 }
                 console.log(result);
-                
+
                 resolve(result[0]);
             }
         );
@@ -234,7 +234,7 @@ function newDesc(desc) {
     });
 }
 
-// Without Usage<<<<< 23/10/2022
+
 // Função de obter descritivo por projeto 
 // Parâmetros:
 //  - project_id: id do projeto
@@ -263,7 +263,7 @@ function editDesc(desc) {
         desc.getFk_Projeto_id()
     ];
     let sql = "UPDATE descritivo SET texto = ? WHERE fk_Projeto_id = ?;";
-    
+
     db.query(sql, params,
         function (err) { if (err) throw console.log("UPDATE-ERROR(descritivo) FROM = " + params + " err = " + err) }
     );
@@ -322,7 +322,7 @@ function newReqFunc(req_func) {
     ];
     let sql = "INSERT INTO requisitos_funcionais";
     sql += "(nome, condicao, crud, getset, fk_projeto_id)VALUES (?,?,?,?,?); ";
-    
+
     db.query(sql, params, function (err) {
         if (err)
             throw console.log("INSERT-ERROR FROM = " + params + "err = " + err);
