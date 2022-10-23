@@ -116,7 +116,9 @@ app.get("/home/:user_id", async function (request, response) {
     }
 });
 
-//editUser
+// Rotas para edit do usuário
+// Parâmetros:
+//  - user_id: id do usuário
 app.get("/edituser/:user_id", async function (request, response) {
     let user_id = request.params.user_id;
 
@@ -149,12 +151,15 @@ app.post("/edituser/:user_id", function (request, response) {
     response.redirect(`/home/${user_id}`);
 });
 
-//newProject //editProject
+// Rotas para novo projeto ou edit do projeto
+// Parâmetros:
+//  - id_user: id do usuário
+//  - id_project: projeto do usuário
 app.get("/:id_user/project/:id_project?", async function (request, response) {
     let user_id = request.params.id_user;
     let project_id = request.params.id_project;
 
-    //NEW PROJECT
+    // Novo projeto
     if (project_id == null)
         response.render("projectPage", {
             id_user: user_id,
@@ -162,10 +167,11 @@ app.get("/:id_user/project/:id_project?", async function (request, response) {
             data_pj: [],
             data_desc: [],
         });
-    //EDIT PROJECT
+    // Edit do projeto
     else {
         var project = await controller.getProject(project_id);
         var desc = await controller.getDescByProject(project_id);
+
         response.render("projectPage", {
             id_user: user_id,
             type: "edit",
@@ -174,28 +180,35 @@ app.get("/:id_user/project/:id_project?", async function (request, response) {
         });
     }
 });
-//NewProject //editProject
+
+// Parâmetros:
+//  - id_user: id do usuário
+//  - id_project: projeto do usuário
 app.post("/:id_user/project/:id_project?", async function (request, response) {
     let id_user = request.params.id_user;
     let project_id = request.params.id_project;
     const project = new projeto(0, request.body.project_title, id_user);
     const desc = new descritivo(0, request.body.project_desc, 0);
 
-    //NEW PROJECT
+    // Novo projeto
     if (project_id == null) {
         controller.newProject(project);
+
         var id_newproject = await controller.selectLastProjectID();
+
         desc.setFk_Projeto_id(id_newproject);
         controller.newDesc(desc);
+
         response.redirect(`/${id_user}/project/${id_newproject}/req`);
     }
 
-    //EDIT PROJECT
+    // Edit do projeto
     else {
         project.setID(project_id);
         controller.editProject(project);
         desc.setFk_Projeto_id(project_id);
         controller.editDesc(desc);
+
         response.redirect(`/home/${id_user}`);
     }
 });
@@ -213,15 +226,19 @@ app.get("/:id_user/delete/project/:id_project", function (request, response) {
     response.redirect(`/home/${id_user}`);
 });
 
-//ViewRequisitos
+// Rotas para view de requisitos
+// Parâmetros:
+//  - user_id: id do usuário
+//  - id_project: id do projeto
 app.get(
     "/:id_user/view/project/:id_project",
     async function (request, response) {
         const project_id = request.params.id_project;
         const user_id = request.params.id_user;
-
         var rows = await controller.selectRequirementByProject(project_id);
+
         console.log(rows);
+
         response.render("view", {
             id_user: user_id,
             id_project: project_id,
@@ -230,25 +247,29 @@ app.get(
     }
 );
 
-//DeleteRequisito
+// Rotas para delete do requisito
+// Parâmetros:
+//  - user_id: id do usuário
+//  - id_project: id do projeto
+//  - id_requisito: id do requisito
 app.get(
     "/:id_user/delete/:id_project/req/:id_requisito",
     function (request, response) {
         const id_requisito = request.params.id_requisito;
         const id_project = request.params.id_project;
         const id_user = request.params.id_user;
+
         controller.deleteRequisito(id_requisito);
+
         response.redirect(`/${id_user}/view/project/${id_project}`);
     }
 );
 
-response.render("view", {
-    id_user: user_id,
-    id_project: project_id,
-    data: rows,
-});
-
-//NewRequisito //EditRequisito
+// Rotas para novo requisito ou edit do requisito
+// Parâmetros:
+//  - id_user: id do usuário
+//  - id_project: projeto do usuário
+//  - id_requirement: requisito do projeto
 app.get(
     "/:id_user/project/:id_project/req/:id_requirement?",
     async function (request, response) {
@@ -256,7 +277,7 @@ app.get(
         let project_id = request.params.id_project;
         let requirement_id = request.params.id_requirement;
 
-        //NEW REQ
+        // Novo requisito
         if (requirement_id == null)
             response.render("funcReq", {
                 id_user: user_id,
@@ -264,7 +285,7 @@ app.get(
                 type: "register",
                 data: [],
             });
-        //EDIT REQ
+        // Edit requisito
         else {
             var requirement = await controller.getRequirement(requirement_id);
             response.render("funcReq", {
@@ -276,7 +297,11 @@ app.get(
         }
     }
 );
-//NewRequisito //EditRequisito
+
+// Parâmetros:
+//  - id_user: id do usuário
+//  - id_project: projeto do usuário
+//  - id_requirement: requisito do projeto
 app.post(
     "/:id_user/project/:id_project/req/:id_requirement?",
     function (request, response) {
@@ -293,9 +318,9 @@ app.post(
             project_id
         );
 
-        //NEW REQ
+        // Novo requisito
         if (requirement_id == null) controller.newReqFunc(requirement);
-        //EDIT REQ
+        // Edit requisito
         else {
             requirement.setID(requirement_id);
             controller.editReqFunc(requirement);
