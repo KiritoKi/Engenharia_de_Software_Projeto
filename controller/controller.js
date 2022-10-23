@@ -39,7 +39,7 @@ function login(user) {
     });
 }
 
-function getProjects(user_id) {
+function getProjectsByUser(user_id) {
     return new Promise((resolve, reject) => {
         const params = [user_id];
         let sql = "SELECT * FROM projeto WHERE fk_usuario_id = ?";
@@ -67,6 +67,34 @@ function newProject(project) {
         }
     );
 }
+
+function getProject(project_id) {
+    return new Promise((resolve, reject) => {
+        const params = [project_id];
+        let sql = "SELECT * FROM projeto WHERE id = ? limit 1";
+        db.query(sql, params,
+            function (err, result, fields) {
+                if (err) {
+                    reject(err);
+                }
+                console.log(result);
+                resolve(result[0]);
+            }
+        );
+    });
+}
+
+function editProject(project) {
+    const params = [
+        project.getNome(),
+        project.getID()
+    ];
+    let sql = "UPDATE projeto SET nome = ? WHERE id = ?;";
+    db.query(sql, params,
+        function (err) { if (err) throw console.log("UPDATE-ERROR(projeto) FROM = " + params + " err = " + err) }
+    );
+}
+
 function deleteProject(id) {
     let sql = "DELETE FROM projeto WHERE id=?;";
     let param = parseInt(id);
@@ -85,7 +113,7 @@ function selectLastProjectID() {
     });
 }
 
-function selectRequisitos(project_id) {
+function selectRequirementByProject(project_id) {
     return new Promise((resolve, reject) => {
         const params = [project_id];
         let sql = "SELECT * FROM requisitos_funcionais WHERE fk_projeto_id = ?";
@@ -99,6 +127,39 @@ function selectRequisitos(project_id) {
             }
         );
     });
+}
+
+function getRequirement(req_id) {
+    return new Promise((resolve, reject) => {
+        const params = [req_id];
+        let sql = "SELECT * FROM requisitos_funcionais WHERE id = ? limit 1";
+        db.query(sql, params,
+            function (err, result, fields) {
+                if (err) {
+                    reject(err);
+                }
+                console.log(result);
+                resolve(result[0]);
+            }
+        );
+    });
+}
+
+function editReqFunc(requirement) {
+    const params = [
+        requirement.getNome(),
+        requirement.getCondicao(),
+        requirement.getCrud(),
+        requirement.getGetset(),
+        requirement.getSql_projeto(),
+        requirement.getID()
+    ];
+    console.log("Edit: " + params);
+
+    let sql = "UPDATE requisitos_funcionais SET nome = ?, condicao = ?, crud = ?, getset = ?, sql_projeto = ? WHERE id = ?;";
+    db.query(sql, params,
+        function (err) { if (err) throw console.log("UPDATE-ERROR FROM = " + params + "err = " + err) }
+    );
 }
 
 function deleteRequisito(id) {
@@ -119,6 +180,34 @@ function newDesc(desc) {
         function (err) {
             if (err) throw console.log("INSERT-ERROR FROM = " + params + "err = " + err)
         }
+    );
+}
+
+//Without Usage<<<<< 23/10/2022
+function getDescByProject(project_id) {
+    return new Promise((resolve, reject) => {
+        const params = [project_id];
+        let sql = "SELECT * FROM descritivo WHERE fk_Projeto_id = ? limit 1";
+        db.query(sql, params,
+            function (err, result, fields) {
+                if (err) {
+                    reject(err);
+                }
+                console.log(result);
+                resolve(result[0]);
+            }
+        );
+    });
+}
+
+function editDesc(desc) {
+    const params = [
+        desc.getTexto(),
+        desc.getFk_Projeto_id()
+    ];
+    let sql = "UPDATE descritivo SET texto = ? WHERE fk_Projeto_id = ?;";
+    db.query(sql, params,
+        function (err) { if (err) throw console.log("UPDATE-ERROR(descritivo) FROM = " + params + " err = " + err) }
     );
 }
 
@@ -169,9 +258,11 @@ function newReqFunc(req_func) {
     );
 }
 export default {
-    register, login, getProjects,
+    register, login, getProjectsByUser,
     getUser, newProject, newDesc,
     editUser, selectLastProjectID,
     newReqFunc, deleteProject,
-    selectRequisitos, deleteRequisito
+    selectRequirementByProject, deleteRequisito,
+    getRequirement, getProject, getDescByProject,
+    editReqFunc, editProject, editDesc
 };

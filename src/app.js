@@ -78,7 +78,7 @@ app.get('/home/:user_id', async function (request, response) {
     let user_id = request.params.user_id;
 
     try {
-        var rows = await controller.getProjects(user_id);
+        var rows = await controller.getProjectsByUser(user_id);
         response.render("home.ejs", { id_user: user_id, data: rows });
     } catch (err) {
         response.send(err);
@@ -89,7 +89,6 @@ app.get('/home/:user_id', async function (request, response) {
 app.post('/home', function (request, response) {
 
 });
-
 
 //editUser
 app.get('/edituser/:user_id', async function (request, response) {
@@ -116,32 +115,56 @@ app.post('/edituser/:user_id', function (request, response) {
     response.redirect(`/home/${user_id}`);
 });
 
-//newProject
-app.get('/:id_user/newproject', function (request, response) {
+//newProject //editProject
+app.get('/:id_user/project/:id_project?', async function (request, response) {
     let user_id = request.params.id_user;
-    response.render("newproject", { id_user: user_id });
+    let project_id = request.params.id_project;
+
+    //NEW PROJECT
+    if (project_id == null)
+        response.render("projectPage", { id_user: user_id, type: 'register', data_pj: [], data_desc: [] });
+    //EDIT PROJECT
+    else {
+        var project = await controller.getProject(project_id);
+        var desc = await controller.getDescByProject(project_id);
+        response.render("projectPage", { id_user: user_id, type: 'edit', data_pj: project, data_desc: desc });
+    }
+
+
+
 });
-//NewProject
-app.post('/:id_user/newproject', async function (request, response) {
+//NewProject //editProject
+app.post('/:id_user/project/:id_project?', async function (request, response) {
     let id_user = request.params.id_user;
+    let project_id = request.params.id_project;
     const project = new projeto(
         0,
         request.body.project_title,
         id_user
     );
-
-    controller.newProject(project);
-    var id_project = await controller.selectLastProjectID();
-    console.log(id_project);
     const desc = new descritivo(
         0,
         request.body.project_desc,
-        id_project
+        0
     );
-    console.log(desc);
-    controller.newDesc(desc);
 
-    response.redirect(`/${id_user}/newfunc_req/${id_project}`);
+    //NEW PROJECT
+    if (project_id == null) {
+        controller.newProject(project);
+        var id_newproject = await controller.selectLastProjectID();
+        desc.setFk_Projeto_id(id_newproject);
+        controller.newDesc(desc);
+        response.redirect(`/${id_user}/project/${id_newproject}/req`);
+    }
+
+    //EDIT PROJECT
+    else {
+        project.setID(project_id);
+        controller.editProject(project);
+        desc.setFk_Projeto_id(project_id);
+        controller.editDesc(desc);
+        response.redirect(`/home/${id_user}`);
+    }
 });
 
 
@@ -153,29 +176,16 @@ app.get('/:id_user/delete/project/:id_project', function (request, response) {
     response.redirect(`/home/${id_user}`);
 });
 
-//EditProject NAO <<<<<
-app.get('/:id_user/edit/project/:id_project', function (request, response) {
-    const id_project = request.params.id_project;
-    const id_user = request.params.id_user;
-    response.redirect(`/home/${id_user}`);
-});
-
 //ViewRequisitos
 app.get('/:id_user/view/project/:id_project', async function (request, response) {
     const project_id = request.params.id_project;
     const user_id = request.params.id_user;
 
-    var rows = await controller.selectRequisitos(project_id);
+    var rows = await controller.selectRequirementByProject(project_id);
     console.log(rows);
     response.render("view", { id_user: user_id, id_project: project_id, data: rows });
 });
-//EditRequisito// NAO <<<<<
-app.get('/:id_user/edit/:id_project/req/:id_requisito', function (request, response) {
-    const id_requisito = request.params.id_requisito;
-    const id_project = request.params.id_project;
-    const id_user = request.params.id_user;
-    response.redirect(`/${id_user}/view/project/${id_project}`);
-});
+
 //DeleteRequisito
 app.get('/:id_user/delete/:id_project/req/:id_requisito', function (request, response) {
     const id_requisito = request.params.id_requisito;
@@ -186,17 +196,27 @@ app.get('/:id_user/delete/:id_project/req/:id_requisito', function (request, res
 });
 
 
-//NewRequisito
-app.get('/:id_user/newfunc_req/:id_project', function (request, response) {
+//NewRequisito //EditRequisito
+app.get('/:id_user/project/:id_project/req/:id_requirement?', async function (request, response) {
     let user_id = request.params.id_user;
     let project_id = request.params.id_project;
-    response.render("newfuncreq", { id_user: user_id, id_project: project_id });
+    let requirement_id = request.params.id_requirement;
+
+    //NEW REQ
+    if (requirement_id == null)
+        response.render("funcReq", { id_user: user_id, id_project: project_id, type: 'register', data: [] });
+    //EDIT REQ
+    else {
+        var requirement = await controller.getRequirement(requirement_id);
+        response.render("funcReq", { id_user: user_id, id_project: project_id, type: 'edit', data: requirement });
+    }
 });
-//NewRequisito
-app.post('/:id_user/newfunc_req/:id_project', function (request, response) {
+//NewRequisito //EditRequisito
+app.post('/:id_user/project/:id_project/req/:id_requirement?', function (request, response) {
     let user_id = request.params.id_user;
     let project_id = request.params.id_project;
-    const requisito = new req_funcional(
+    let requirement_id = request.params.id_requirement;
+    const requirement = new req_funcional(
         0,
         request.body.reqtitle,
         request.body.reqmethod,
@@ -205,7 +225,16 @@ app.post('/:id_user/newfunc_req/:id_project', function (request, response) {
         '',
         project_id
     );
-    controller.newReqFunc(requisito);
+
+    //NEW REQ
+    if (requirement_id == null)
+        controller.newReqFunc(requirement);
+    //EDIT REQ
+    else {
+        requirement.setID(requirement_id);
+        controller.editReqFunc(requirement);
+    }
+
     response.redirect(`/${user_id}/view/project/${project_id}`);
 });
 
