@@ -7,12 +7,16 @@
                 <table class="table table-striped table-lg">
                     <thead>
                         <tr>
-                            <th>ID</th>
-                            <th>Nome do Requisito</th>
-                            <th>Condições</th>
-                            <th>CRUD</th>
-                            <th>Get / Set</th>
-                            <th> SQL </th>
+                            <th scope="col">Requisito Funcional</th>
+                            <th scope="col">Caso de uso</th>
+                            <th scope="col">Entidade MER</th>
+                            <th scope="col">Atributos Entidades</th>
+                            <th scope="col">Condições</th>
+                            <th scope="col">CRUD</th>
+                            <th scope="col">get/set</th>
+                            <th scope="col">SQL</th>
+                            <th scope="col">Assoc. Classes</th>
+                            <th scope="col">Estrutura dados</th>
                             <th class="d-print-none">
                                 <a class="btn btn-sm btn-success"
                                     href="/<%=id_user%>/project/<%=id_project%>/req">Cadastrar novo
@@ -24,10 +28,19 @@
                         <% for (const item of data){ %>
                             <tr>
                                 <td>
-                                    <%= item.id %>
+                                    <%= item.nome %>
                                 </td>
                                 <td>
-                                    <%= item.nome %>
+                                    <!-- ajustar -->
+                                    <%= item.condicao %>
+                                </td>
+                                <td>
+                                    <!-- ajustar -->
+                                    <%= item.condicao %>
+                                </td>
+                                <td>
+                                    <!-- ajustar -->
+                                    <%= item.condicao %>
                                 </td>
                                 <td>
                                     <%= item.condicao %>
@@ -39,6 +52,14 @@
                                     <%= item.getset %>
                                 </td>
                                 <td>
+                                    <%= item.sql_projeto %>
+                                </td>
+                                <td>
+                                    <!-- ajustar -->
+                                    <%= item.sql_projeto %>
+                                </td>
+                                <td>
+                                    <!-- ajustar -->
                                     <%= item.sql_projeto %>
                                 </td>
                                 <td class="d-print-none">
