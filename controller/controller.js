@@ -98,17 +98,24 @@ function getProject(project_id) {
     });
 }
 
+// Função de edit do projeto
+// Parâmetros:
+//  - project: objeto do projeto
 function editProject(project) {
     const params = [
         project.getNome(),
         project.getID()
     ];
     let sql = "UPDATE projeto SET nome = ? WHERE id = ?;";
+    
     db.query(sql, params,
         function (err) { if (err) throw console.log("UPDATE-ERROR(projeto) FROM = " + params + " err = " + err) }
     );
 }
 
+// Função de delete do projeto
+// Parâmetros:
+//  - id: id do projeto
 function deleteProject(id) {
     let param = parseInt(id);
     let sql = "DELETE FROM projeto WHERE id=?;";
@@ -157,25 +164,30 @@ function selectRequirementByProject(project_id) {
     });
 }
 
-// Função de delete de um requisito
+// Função de get de um requisito
 // Parâmetros:
 //  - id: id do requisito
 function getRequirement(req_id) {
     return new Promise((resolve, reject) => {
         const params = [req_id];
         let sql = "SELECT * FROM requisitos_funcionais WHERE id = ? limit 1";
+        
         db.query(sql, params,
             function (err, result, fields) {
                 if (err) {
                     reject(err);
                 }
                 console.log(result);
+                
                 resolve(result[0]);
             }
         );
     });
 }
 
+// Função de edit do requisito funcional
+// Parâmetros:
+//  - requirement: objeto do requisito funcional
 function editReqFunc(requirement) {
     const params = [
         requirement.getNome(),
@@ -186,13 +198,17 @@ function editReqFunc(requirement) {
         requirement.getID()
     ];
     console.log("Edit: " + params);
-
     let sql = "UPDATE requisitos_funcionais SET nome = ?, condicao = ?, crud = ?, getset = ?, sql_projeto = ? WHERE id = ?;";
+
     db.query(sql, params,
         function (err) { if (err) throw console.log("UPDATE-ERROR FROM = " + params + "err = " + err) }
     );
 }
 
+
+// Função de delete do requisito
+// Parâmetros:
+//  - id: id do requisito
 function deleteRequisito(id) {
     let param = parseInt(id);
     let sql = "DELETE FROM requisitos_funcionais WHERE id=?;";
@@ -218,7 +234,10 @@ function newDesc(desc) {
     });
 }
 
-//Without Usage<<<<< 23/10/2022
+// Without Usage<<<<< 23/10/2022
+// Função de obter descritivo por projeto 
+// Parâmetros:
+//  - project_id: id do projeto
 function getDescByProject(project_id) {
     return new Promise((resolve, reject) => {
         const params = [project_id];
@@ -235,12 +254,16 @@ function getDescByProject(project_id) {
     });
 }
 
+// Função de edit do descritivo
+// Parâmetros:
+//  - desc: objeto do descritivo
 function editDesc(desc) {
     const params = [
         desc.getTexto(),
         desc.getFk_Projeto_id()
     ];
     let sql = "UPDATE descritivo SET texto = ? WHERE fk_Projeto_id = ?;";
+    
     db.query(sql, params,
         function (err) { if (err) throw console.log("UPDATE-ERROR(descritivo) FROM = " + params + " err = " + err) }
     );
@@ -319,7 +342,7 @@ export default {
     newReqFunc,
     deleteProject,
     selectRequirementByProject,
-    deleteRequisito,,
+    deleteRequisito,
     getRequirement, getProject, getDescByProject,
     editReqFunc, editProject, editDesc
 };
