@@ -375,7 +375,7 @@ app.post("/:id_user/project/:id_project/casouso/:id_processo?",
             0,
             request.body.casotitle,
             request.body.tipo_processo,
-            0,
+            project_id,
             request.body.requisito
         );
 
@@ -392,11 +392,16 @@ app.post("/:id_user/project/:id_project/casouso/:id_processo?",
 );
 
 app.get("/:id_user/project/:id_project/view/casouso",
-    function (request, response) {
+    async function (request, response) {
         let user_id = request.params.id_user;
         let project_id = request.params.id_project;
 
-        response.render("viewProcessos", { id_user: user_id, id_project: project_id, data: [] });
+        try {
+            var rows = await controller.getProcessoCasoUsoByProject(project_id);
+            response.render("viewProcessos", { id_user: user_id, id_project: project_id, data: rows });
+        } catch (err) {
+            response.send(err);
+        }
     }
 );
 

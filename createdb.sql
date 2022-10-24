@@ -26,7 +26,7 @@ CREATE TABLE processos_casos_de_uso (
     id int PRIMARY KEY AUTO_INCREMENT,
     nome varchar(100),
     tipo varchar(30),
-    fk_caso_de_uso_id int,
+    fk_projeto_id int,
     fk_requisito_id int
 );
 
@@ -92,8 +92,8 @@ ALTER TABLE casos_de_uso ADD CONSTRAINT FK_caso_de_uso
     ON DELETE SET NULL ON UPDATE CASCADE;
  
 ALTER TABLE processos_casos_de_uso ADD CONSTRAINT FK_processos_casos_de_uso
-    FOREIGN KEY (fk_caso_de_uso_id)
-    REFERENCES casos_de_uso (id)
+    FOREIGN KEY (fk_projeto_id)
+    REFERENCES projeto (id)
     ON DELETE SET NULL ON UPDATE CASCADE;
 
 ALTER TABLE processos_casos_de_uso ADD CONSTRAINT FK_processos_casos_de_uso_2
