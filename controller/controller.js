@@ -381,7 +381,7 @@ function editProcessoCaso(processoCaso) {
         processoCaso.getTipo(),
         processoCaso.getFk_projeto_id(),
         processoCaso.getFk_requisito_id(),
-        processoCaso.getId()
+        processoCaso.getID()
     ];
     let sql =
         "UPDATE processos_casos_de_uso SET nome = ?, tipo = ?, fk_projeto_id = ?, fk_requisito_id = ? WHERE id = ?;";
@@ -409,6 +409,97 @@ function getProcessoCasoUsoByProject(project_id) {
     });
 }
 
+function newEntidade(entidade) {
+    const params = [
+        entidade.getNome(),
+        entidade.getFk_Req_Func_id()
+    ];
+    let sql = "INSERT INTO entidades";
+    sql += "(nome, fk_Requisito_funcional_id)VALUES (?,?); ";
+
+    db.query(sql, params, function (err) {
+        if (err)
+            throw console.log("INSERT-ERROR(entidade) FROM = " + params + "err = " + err);
+    });
+}
+
+function editEntidade(entidade) {
+    const params = [
+        entidade.getNome(),
+        entidade.getFk_Req_Func_id()
+    ];
+    let sql = "UPDATE entidades SET nome = ? WHERE fk_Requisito_funcional_id = ?;";
+
+    db.query(sql, params,
+        function (err) { if (err) throw console.log("UPDATE-ERROR(entidade) FROM = " + params + " err = " + err) }
+    );
+}
+
+function getEntidade(req_id) {
+    return new Promise((resolve, reject) => {
+        const params = [req_id];
+        let sql = "SELECT * FROM entidades WHERE fk_Requisito_funcional_id = ? limit 1";
+
+        db.query(sql, params,
+            function (err, result, fields) {
+                if (err) {
+                    reject(err);
+                }
+
+                resolve(result);
+            }
+        );
+    });
+}
+
+function selectLastRequisitoID() {
+    return new Promise((resolve, reject) => {
+        const sql = "SELECT * FROM requisitos_funcionais ORDER BY id DESC limit 1;";
+
+        db.query(sql, [], function (err, result, fields) {
+            if (err) reject(err);
+            resolve(result[0].id);
+        });
+    });
+}
+
+function getReqIDbyName(value, projeto_id) {
+    return new Promise((resolve, reject) => {
+        const param = [value, projeto_id];
+        const sql = "SELECT * FROM requisitos_funcionais WHERE nome = ? AND fk_projeto_id = ?;";
+
+        db.query(sql, param, function (err, result, fields) {
+            if (err) reject(err);
+            if (result[0])
+                resolve(result[0].id);
+            else
+                resolve(null);
+        });
+    });
+}
+function deleteProcessoCaso(id) {
+    let param = [id];
+    let sql = "DELETE FROM processos_casos_de_uso WHERE id=?;";
+
+    db.query(sql, param, function (err) {
+        if (err)
+            throw console.log(
+                "DELETE (processoCaso)ERROR FROM ID = " + param + "err=" + err
+            );
+    });
+}
+
+function deleteEntidade(id_requisito) {
+    let param = [id_requisito];
+    let sql = "DELETE FROM entidades WHERE fk_Requisito_funcional_id=?;";
+
+    db.query(sql, param, function (err) {
+        if (err)
+            throw console.log(
+                "DELETE (entidade)ERROR FROM ID = " + param + "err=" + err
+            );
+    });
+}
 
 // Exportação das funções para o projeto
 export default {
@@ -427,5 +518,6 @@ export default {
     getRequirement, getProject, getDescByProject,
     editReqFunc, editProject, editDesc,
     getUseCases, getProcesso, newProcessoCaso, editProcessoCaso,
-    getProcessoCasoUsoByProject
+    getProcessoCasoUsoByProject, getEntidade, selectLastRequisitoID,
+    newEntidade, editEntidade, getReqIDbyName, deleteProcessoCaso, deleteEntidade
 };

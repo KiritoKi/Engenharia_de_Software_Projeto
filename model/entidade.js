@@ -1,11 +1,11 @@
 class entidade {
     id = 0;
-    nome_atributo = '';
+    nome = '';
     fk_Requisito_funcional_id = 0;
 
-    constructor(id, nome_atributo, fk_Requisito_funcional_id) {
+    constructor(id, nome, fk_Requisito_funcional_id) {
         this.id = id;
-        this.nome = nome_atributo;
+        this.nome = nome;
         this.fk_Requisito_funcional_id = fk_Requisito_funcional_id;
     }
 
@@ -25,7 +25,7 @@ class entidade {
         return this.fk_Requisito_funcional_id;
     }
     setFk_Req_Func_id(value) {
-        this.Fk_Requisito_funcional_id = value;
+        this.fk_Requisito_funcional_id = value;
     }
 };
 

@@ -26,15 +26,15 @@
                 <div>
                     <div class="form-outline mb-4">
                         <label>RF</label>
-                        <select name="requisito_funcional" value="<%= data.rf%>">
+                        <select name="requisito_funcional">
                             <option value='<%=data.rf%>' selected hidden>
                                 <%=data.rf%>
                             </option>
                             <% for(let item of dataReq){ %>
-                                <option value="<%= item.nome %> ">
-                                    <%= item.nome %> 
+                                <option value="<%= item.nome %>">
+                                    <%= item.nome %>
                                 </option>
-                            <% } %>  
+                                <% } %>
                         </select>
                     </div>
                 </div>

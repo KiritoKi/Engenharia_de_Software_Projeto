@@ -40,6 +40,7 @@ import atributo from "../model/atributo.js";
 import processoCasoDeUso from "../model/processoCasoDeUso.js";
 import casoDeUso from "../model/casoDeUso.js";
 
+
 // Rotas de Login
 app.get("/", function (request, response) {
     response.render("index", { user: {} });
@@ -239,7 +240,7 @@ app.get(
         var rows = await controller.selectRequirementByProject(project_id);
         var descr = await controller.getDescByProject(project_id);
         var casos = await controller.getProcessoCasoUsoByProject(project_id);
-
+        console.log(casos);
         response.render("viewRequisitos", {
             id_user: user_id,
             id_project: project_id,
@@ -262,6 +263,7 @@ app.get(
         const id_project = request.params.id_project;
         const id_user = request.params.id_user;
 
+        controller.deleteEntidade(id_requisito);
         controller.deleteRequisito(id_requisito);
 
         response.redirect(`/${id_user}/view/project/${id_project}`);
@@ -287,15 +289,19 @@ app.get(
                 id_project: project_id,
                 type: "register",
                 data: [],
+                dataEnt: []
             });
         // Edit requisito
         else {
             var requirement = await controller.getRequirement(requirement_id);
+            var entidade = await controller.getEntidade(requirement_id);
+            console.log(entidade);
             response.render("funcReq", {
                 id_user: user_id,
                 id_project: project_id,
                 type: "edit",
                 data: requirement,
+                dataEnt: entidade
             });
         }
     }
@@ -307,7 +313,7 @@ app.get(
 //  - id_requirement: requisito do projeto(Opcional)
 app.post(
     "/:id_user/project/:id_project/req/:id_requirement?",
-    function (request, response) {
+    async function (request, response) {
         let user_id = request.params.id_user;
         let project_id = request.params.id_project;
         let requirement_id = request.params.id_requirement;
@@ -320,13 +326,27 @@ app.post(
             request.body.reqsql,
             project_id
         );
+        const ent = new entidade(
+            0,
+            request.body.entidade,
+            0
+        );
 
         // Novo requisito
-        if (requirement_id == null) controller.newReqFunc(requirement);
+        if (requirement_id == null) {
+            controller.newReqFunc(requirement);
+            var req_id = await controller.selectLastRequisitoID();
+            console.log('aaaaa' + ent.getNome());
+            ent.setFk_Req_Func_id(req_id);
+            console.log('aaaaa' + ent.getFk_Req_Func_id());
+            controller.newEntidade(ent);
+        }
         // Edit requisito
         else {
             requirement.setID(requirement_id);
+            ent.setFk_Req_Func_id(requirement_id);
             controller.editReqFunc(requirement);
+            controller.editEntidade(ent);
         }
 
         response.redirect(`/${user_id}/view/project/${project_id}`);
@@ -339,10 +359,10 @@ app.get("/:id_user/project/:id_project/casouso/:id_processo?",
         let user_id = request.params.id_user;
         let project_id = request.params.id_project;
         let processo_id = request.params.id_processo;
-
+        var dataReq = await controller.selectRequirementByProject(project_id);
         // Novo processo
         if (processo_id == null) {
-            var dataReq = await controller.selectRequirementByProject(project_id);
+
             response.render("procCasoUso", {
                 id_user: user_id,
                 id_project: project_id,
@@ -366,18 +386,26 @@ app.get("/:id_user/project/:id_project/casouso/:id_processo?",
 );
 
 app.post("/:id_user/project/:id_project/casouso/:id_processo?",
-    function (request, response) {
+    async function (request, response) {
         let user_id = request.params.id_user;
         let project_id = request.params.id_project;
         let processo_id = request.params.id_processo;
+        let req_name = request.body.requisito_funcional;
+        let req_id = await controller.getReqIDbyName(req_name, project_id);
 
+        if (req_id === null)
+            return response.status(400).json({
+                erro: true,
+                mensagem: "Erro: Processo deve estar Ligado a um Requisito!",
+            });
         const processoCaso = new processoCasoDeUso(
             0,
             request.body.casotitle,
             request.body.tipo_processo,
             project_id,
-            request.body.requisito
+            req_id
         );
+
 
         // Novo requisito
         if (processo_id == null) controller.newProcessoCaso(processoCaso);
@@ -390,7 +418,7 @@ app.post("/:id_user/project/:id_project/casouso/:id_processo?",
         response.redirect(`/${user_id}/project/${project_id}/view/casouso`);
     }
 );
-
+//Rotas para view Caso de Uso
 app.get("/:id_user/project/:id_project/view/casouso",
     async function (request, response) {
         let user_id = request.params.id_user;
@@ -398,10 +426,24 @@ app.get("/:id_user/project/:id_project/view/casouso",
 
         try {
             var rows = await controller.getProcessoCasoUsoByProject(project_id);
-            response.render("viewProcessos", { id_user: user_id, id_project: project_id, data: rows });
+            console.log(rows);
+            var requisitos = await controller.selectRequirementByProject(project_id)(project_id);
+            response.render("viewProcessos", { id_user: user_id, id_project: project_id, data: rows, data_req: requisitos });
         } catch (err) {
             response.send(err);
         }
+    }
+);
+//Rotas para delete Caso de Uso
+app.get("/:id_user/delete/:id_project/casouso/:id_processo",
+    function (request, response) {
+        let project_id = request.params.id_project;
+        let user_id = request.params.id_user;
+        let processo_id = request.params.id_processo
+
+        controller.deleteProcessoCaso(processo_id);
+
+        response.redirect(`/${user_id}/project/${project_id}/view/casouso`);
     }
 );
 
