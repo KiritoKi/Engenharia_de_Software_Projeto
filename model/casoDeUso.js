@@ -1,4 +1,4 @@
-class casosDeUso {
+class casoDeUso {
     id = 0;
     nome = '';
     fk_projeto_id = 0;
@@ -29,4 +29,4 @@ class casosDeUso {
     }
 };
 
-export default casosDeUso;
+export default casoDeUso;
