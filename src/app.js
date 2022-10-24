@@ -340,23 +340,16 @@ app.get("/:id_user/project/:id_project/casouso/:id_processo?",
         let project_id = request.params.id_project;
         let processo_id = request.params.id_processo;
 
-        const processoCaso = new processoCasoDeUso(
-            0,
-            request.body.casotitle,
-            request.body.tipo_processo,
-            0,
-        );
-
         // Novo processo
-        if (processo_id == null)
+        if (processo_id == null) {
             var dataReq = await controller.selectRequirementByProject(project_id);
+            console.log(dataReq);
+            response.render("procCasoUso", { id_user: user_id, id_project: project_id, type: 'register', dataReq: dataReq, data: [] });
+        }
         // Edit processo
         else {
-            requirement.setID(requirement_id);
-            controller.editReqFunc(requirement);
-        }
 
-        response.render("procCasoUso", { id_user: user_id, id_project: project_id, type: 'register', dataReq: dataReq });
+        }
     }
 );
 

@@ -105,7 +105,7 @@ ALTER TABLE processos_casos_de_uso ADD CONSTRAINT FK_processos_casos_de_uso_2
     FOREIGN KEY (fk_entidade_id)
     REFERENCES entidades (id)
     ON DELETE SET NULL ON UPDATE CASCADE;
-    
+
 ALTER TABLE projeto ADD CONSTRAINT FK_projeto_2
     FOREIGN KEY (fk_usuario_id)
     REFERENCES usuario (id);
