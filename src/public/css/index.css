@@ -28,3 +28,8 @@ body{
 .req_table{
     width: 80%;
 }
+
+.descritivo{
+    width: 60%;
+    word-wrap: break-word;
+}
