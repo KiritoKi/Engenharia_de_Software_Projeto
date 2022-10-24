@@ -1,0 +1,30 @@
+<%- include("head.ejs"); %>
+
+    <body>
+        <%- include("navbar.ejs"); %>
+
+            <form action="/<%=id_user%>/project/<%=id_project%>/casouso/<%=data.id%>" method="post" class="newreqform">
+                <h1>
+                    <%= type==='register' ?'Cadastre':'Edite'%> seu processo caso de uso
+                </h1>
+
+                <div class="form-outline mb-4">
+                    <input type="text" id="form2Example2" class="form-control" name="casotitle" value="<%= data.nome%>">
+                    <label>Nome do processo</label>
+                </div>
+                <div class="form-outline mb-4">
+                    <label>Tipo</label>
+                    <select name="tipo_processo" value="<%= data.tipo%>">
+                        <option value='<%=data.tipo%>' selected hidden>
+                            <%=data.tipo%>
+                        </option>
+                        <option value='Incluir'>Incluir</option>
+                        <option value='Editar'>Editar</option>
+                        <option value='Excluir'>Excluir</option>
+                    </select>
+                </div>
+                <!-- Submit button -->
+                <input type="submit" class="btn btn-primary btn-block mb-4" name="submit" value="Enviar" />
+
+            </form>
+    </body>
