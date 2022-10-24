@@ -24,7 +24,19 @@
                     </select>
                 </div>
                 <div>
-                    <!-- inlcuir lista de requisitos funcionais para relacionar -->
+                    <div class="form-outline mb-4">
+                        <label>RF</label>
+                        <select name="requisito_funcional" value="<%= data.rf%>">
+                            <option value='<%=data.rf%>' selected hidden>
+                                <%=data.rf%>
+                            </option>
+                            <% for(let item of dataReq){ %>
+                                <option value="<%= item.nome %> ">
+                                    <%= item.nome %> 
+                                </option>
+                            <% } %>  
+                        </select>
+                    </div>
                 </div>
                 <!-- Submit button -->
                 <input type="submit" class="btn btn-primary btn-block mb-4" name="submit" value="Enviar" />
