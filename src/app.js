@@ -334,33 +334,7 @@ app.post(
 );
 
 //Rotas para Caso de Uso
-app.get(
-    "/:id_user/project/:id_project/req/:id_requirement?",
-    async function (request, response) {
-        let user_id = request.params.id_user;
-        let project_id = request.params.id_project;
-        let requirement_id = request.params.id_requirement;
 
-        // Novo requisito
-        if (requirement_id == null)
-            response.render("funcReq", {
-                id_user: user_id,
-                id_project: project_id,
-                type: "register",
-                data: [],
-            });
-        // Edit requisito
-        else {
-            var requirement = await controller.getRequirement(requirement_id);
-            response.render("funcReq", {
-                id_user: user_id,
-                id_project: project_id,
-                type: "edit",
-                data: requirement,
-            });
-        }
-    }
-);
 // Inicia o servidor na porta definida anteriormente
 // escreve no console o endereço
 
