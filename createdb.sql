@@ -74,7 +74,13 @@ CREATE TABLE tabela_requisitos (
     id int PRIMARY KEY AUTO_INCREMENT,
     tipo varchar(25),
     fk_Projeto_id int
-);  
+);
+
+CREATE TABLE relacionamento_caso_uso (
+    id int PRIMARY KEY AUTO_INCREMENT,
+    fk_caso_1 int,
+    fk_caso_2 int
+);
 
 ALTER TABLE descritivo ADD CONSTRAINT FK_descritivo_2
     FOREIGN KEY (fk_Projeto_id)
@@ -131,4 +137,14 @@ ALTER TABLE entidades ADD CONSTRAINT FK_entidades_2
 ALTER TABLE requisitos_funcionais ADD CONSTRAINT FK_req_func
     FOREIGN KEY (fk_projeto_id)
     REFERENCES projeto (id)
+    ON DELETE SET NULL ON UPDATE CASCADE;
+
+ALTER TABLE relacionamento_caso_uso ADD CONSTRAINT fk_relacionamento_caso_uso
+    FOREIGN KEY (fk_caso_1)
+    REFERENCES processos_casos_de_uso (id)
+    ON DELETE SET NULL ON UPDATE CASCADE;
+
+ALTER TABLE relacionamento_caso_uso ADD CONSTRAINT fk_relacionamento_caso_uso_2
+    FOREIGN KEY (fk_caso_2)
+    REFERENCES processos_casos_de_uso (id)
     ON DELETE SET NULL ON UPDATE CASCADE;
