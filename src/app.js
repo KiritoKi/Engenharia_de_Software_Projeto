@@ -334,14 +334,18 @@ app.post(
 );
 
 //Rotas para Caso de Uso
-
-// Inicia o servidor na porta definida anteriormente
-// escreve no console o endereço
-
 app.get("/:id_user/project/:id_project/casouso/:id_processo?",
     async function (request, response) {
         let user_id = request.params.id_user;
         let project_id = request.params.id_project;
+        let processo_id = request.params.id_processo;
+
+        const processoCaso = new processoCasoDeUso(
+            0,
+            request.body.casotitle,
+            request.body.tipo_processo,
+            0,
+        );
 
         // Novo processo
         if (processo_id == null)
@@ -351,7 +355,6 @@ app.get("/:id_user/project/:id_project/casouso/:id_processo?",
             requirement.setID(requirement_id);
             controller.editReqFunc(requirement);
         }
-
 
         response.render("procCasoUso", { id_user: user_id, id_project: project_id, type: 'register', dataReq: dataReq });
     }
@@ -368,15 +371,14 @@ app.post("/:id_user/project/:id_project/casouso/:id_processo?",
             request.body.casotitle,
             request.body.tipo_processo,
             0,
-
         );
-
-
 
         response.redirect(`/${user_id}/view/project/${project_id}`);
     }
 );
 
+// Inicia o servidor na porta definida anteriormente
+// escreve no console o endereço
 app.listen(port, () => {
     console.log("Server is ON / http://localhost:3333");
 });
