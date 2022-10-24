@@ -91,12 +91,12 @@ ALTER TABLE casos_de_uso ADD CONSTRAINT FK_caso_de_uso
     REFERENCES projeto (id)
     ON DELETE SET NULL ON UPDATE CASCADE;
  
-ALTER TABLE processos_caso_de_uso ADD CONSTRAINT FK_processos_casos_de_uso
+ALTER TABLE processos_casos_de_uso ADD CONSTRAINT FK_processos_casos_de_uso
     FOREIGN KEY (fk_caso_de_uso_id)
     REFERENCES casos_de_uso (id)
     ON DELETE SET NULL ON UPDATE CASCADE;
 
-ALTER TABLE processos_caso_de_uso ADD CONSTRAINT FK_processos_casos_de_uso_2
+ALTER TABLE processos_casos_de_uso ADD CONSTRAINT FK_processos_casos_de_uso_2
     FOREIGN KEY (fk_requisito_id)
     REFERENCES requisitos_funcionais (id)
     ON DELETE SET NULL ON UPDATE CASCADE;
@@ -105,7 +105,7 @@ ALTER TABLE processos_caso_de_uso ADD CONSTRAINT FK_processos_casos_de_uso_2
     FOREIGN KEY (fk_entidade_id)
     REFERENCES entidades (id)
     ON DELETE SET NULL ON UPDATE CASCADE;
-    
+
 ALTER TABLE projeto ADD CONSTRAINT FK_projeto_2
     FOREIGN KEY (fk_usuario_id)
     REFERENCES usuario (id);
@@ -125,7 +125,7 @@ ALTER TABLE requisitos ADD CONSTRAINT FK_requisitos_2
     ON DELETE SET NULL ON UPDATE CASCADE;
  
 ALTER TABLE entidades ADD CONSTRAINT FK_entidades_2
-    FOREIGN KEY (fk_Requisitos_funcionais_id)
+    FOREIGN KEY (fk_Requisito_funcional_id)
     REFERENCES requisitos_funcionais (id);
 
 ALTER TABLE requisitos_funcionais ADD CONSTRAINT FK_req_func
