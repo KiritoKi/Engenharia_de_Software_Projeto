@@ -12,7 +12,7 @@ CREATE TABLE requisitos_funcionais (
     condicao varchar(1000),
     crud varchar(100),
     getset varchar(100),
-    sql_projeto varchar(10000), ---<<Without Usage
+    sql_projeto varchar(10000),
     fk_projeto_id int
 );
 
@@ -22,7 +22,7 @@ CREATE TABLE casos_de_uso (
     fk_projeto_id int
 );
 
-CREATE TABLE processos_casos_de_uso ( --<<Without Usage
+CREATE TABLE processos_casos_de_uso (
     id int PRIMARY KEY AUTO_INCREMENT,
     nome varchar(100),
     tipo varchar(30),
@@ -81,20 +81,31 @@ ALTER TABLE descritivo ADD CONSTRAINT FK_descritivo_2
     REFERENCES projeto (id)
     ON DELETE SET NULL ON UPDATE CASCADE;
  
-ALTER TABLE tabela_requisitos ADD CONSTRAINT FK_tabela_requisitos_2
+ALTER TABLE tabela_requisitos ADD CONSTRAINT FK_tabela_requisitos
     FOREIGN KEY (fk_Projeto_id)
     REFERENCES projeto (id)
     ON DELETE SET NULL ON UPDATE CASCADE;
  
-ALTER TABLE casos_de_uso ADD CONSTRAINT FK_casos_de_uso_2
-    FOREIGN KEY (fk_Projeto_id)
+ALTER TABLE casos_de_uso ADD CONSTRAINT FK_caso_de_uso
+    FOREIGN KEY (fk_projeto_id)
     REFERENCES projeto (id)
     ON DELETE SET NULL ON UPDATE CASCADE;
  
-ALTER TABLE casos_de_uso ADD CONSTRAINT FK_casos_de_uso_3
-    FOREIGN KEY (fk_processos_caso_de_uso_id)
-    REFERENCES processos_casos_de_uso (id);
+ALTER TABLE processos_caso_de_uso ADD CONSTRAINT FK_processos_casos_de_uso
+    FOREIGN KEY (fk_caso_de_uso_id)
+    REFERENCES casos_de_uso (id)
+    ON DELETE SET NULL ON UPDATE CASCADE;
+
+ALTER TABLE processos_caso_de_uso ADD CONSTRAINT FK_processos_casos_de_uso_2
+    FOREIGN KEY (fk_requisito_id)
+    REFERENCES requisitos_funcionais (id)
+    ON DELETE SET NULL ON UPDATE CASCADE;
  
+ ALTER TABLE atributo ADD CONSTRAINT FK_atributo
+    FOREIGN KEY (fk_entidade_id)
+    REFERENCES entidades (id)
+    ON DELETE SET NULL ON UPDATE CASCADE;
+    
 ALTER TABLE projeto ADD CONSTRAINT FK_projeto_2
     FOREIGN KEY (fk_usuario_id)
     REFERENCES usuario (id);
