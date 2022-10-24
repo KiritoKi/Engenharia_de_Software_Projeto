@@ -329,22 +329,47 @@ app.post(
     }
 );
 
+//Rotas para Caso de Uso
 app.get(
-    "/:id_user/project/:id_project/casouso",
-    function (request, response) {
-        let user_id = request.params.id_project.id_user;
+    "/:id_user/project/:id_project/req/:id_requirement?",
+    async function (request, response) {
+        let user_id = request.params.id_user;
         let project_id = request.params.id_project;
-        let processosCasoUso = controller.getUseCases(project_id);
+        let requirement_id = request.params.id_requirement;
 
-        response.render("viewProcessos", {
-            data: processosCasoUso,
-            id_user: user_id 
-        });
+        // Novo requisito
+        if (requirement_id == null)
+            response.render("funcReq", {
+                id_user: user_id,
+                id_project: project_id,
+                type: "register",
+                data: [],
+            });
+        // Edit requisito
+        else {
+            var requirement = await controller.getRequirement(requirement_id);
+            response.render("funcReq", {
+                id_user: user_id,
+                id_project: project_id,
+                type: "edit",
+                data: requirement,
+            });
+        }
+    }
+);
+// Inicia o servidor na porta definida anteriormente
+// escreve no console o endereço
+
+app.get("/:id_user/project/:id_project/casouso",
+    function (request, response) {
+        let user_id = request.params.id_user;
+        let project_id = request.params.id_project;
+
+
+        response.render("procCasoUso", { id_user: user_id, id_project: project_id, type: 'register', data: [] });
     }
 );
 
-// Inicia o servidor na porta definida anteriormente
-// escreve no console o endereço
 app.listen(port, () => {
     console.log("Server is ON / http://localhost:3333");
 });

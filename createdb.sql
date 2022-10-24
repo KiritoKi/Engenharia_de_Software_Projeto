@@ -16,42 +16,24 @@ CREATE TABLE requisitos_funcionais (
     fk_projeto_id int
 );
 
-CREATE TABLE tabela_requisitos (
-    id int PRIMARY KEY AUTO_INCREMENT,
-    tipo varchar(25),
-    fk_Projeto_id int
-);  
-
 CREATE TABLE casos_de_uso (
     id int PRIMARY KEY AUTO_INCREMENT,
     nome varchar(100),
-    fk_Projeto_id int,
-    fk_processos_caso_de_uso_id int --<<Without Usage
+    fk_projeto_id int
 );
 
-CREATE TABLE modelo_dados (
+CREATE TABLE processos_casos_de_uso ( --<<Without Usage
     id int PRIMARY KEY AUTO_INCREMENT,
-    atributos varchar(100),
-    fk_Projeto_id int,
-    fk_entidades_id int
+    nome varchar(100),
+    tipo varchar(30),
+    fk_caso_de_uso_id int,
+    fk_requisito_id int
 );
 
 CREATE TABLE projeto (
     id int PRIMARY KEY AUTO_INCREMENT,
     nome varchar(100),
     fk_usuario_id int
-);
-
-CREATE TABLE requisitos (
-    id int PRIMARY KEY AUTO_INCREMENT,
-    tipo varchar(25),
-    descricao varchar(10000),
-    fk_Tabela_de_requisistos_id int
-);
-
-CREATE TABLE processos_casos_de_uso ( --<<Without Usage
-    id int PRIMARY KEY AUTO_INCREMENT,
-    nome varchar(100)
 );
 
 CREATE TABLE entidades (
@@ -74,6 +56,26 @@ CREATE TABLE usuario (
     email varchar(100)
 );
  
+ CREATE TABLE requisitos (
+    id int PRIMARY KEY AUTO_INCREMENT,
+    tipo varchar(25),
+    descricao varchar(10000),
+    fk_Tabela_de_requisistos_id int
+);
+
+CREATE TABLE modelo_dados (
+    id int PRIMARY KEY AUTO_INCREMENT,
+    atributos varchar(100),
+    fk_Projeto_id int,
+    fk_entidades_id int
+);
+
+CREATE TABLE tabela_requisitos (
+    id int PRIMARY KEY AUTO_INCREMENT,
+    tipo varchar(25),
+    fk_Projeto_id int
+);  
+
 ALTER TABLE descritivo ADD CONSTRAINT FK_descritivo_2
     FOREIGN KEY (fk_Projeto_id)
     REFERENCES projeto (id)
