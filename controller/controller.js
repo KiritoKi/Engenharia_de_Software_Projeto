@@ -281,9 +281,8 @@ function getUser(user_id) {
             if (err) {
                 reject(err);
             }
-            console.log(result);
 
-            resolve(result);
+            resolve(result[0]);
         });
     });
 }
@@ -348,6 +347,53 @@ function getUseCases(project_id) {
     });
 }
 
+function getProcesso(processo_id) {
+    return new Promise((resolve, reject) => {
+        const params = [processo_id];
+        let sql = "SELECT * FROM processos_casos_de_uso WHERE id = ? limit 1";
+
+        db.query(sql, params, function (err, result, fields) {
+            if (err) {
+                reject(err);
+            }
+
+            resolve(result[0]);
+        });
+    });
+}
+
+function newProcessoCaso(processoCaso) {
+    const params = [
+        processoCaso.getNome(),
+        processoCaso.getTipo(),
+        processoCaso.getFk_requisito_id()
+    ];
+    let sql = "INSERT INTO processos_casos_de_uso";
+    sql += "(nome, tipo, fk_requisito_id)VALUES (?,?,?); ";
+
+    db.query(sql, params, function (err) {
+        if (err)
+            throw console.log("INSERT-ERROR(processoCaso) FROM = " + params + "err = " + err);
+    });
+}
+
+function editProcessoCaso(processoCaso) {
+    const params = [
+        processoCaso.getNome(),
+        processoCaso.getTipo(),
+        processoCaso.getFk_requisito_id(),
+        processoCaso.getId()
+    ];
+    let sql =
+        "UPDATE processos_casos_de_uso SET nome = ?, tipo = ?, fk_requisito_id = ? WHERE id = ?;";
+
+    db.query(sql, params, function (err) {
+        if (err)
+            throw console.log("UPDATE-ERROR(ProcessoCaso) FROM = " + params + "err = " + err);
+    });
+}
+
+
 // Exportação das funções para o projeto
 export default {
     register,
@@ -364,5 +410,5 @@ export default {
     deleteRequisito,
     getRequirement, getProject, getDescByProject,
     editReqFunc, editProject, editDesc,
-    getUseCases
+    getUseCases, getProcesso, newProcessoCaso, editProcessoCaso
 };
