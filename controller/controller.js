@@ -90,7 +90,6 @@ function getProject(project_id) {
                 if (err) {
                     reject(err);
                 }
-                console.log(result);
 
                 resolve(result[0]);
             }
@@ -177,7 +176,6 @@ function getRequirement(req_id) {
                 if (err) {
                     reject(err);
                 }
-                console.log(result);
 
                 resolve(result[0]);
             }
@@ -185,6 +183,26 @@ function getRequirement(req_id) {
     });
 }
 
+// Função de novo requisito
+// Parâmetros:
+//  - req_func: objeto do novo requisito
+function newReqFunc(req_func) {
+    const params = [
+        req_func.getNome(),
+        req_func.getCondicao(),
+        req_func.getCrud(),
+        req_func.getGetset(),
+        req_func.getSql_projeto(),
+        req_func.getFk_projeto()
+    ];
+    let sql = "INSERT INTO requisitos_funcionais";
+    sql += "(nome, condicao, crud, getset, sql_projeto, fk_projeto_id)VALUES (?,?,?,?,?,?); ";
+
+    db.query(sql, params, function (err) {
+        if (err)
+            throw console.log("INSERT-ERROR(requisito funcional) FROM = " + params + "err = " + err);
+    });
+}
 // Função de edit do requisito funcional
 // Parâmetros:
 //  - requirement: objeto do requisito funcional
@@ -247,7 +265,6 @@ function getDescByProject(project_id) {
                 if (err) {
                     reject(err);
                 }
-                console.log(result);
                 resolve(result[0]);
             }
         );
@@ -281,9 +298,8 @@ function getUser(user_id) {
             if (err) {
                 reject(err);
             }
-            console.log(result);
 
-            resolve(result);
+            resolve(result[0]);
         });
     });
 }
@@ -309,26 +325,6 @@ function editUser(user) {
     });
 }
 
-// Função de novo requisito
-// Parâmetros:
-//  - req_func: objeto do novo requisito
-function newReqFunc(req_func) {
-    const params = [
-        req_func.getNome(),
-        req_func.getCondicao(),
-        req_func.getCrud(),
-        req_func.getGetset(),
-        req_func.getFk_projeto(),
-    ];
-    let sql = "INSERT INTO requisitos_funcionais";
-    sql += "(nome, condicao, crud, getset, fk_projeto_id)VALUES (?,?,?,?,?); ";
-
-    db.query(sql, params, function (err) {
-        if (err)
-            throw console.log("INSERT-ERROR FROM = " + params + "err = " + err);
-    });
-}
-
 // Função de get dos processos de caso de uso
 // Parâmetros:
 //  - project_id: id do projeto
@@ -348,6 +344,72 @@ function getUseCases(project_id) {
     });
 }
 
+function getProcesso(processo_id) {
+    return new Promise((resolve, reject) => {
+        const params = [processo_id];
+        let sql = "SELECT * FROM processos_casos_de_uso WHERE id = ? limit 1";
+
+        db.query(sql, params, function (err, result, fields) {
+            if (err) {
+                reject(err);
+            }
+
+            resolve(result[0]);
+        });
+    });
+}
+
+function newProcessoCaso(processoCaso) {
+    const params = [
+        processoCaso.getNome(),
+        processoCaso.getTipo(),
+        processoCaso.getFk_projeto_id(),
+        processoCaso.getFk_requisito_id()
+    ];
+    let sql = "INSERT INTO processos_casos_de_uso";
+    sql += "(nome, tipo, fk_projeto_id, fk_requisito_id)VALUES (?,?,?,?); ";
+
+    db.query(sql, params, function (err) {
+        if (err)
+            throw console.log("INSERT-ERROR(processoCaso) FROM = " + params + "err = " + err);
+    });
+}
+
+function editProcessoCaso(processoCaso) {
+    const params = [
+        processoCaso.getNome(),
+        processoCaso.getTipo(),
+        processoCaso.getFk_projeto_id(),
+        processoCaso.getFk_requisito_id(),
+        processoCaso.getId()
+    ];
+    let sql =
+        "UPDATE processos_casos_de_uso SET nome = ?, tipo = ?, fk_projeto_id = ?, fk_requisito_id = ? WHERE id = ?;";
+
+    db.query(sql, params, function (err) {
+        if (err)
+            throw console.log("UPDATE-ERROR(ProcessoCaso) FROM = " + params + "err = " + err);
+    });
+}
+
+function getProcessoCasoUsoByProject(project_id) {
+    return new Promise((resolve, reject) => {
+        const params = [project_id];
+
+        let sql = "SELECT * FROM processos_casos_de_uso WHERE fk_projeto_id = ?";
+
+        db.query(sql, params, function (err, result, fields) {
+            if (err) {
+                reject(err);
+            }
+            console.log(result);
+
+            resolve(result);
+        });
+    });
+}
+
+
 // Exportação das funções para o projeto
 export default {
     register,
@@ -364,5 +426,6 @@ export default {
     deleteRequisito,
     getRequirement, getProject, getDescByProject,
     editReqFunc, editProject, editDesc,
-    getUseCases
+    getUseCases, getProcesso, newProcessoCaso, editProcessoCaso,
+    getProcessoCasoUsoByProject
 };

@@ -128,7 +128,7 @@ app.get("/edituser/:user_id", async function (request, response) {
     try {
         var result = await controller.getUser(user_id);
 
-        response.render("edituser", { id_user: user_id, user: result[0] });
+        response.render("edituser", { id_user: user_id, user: result });
     } catch (err) {
         response.send(err);
     }
@@ -238,14 +238,14 @@ app.get(
         const user_id = request.params.id_user;
         var rows = await controller.selectRequirementByProject(project_id);
         var descr = await controller.getDescByProject(project_id);
+        var casos = await controller.getProcessoCasoUsoByProject(project_id);
 
-        console.log(rows);
-
-        response.render("view", {
+        response.render("viewRequisitos", {
             id_user: user_id,
             id_project: project_id,
             data: rows,
             descritivo: descr,
+            casodeUso: casos
         });
     }
 );
@@ -317,7 +317,7 @@ app.post(
             request.body.reqmethod,
             request.body.operacao_crud,
             request.body.tipo_metodo,
-            "",
+            request.body.reqsql,
             project_id
         );
 
@@ -343,12 +343,24 @@ app.get("/:id_user/project/:id_project/casouso/:id_processo?",
         // Novo processo
         if (processo_id == null) {
             var dataReq = await controller.selectRequirementByProject(project_id);
-            console.log(dataReq);
-            response.render("procCasoUso", { id_user: user_id, id_project: project_id, type: 'register', dataReq: dataReq, data: [] });
+            response.render("procCasoUso", {
+                id_user: user_id,
+                id_project: project_id,
+                type: 'register',
+                dataReq: dataReq,
+                data: []
+            });
         }
         // Edit processo
         else {
-
+            var processo = await controller.getProcesso(processo_id);
+            response.render("procCasoUso", {
+                id_user: user_id,
+                id_project: project_id,
+                type: 'register',
+                dataReq: dataReq,
+                data: processo
+            });
         }
     }
 );
@@ -363,10 +375,33 @@ app.post("/:id_user/project/:id_project/casouso/:id_processo?",
             0,
             request.body.casotitle,
             request.body.tipo_processo,
-            0,
+            project_id,
+            request.body.requisito
         );
 
-        response.redirect(`/${user_id}/view/project/${project_id}`);
+        // Novo requisito
+        if (processo_id == null) controller.newProcessoCaso(processoCaso);
+        // Edit requisito
+        else {
+            processoCaso.setID(processo_id);
+            controller.editProcessoCaso(processoCaso);
+        }
+
+        response.redirect(`/${user_id}/project/${project_id}/view/casouso`);
+    }
+);
+
+app.get("/:id_user/project/:id_project/view/casouso",
+    async function (request, response) {
+        let user_id = request.params.id_user;
+        let project_id = request.params.id_project;
+
+        try {
+            var rows = await controller.getProcessoCasoUsoByProject(project_id);
+            response.render("viewProcessos", { id_user: user_id, id_project: project_id, data: rows });
+        } catch (err) {
+            response.send(err);
+        }
     }
 );
 

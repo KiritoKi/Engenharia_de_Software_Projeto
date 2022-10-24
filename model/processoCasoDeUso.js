@@ -2,13 +2,14 @@ class processoCasoDeUso {
     id = 0;
     nome = '';
     tipo = '';
-    fk_caso_de_uso_id = 0;
+    fk_projeto_id = 0;
     fk_requisito_id = 0;
 
-    constructor(id, nome, fk_caso_de_uso_id, fk_requisito_id) {
+    constructor(id, nome, tipo, fk_projeto_id, fk_requisito_id) {
         this.id = id;
         this.nome = nome;
-        this.fk_caso_de_uso_id = fk_caso_de_uso_id;
+        this.tipo = tipo;
+        this.fk_projeto_id = fk_projeto_id;
         this.fk_requisito_id = fk_requisito_id;
     }
 
@@ -24,11 +25,17 @@ class processoCasoDeUso {
     setNome(value) {
         this.nome = value;
     }
-    getFk_caso_de_uso_id() {
-        return this.fk_caso_de_uso_id;
+    getTipo() {
+        return this.tipo;
     }
-    setFk_caso_de_uso_id(value) {
-        this.fk_caso_de_uso_id = value;
+    setTipo(value) {
+        this.tipo = value;
+    }
+    getFk_projeto_id() {
+        return this.fk_projeto_id;
+    }
+    setFk_projeto_id(value) {
+        this.fk_projeto_id = value;
     }
     getFk_requisito_id() {
         return this.fk_requisito_id;
