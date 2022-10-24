@@ -360,7 +360,14 @@ app.get(
 // Inicia o servidor na porta definida anteriormente
 // escreve no console o endereço
 
-app.get("/:id_user/project/:id_project/",
+app.get("/:id_user/project/:id_project/casouso",
+    function (request, response) {
+        let user_id = request.params.id_user;
+        let project_id = request.params.id_project;
+
+
+        response.render("procCasoUso", { id_user: user_id, id_project: project_id, type: 'register', data: [] });
+    }
 );
 
 app.listen(port, () => {
