@@ -329,6 +329,25 @@ function newReqFunc(req_func) {
     });
 }
 
+// Função de get dos processos de caso de uso
+// Parâmetros:
+//  - project_id: id do projeto
+function getUseCases(project_id) {
+    return new Promise((resolve, reject) => {
+        const params = [project_id];
+        let sql = "SELECT * FROM processos_casos_de_uso where fk_Projeto_id = ?";
+
+        db.query(sql, params, function (err, result, fields) {
+            if (err) {
+                reject(err);
+            }
+            console.log(result);
+
+            resolve(result);
+        });
+    });
+}
+
 // Exportação das funções para o projeto
 export default {
     register,
@@ -344,5 +363,6 @@ export default {
     selectRequirementByProject,
     deleteRequisito,
     getRequirement, getProject, getDescByProject,
-    editReqFunc, editProject, editDesc
+    editReqFunc, editProject, editDesc,
+    getUseCases
 };

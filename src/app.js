@@ -329,6 +329,20 @@ app.post(
     }
 );
 
+app.get(
+    "/:id_user/project/:id_project/casouso",
+    function (request, response) {
+        let user_id = request.params.id_project.id_user;
+        let project_id = request.params.id_project;
+        let processosCasoUso = controller.getUseCases(project_id);
+
+        response.render("viewProcessos", {
+            data: processosCasoUso,
+            id_user: user_id 
+        });
+    }
+);
+
 // Inicia o servidor na porta definida anteriormente
 // escreve no console o endereço
 app.listen(port, () => {
