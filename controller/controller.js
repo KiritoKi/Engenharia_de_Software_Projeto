@@ -90,7 +90,6 @@ function getProject(project_id) {
                 if (err) {
                     reject(err);
                 }
-                console.log(result);
 
                 resolve(result[0]);
             }
@@ -177,7 +176,6 @@ function getRequirement(req_id) {
                 if (err) {
                     reject(err);
                 }
-                console.log(result);
 
                 resolve(result[0]);
             }
@@ -185,6 +183,26 @@ function getRequirement(req_id) {
     });
 }
 
+// Função de novo requisito
+// Parâmetros:
+//  - req_func: objeto do novo requisito
+function newReqFunc(req_func) {
+    const params = [
+        req_func.getNome(),
+        req_func.getCondicao(),
+        req_func.getCrud(),
+        req_func.getGetset(),
+        req_func.getSql_projeto(),
+        req_func.getFk_projeto()
+    ];
+    let sql = "INSERT INTO requisitos_funcionais";
+    sql += "(nome, condicao, crud, getset, sql_projeto, fk_projeto_id)VALUES (?,?,?,?,?,?); ";
+
+    db.query(sql, params, function (err) {
+        if (err)
+            throw console.log("INSERT-ERROR(requisito funcional) FROM = " + params + "err = " + err);
+    });
+}
 // Função de edit do requisito funcional
 // Parâmetros:
 //  - requirement: objeto do requisito funcional
@@ -247,7 +265,6 @@ function getDescByProject(project_id) {
                 if (err) {
                     reject(err);
                 }
-                console.log(result);
                 resolve(result[0]);
             }
         );
@@ -305,26 +322,6 @@ function editUser(user) {
     db.query(sql, params, function (err) {
         if (err)
             throw console.log("UPDATE-ERROR FROM = " + params + "err = " + err);
-    });
-}
-
-// Função de novo requisito
-// Parâmetros:
-//  - req_func: objeto do novo requisito
-function newReqFunc(req_func) {
-    const params = [
-        req_func.getNome(),
-        req_func.getCondicao(),
-        req_func.getCrud(),
-        req_func.getGetset(),
-        req_func.getFk_projeto(),
-    ];
-    let sql = "INSERT INTO requisitos_funcionais";
-    sql += "(nome, condicao, crud, getset, fk_projeto_id)VALUES (?,?,?,?,?); ";
-
-    db.query(sql, params, function (err) {
-        if (err)
-            throw console.log("INSERT-ERROR FROM = " + params + "err = " + err);
     });
 }
 

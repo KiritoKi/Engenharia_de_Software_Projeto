@@ -238,14 +238,14 @@ app.get(
         const user_id = request.params.id_user;
         var rows = await controller.selectRequirementByProject(project_id);
         var descr = await controller.getDescByProject(project_id);
+        var casos = await controller.getProcessoCasoUsoByProject(project_id);
 
-        console.log(rows);
-
-        response.render("view", {
+        response.render("viewRequisitos", {
             id_user: user_id,
             id_project: project_id,
             data: rows,
             descritivo: descr,
+            casodeUso: casos
         });
     }
 );
@@ -317,7 +317,7 @@ app.post(
             request.body.reqmethod,
             request.body.operacao_crud,
             request.body.tipo_metodo,
-            "",
+            request.body.reqsql,
             project_id
         );
 
