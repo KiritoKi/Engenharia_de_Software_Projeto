@@ -18,14 +18,15 @@
                     <label>Condição</label>
                 </div>
                 <div class="form-outline mb-4">
-                    <input type="text" id="form2Example2" class="form-control" name="entidade"
-                        value="<%= dataEnt.nome%>">
-                    <label>Entidade</label>
-                </div>
-                <div class="form-outline mb-4">
-                    <input type="text" id="form2Example2" class="form-control" name="reqsql"
-                        value="<%= data.sql_projeto%>">
                     <label>SQL</label>
+                    <select name="reqsql" value="<%= data.sql_projeto%>">
+                        <option value='<%=data.sql_projeto%>' selected hidden>
+                            <%=data.sql_projeto%>
+                        </option>
+                        <option value='insert'>insert</option>
+                        <option value='update'>update</option>
+                        <option value='delete'>delete</option>
+                    </select>
                 </div>
                 <div class="form-outline mb-4">
                     <label>CRUD</label>

@@ -427,7 +427,7 @@ app.get("/:id_user/project/:id_project/view/casouso",
         try {
             var rows = await controller.getProcessoCasoUsoByProject(project_id);
             console.log(rows);
-            var requisitos = await controller.selectRequirementByProject(project_id)(project_id);
+            var requisitos = await controller.selectRequirementByProject(project_id);
             response.render("viewProcessos", { id_user: user_id, id_project: project_id, data: rows, data_req: requisitos });
         } catch (err) {
             response.send(err);
