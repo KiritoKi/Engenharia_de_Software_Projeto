@@ -23,7 +23,6 @@
                             <th scope="col">get/set</th>
                             <th scope="col">SQL</th>
                             <th scope="col">Assoc. Classes</th>
-                            <th scope="col">Estrutura dados</th>
                             <th class="d-print-none">
                                 <a class="btn btn-sm btn-success"
                                     href="/<%=id_user%>/project/<%=id_project%>/req">Cadastrar novo
@@ -50,12 +49,13 @@
                                                     <% } %>
                                 </td>
                                 <td>
-                                    <!-- ajustar -->
-                                    incompleto
+                                    <% if(!item.entidades){ %>
+                                        <a href="/<%=id_user%>/project/<%=id_project%>/entidade">Cadastrar entidades</a>
+                                    <% } %>  
                                 </td>
                                 <td>
                                     <!-- ajustar -->
-                                    incompleto
+                                    atributos
                                 </td>
                                 <td>
                                     <%= item.condicao %>
@@ -71,11 +71,7 @@
                                 </td>
                                 <td>
                                     <!-- ajustar -->
-                                    <%= item.sql_projeto %>
-                                </td>
-                                <td>
-                                    <!-- ajustar -->
-                                    <%= item.sql_projeto %>
+                                    1:1
                                 </td>
                                 <td>
                                     <!--empty-->
