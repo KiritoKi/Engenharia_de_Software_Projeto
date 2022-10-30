@@ -288,20 +288,16 @@ app.get(
                 id_user: user_id,
                 id_project: project_id,
                 type: "register",
-                data: [],
-                dataEnt: []
+                data: []
             });
         // Edit requisito
         else {
             var requirement = await controller.getRequirement(requirement_id);
-            var entidade = await controller.getEntidade(requirement_id);
-            console.log(entidade);
             response.render("funcReq", {
                 id_user: user_id,
                 id_project: project_id,
                 type: "edit",
-                data: requirement,
-                dataEnt: entidade
+                data: requirement
             });
         }
     }
@@ -386,6 +382,7 @@ app.get("/:id_user/project/:id_project/casouso/:id_processo?",
     }
 );
 
+//
 app.post("/:id_user/project/:id_project/casouso/:id_processo?",
     async function (request, response) {
         let user_id = request.params.id_user;
@@ -419,6 +416,7 @@ app.post("/:id_user/project/:id_project/casouso/:id_processo?",
         response.redirect(`/${user_id}/project/${project_id}/view/casouso`);
     }
 );
+
 //Rotas para view Caso de Uso
 app.get("/:id_user/project/:id_project/view/casouso",
     async function (request, response) {
@@ -436,6 +434,7 @@ app.get("/:id_user/project/:id_project/view/casouso",
         }
     }
 );
+
 //Rotas para delete Caso de Uso
 app.get("/:id_user/delete/:id_project/casouso/:id_processo",
     function (request, response) {
@@ -446,6 +445,39 @@ app.get("/:id_user/delete/:id_project/casouso/:id_processo",
         controller.deleteProcessoCaso(processo_id);
 
         response.redirect(`/${user_id}/project/${project_id}/view/casouso`);
+    }
+);
+
+// Rotas para novo requisito ou edit do requisito
+// Parâmetros:
+//  - id_user: id do usuário
+//  - id_project: projeto do usuário
+//  - id_requirement: requisito do projeto(Opcional)
+app.get(
+    "/:id_user/project/:id_project/req/:id_requirement?",
+    async function (request, response) {
+        let user_id = request.params.id_user;
+        let project_id = request.params.id_project;
+        let requirement_id = request.params.id_requirement;
+
+        // Nova entidade
+        if (requirement_id == null)
+            response.render("entidades", {
+                id_user: user_id,
+                id_project: project_id,
+                type: "edit",
+                dataEnt: []
+            });
+        // Edit entidade
+        else {
+            var entidade = await controller.getEntidade(requirement_id);
+            response.render("entidades", {
+                id_user: user_id,
+                id_project: project_id,
+                type: "edit",
+                dataEnt: entidade
+            });
+        }
     }
 );
 

@@ -325,25 +325,11 @@ function editUser(user) {
     });
 }
 
-// Função de get dos processos de caso de uso
+// Função de get Processos de caso de Uso
 // Parâmetros:
-//  - project_id: id do projeto
-function getUseCases(project_id) {
-    return new Promise((resolve, reject) => {
-        const params = [project_id];
-        let sql = "SELECT * FROM processos_casos_de_uso where fk_Projeto_id = ?";
-
-        db.query(sql, params, function (err, result, fields) {
-            if (err) {
-                reject(err);
-            }
-            console.log(result);
-
-            resolve(result);
-        });
-    });
-}
-
+//  - processo_id: id do processo
+// Retornos:
+//  - result[0]: retorna o processo
 function getProcesso(processo_id) {
     return new Promise((resolve, reject) => {
         const params = [processo_id];
@@ -359,6 +345,9 @@ function getProcesso(processo_id) {
     });
 }
 
+// Função de inserir um novo processo de caso de uso
+// Parâmetros:
+//  - processo para inserção
 function newProcessoCaso(processoCaso) {
     const params = [
         processoCaso.getNome(),
@@ -375,6 +364,9 @@ function newProcessoCaso(processoCaso) {
     });
 }
 
+// Função de update processo caso de uso
+// Parâmetros:
+//  - processoCaso: processo para update
 function editProcessoCaso(processoCaso) {
     const params = [
         processoCaso.getNome(),
@@ -392,6 +384,11 @@ function editProcessoCaso(processoCaso) {
     });
 }
 
+// Função de get processo caso de uso (Busca por projeto id)
+// Parâmetros:
+//  - processoCaso: processo casos de uso
+// Retornos:
+//  - result: lista de processos de caso de uso
 function getProcessoCasoUsoByProject(project_id) {
     return new Promise((resolve, reject) => {
         const params = [project_id];
@@ -409,6 +406,9 @@ function getProcessoCasoUsoByProject(project_id) {
     });
 }
 
+// Função insert entidade
+// Parâmetros:
+//  - entidade: entidade para insert
 function newEntidade(entidade) {
     const params = [
         entidade.getNome(),
@@ -423,6 +423,9 @@ function newEntidade(entidade) {
     });
 }
 
+// Função de update entidade
+// Parâmetros:
+//  - entidade: entidade para update
 function editEntidade(entidade) {
     const params = [
         entidade.getNome(),
@@ -435,6 +438,11 @@ function editEntidade(entidade) {
     );
 }
 
+// Função de get entidade
+// Parâmetros:
+//  - req_id: id do requisito
+// Retornos:
+//  - result: retorna entidade
 function getEntidade(req_id) {
     return new Promise((resolve, reject) => {
         const params = [req_id];
@@ -452,6 +460,9 @@ function getEntidade(req_id) {
     });
 }
 
+// Função de get do id do ultimo requisito cadastrado
+// Retornos:
+//  - result[0].id: id do requisito
 function selectLastRequisitoID() {
     return new Promise((resolve, reject) => {
         const sql = "SELECT * FROM requisitos_funcionais ORDER BY id DESC limit 1;";
@@ -463,6 +474,12 @@ function selectLastRequisitoID() {
     });
 }
 
+// Função de get do id da requisição pelo nome da requisição
+// Parâmetros:
+//  - value: nome
+//  - projeto_id: id do projeto
+// Retornos:
+//  - result[0]: retorna o id da requisição
 function getReqIDbyName(value, projeto_id) {
     return new Promise((resolve, reject) => {
         const param = [value, projeto_id];
@@ -477,6 +494,10 @@ function getReqIDbyName(value, projeto_id) {
         });
     });
 }
+
+// Função de delete do processo caso de uso
+// Parâmetros:
+//  - id_requisito: id do processo
 function deleteProcessoCaso(id) {
     let param = [id];
     let sql = "DELETE FROM processos_casos_de_uso WHERE id=?;";
@@ -489,6 +510,9 @@ function deleteProcessoCaso(id) {
     });
 }
 
+// Função de delete de entidade
+// Parâmetros:
+//  - id_requisito: id do requisito
 function deleteEntidade(id_requisito) {
     let param = [id_requisito];
     let sql = "DELETE FROM entidades WHERE fk_Requisito_funcional_id=?;";
