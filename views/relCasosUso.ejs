@@ -1,0 +1,43 @@
+<%- include("head.ejs"); %>
+
+    <body>
+        <%- include("navbar.ejs"); %>
+
+            <form action="/<%=id_user%>/project/<%=id_project%>/casouso/<%=caso.id%>/rel/<%= data.id %> " method="post" class="newreqform">
+                <h1>
+                    <%= type==='register' ?'Cadastre':'Edite'%> seu relacionamento de caso de uso
+                </h1>
+
+                <div>
+                    <div class="form-outline mb-4">
+                        <label>FK1</label>
+                        <select name="caso uso">
+                            <option value='<%=data.fk_caso_1%>' selected hidden>
+                                <%=data.fk_caso_1%>
+                            </option>
+                            <% for(let item of dataCasos){ %>
+                                <option value="<%= item.nome %>">
+                                    <%= item.nome %>
+                                </option>
+                                <% } %>
+                        </select>
+                    </div>
+                    <div class="form-outline mb-4">
+                        <label>FK2</label>
+                        <select name="caso uso">
+                            <option value='<%=data.fk_caso_2%>' selected hidden>
+                                <%=data.fk_caso_2%>
+                            </option>
+                            <% for(let item of dataCasos){ %>
+                                <option value="<%= item.nome %>">
+                                    <%= item.nome %>
+                                </option>
+                                <% } %>
+                        </select>
+                    </div>
+                </div>
+                <!-- Submit button -->
+                <input type="submit" class="btn btn-primary btn-block mb-4" name="submit" value="Enviar" />
+
+            </form>
+    </body>

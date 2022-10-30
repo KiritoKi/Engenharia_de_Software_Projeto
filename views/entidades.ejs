@@ -1,0 +1,23 @@
+<%- include("head.ejs"); %>
+
+    <body>
+        <%- include("navbar.ejs"); %>
+
+            <form action="/<%=id_user%>/project/<%=id_project%>/req/<%=id_req%>/entidade/<%= data.id %> " method="post" class="newentform">
+                <h1>
+                    <%= type==='register' ?'Cadastre':'Edite'%> sua entidade
+                </h1>
+
+                <div class="form-outline mb-4">
+                    <input type="text" id="form2Example2" class="form-control" name="entidadetitle" value="<%= data.nome %>">
+                    <label>Nome da entidade</label>
+                </div>
+                <div class="form-outline mb-4">
+                    <input type="text" id="form2Example2" class="form-control" name="atributos" value="<%= data.nome %>">
+                    <label>Atributos</label>
+                </div>
+                <!-- Submit button -->
+                <input type="submit" class="btn btn-primary btn-block mb-4" name="submit" value="Enviar" />
+
+            </form>
+    </body>
