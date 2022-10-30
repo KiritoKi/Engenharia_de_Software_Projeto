@@ -360,6 +360,7 @@ app.get("/:id_user/project/:id_project/casouso/:id_processo?",
         let project_id = request.params.id_project;
         let processo_id = request.params.id_processo;
         var dataReq = await controller.selectRequirementByProject(project_id);
+
         // Novo processo
         if (processo_id == null) {
 
@@ -425,8 +426,8 @@ app.get("/:id_user/project/:id_project/view/casouso",
         let project_id = request.params.id_project;
 
         try {
+
             var rows = await controller.getProcessoCasoUsoByProject(project_id);
-            console.log(rows);
             var requisitos = await controller.selectRequirementByProject(project_id);
             response.render("viewProcessos", { id_user: user_id, id_project: project_id, data: rows, data_req: requisitos });
         } catch (err) {
