@@ -386,7 +386,7 @@ function editProcessoCaso(processoCaso) {
 
 // Função de get processo caso de uso (Busca por projeto id)
 // Parâmetros:
-//  - processoCaso: processo casos de uso
+//  - project_id: id do projeto
 // Retornos:
 //  - result: lista de processos de caso de uso
 function getProcessoCasoUsoByProject(project_id) {
@@ -406,6 +406,28 @@ function getProcessoCasoUsoByProject(project_id) {
     });
 }
 
+// Função de get entidade (Busca por projeto id)
+// Parâmetros:
+//  - project_id: id do projeto
+// Retornos:
+//  - result: lista de entidades
+function getEntidadeByProject(project_id) {
+    return new Promise((resolve, reject) => {
+        const params = [project_id];
+
+        let sql = "SELECT ent.* FROM entidades AS ent, requisitos_funcionais AS req "
+        sql += "WHERE req.fk_projeto_id = ? AND ent.fk_Requisito_funcional_id=req.id;";
+
+        db.query(sql, params, function (err, result, fields) {
+            if (err) {
+                reject(err);
+            }
+            console.log(result);
+
+            resolve(result);
+        });
+    });
+}
 // Função insert entidade
 // Parâmetros:
 //  - entidade: entidade para insert
@@ -443,10 +465,10 @@ function editEntidade(entidade) {
 //  - req_id: id do requisito
 // Retornos:
 //  - result: retorna entidade
-function getEntidade(req_id) {
+function getEntidade(ent_id) {
     return new Promise((resolve, reject) => {
         const params = [req_id];
-        let sql = "SELECT * FROM entidades WHERE fk_Requisito_funcional_id = ? limit 1";
+        let sql = "SELECT * FROM entidades WHERE id = ? limit 1";
 
         db.query(sql, params,
             function (err, result, fields) {
@@ -525,6 +547,20 @@ function deleteEntidade(id_requisito) {
     });
 }
 
+function getAtributoByEnt(id_entidade) {
+    return new Promise((resolve, reject) => {
+        const param = [id_entidade];
+        const sql = "SELECT * FROM atributo WHERE fk_entidade_id = ?;";
+
+        db.query(sql, param, function (err, result, fields) {
+            if (err) reject(err);
+            if (result)
+                resolve(result);
+            else
+                resolve(null);
+        });
+    });
+}
 // Exportação das funções para o projeto
 export default {
     register,
@@ -541,7 +577,7 @@ export default {
     deleteRequisito,
     getRequirement, getProject, getDescByProject,
     editReqFunc, editProject, editDesc,
-    getUseCases, getProcesso, newProcessoCaso, editProcessoCaso,
-    getProcessoCasoUsoByProject, getEntidade, selectLastRequisitoID,
-    newEntidade, editEntidade, getReqIDbyName, deleteProcessoCaso, deleteEntidade
+    getProcesso, newProcessoCaso, editProcessoCaso,
+    getProcessoCasoUsoByProject, getEntidadeByProject, getEntidade, selectLastRequisitoID,
+    newEntidade, editEntidade, getReqIDbyName, deleteProcessoCaso, deleteEntidade, getAtributoByEnt
 };
