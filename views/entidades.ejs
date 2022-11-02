@@ -3,7 +3,7 @@
     <body>
         <%- include("navbar.ejs"); %>
 
-            <form action="/<%=id_user%>/project/<%=id_project%>/req/<%=id_req%>/entidade/<%= data.id %> " method="post"
+            <form action="/<%=id_user%>/project/<%=id_project%>/entidade/<%=id_req%>/<%= data.id %> " method="post"
                 class="newentform">
                 <h1>
                     <%= type==='register' ?'Cadastre':'Edite'%> sua entidade

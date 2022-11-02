@@ -485,8 +485,45 @@ app.get("/:id_user/project/:id_project/entidade/:id_requirement/:id_entidade?",
             response.send(err);
         }
 
-    });
+    }
+);
 
+app.post("/:id_user/project/:id_project/entidade/:id_requirement/:id_entidade?",
+    async function (request, response) {
+        let user_id = request.params.id_user;
+        let project_id = request.params.id_project;
+        let requirement_id = request.params.id_requirement;
+        let entidade_id = request.params.id_entidade;
+
+        const ent = new entidade(
+            0,
+            request.body.entidadetitle,
+            requirement_id
+        );
+        const atr = new atributo(
+            0,
+            request.body.atributos,
+            0
+        );
+
+        // Novo Entidade/Atributo
+        if (entidade_id == null) {
+            controller.newEntidade(ent);
+            var ent_id = await controller.selectLastEntidadeID();
+            atr.setFk_entidade_id(ent_id);
+            controller.newAtributo(atr);
+            //edit Entidade/Atributo
+        } else {
+            ent.setID(entidade_id);
+            atr.setFk_entidade_id(entidade_id);
+            controller.editEntidade(ent);
+            var atrID = await controller.getAtributoIDbyName(atr.getNome_atributo(), atr.getFk_entidade_id());
+            controller.editAtributo(atrID);
+        }
+
+        response.redirect(`/${user_id}/view/project/${project_id}`);
+    }
+);
 
 // Inicia o servidor na porta definida anteriormente
 // escreve no console o endereço

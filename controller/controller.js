@@ -451,9 +451,9 @@ function newEntidade(entidade) {
 function editEntidade(entidade) {
     const params = [
         entidade.getNome(),
-        entidade.getFk_Req_Func_id()
+        entidade.getID()
     ];
-    let sql = "UPDATE entidades SET nome = ? WHERE fk_Requisito_funcional_id = ?;";
+    let sql = "UPDATE entidades SET nome = ? WHERE id = ?;";
 
     db.query(sql, params,
         function (err) { if (err) throw console.log("UPDATE-ERROR(entidade) FROM = " + params + " err = " + err) }
@@ -481,7 +481,19 @@ function getEntidade(ent_id) {
         );
     });
 }
+// Função de get do id da ultima entidade cadastrada
+// Retornos:
+//  - result[0].id: id da entidade
+function selectLastEntidadeID() {
+    return new Promise((resolve, reject) => {
+        const sql = "SELECT * FROM entidades ORDER BY id DESC limit 1;";
 
+        db.query(sql, [], function (err, result, fields) {
+            if (err) reject(err);
+            resolve(result[0].id);
+        });
+    });
+}
 // Função de get do id do ultimo requisito cadastrado
 // Retornos:
 //  - result[0].id: id do requisito
@@ -561,6 +573,47 @@ function getAtributoByEnt(id_entidade) {
         });
     });
 }
+
+function newAtributo(atributo) {
+    const params = [
+        atributo.getNome_atributo(),
+        atributo.getFk_entidade_id()
+    ];
+    let sql = "INSERT INTO atributo";
+    sql += "(nome_atributo, fk_entidade_id)VALUES (?,?); ";
+
+    db.query(sql, params, function (err) {
+        if (err)
+            throw console.log("INSERT-ERROR(atributo) FROM = " + params + "err = " + err);
+    });
+}
+
+function editAtributo(atributo_id) {
+    const params = [
+        atributo.getNome(),
+        atributo.getID()
+    ];
+    let sql = "UPDATE atributo SET nome_atributo = ? WHERE id = ?;";
+
+    db.query(sql, params,
+        function (err) { if (err) throw console.log("UPDATE-ERROR(atributo) FROM = " + params + " err = " + err) }
+    );
+}
+
+function getAtributoIDbyName(value, fk_entidade_id) {
+    return new Promise((resolve, reject) => {
+        const param = [value, fk_entidade_id];
+        const sql = "SELECT * FROM atributo WHERE nome_atributo = ? AND fk_entidade_id = ?;";
+
+        db.query(sql, param, function (err, result, fields) {
+            if (err) reject(err);
+            if (result[0])
+                resolve(result[0].id);
+            else
+                resolve(null);
+        });
+    });
+}
 // Exportação das funções para o projeto
 export default {
     register,
@@ -579,5 +632,6 @@ export default {
     editReqFunc, editProject, editDesc,
     getProcesso, newProcessoCaso, editProcessoCaso,
     getProcessoCasoUsoByProject, getEntidadeByProject, getEntidade, selectLastRequisitoID,
-    newEntidade, editEntidade, getReqIDbyName, deleteProcessoCaso, deleteEntidade, getAtributoByEnt
+    newEntidade, editEntidade, getReqIDbyName, deleteProcessoCaso, deleteEntidade, getAtributoByEnt, selectLastEntidadeID,
+    newAtributo, editAtributo, getAtributoIDbyName
 };
