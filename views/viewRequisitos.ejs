@@ -51,10 +51,11 @@
                                                     <% } %>
                                 </td>
                                 <td>
-                                    <% if(!item.entidades){ %>
-                                        <a href="/<%=id_user%>/project/<%=id_project%>/entidade/<%=item.id%>">Cadastrar
-                                            entidades</a>
-                                        <% } %>
+                                    <% for (const item of entidades){ %>
+                                        <p><%= item.nome %> </p>
+                                    <% } %>
+                                        <a href="/<%= id_user %>/project/<%= id_project %>/entidade/<%= item.id %>">Cadastrar
+                                            entidade</a>
                                 </td>
                                 <td>
                                     <!-- ajustar -->
