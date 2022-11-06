@@ -318,15 +318,28 @@ app.post(
         let user_id = request.params.id_user;
         let project_id = request.params.id_project;
         let requirement_id = request.params.id_requirement;
-
-        let create = request.params.create;
-        console.log("CRUD AQUI = " + request.params.create);
-
+        let create = request.body.create;
+        let read = request.body.read;
+        let upd = request.body.update;
+        let del = request.body.delete;
+        let crud = '';
+        if (create === 'on') {
+            crud += 'C';
+        }
+        if (read === 'on') {
+            crud += 'R';
+        }
+        if (upd === 'on') {
+            crud += 'U';
+        }
+        if (del === 'on') {
+            crud += 'D';
+        }
         const requirement = new req_funcional(
             0,
             request.body.reqtitle,
             request.body.reqmethod,
-            request.body.operacao_crud,
+            crud,
             request.body.tipo_metodo,
             request.body.reqsql,
             project_id
