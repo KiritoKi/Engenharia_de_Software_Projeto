@@ -614,6 +614,23 @@ function getAtributoIDbyName(value, fk_entidade_id) {
         });
     });
 }
+
+function selectRelacionamentoCasoUso() {
+    return new Promise((resolve, reject) => {
+        const sql = "SELECT * FROM relacionamento_caso_uso;";
+        const param = [];
+        db.query(sql, param, function (err, result, fields) {
+
+            if (err) reject(err);
+            if (result)
+                resolve(result);
+            else {
+                resolve(null);
+            }
+
+        });
+    });
+}
 // Exportação das funções para o projeto
 export default {
     register,
@@ -633,5 +650,5 @@ export default {
     getProcesso, newProcessoCaso, editProcessoCaso,
     getProcessoCasoUsoByProject, getEntidadeByProject, getEntidade, selectLastRequisitoID,
     newEntidade, editEntidade, getReqIDbyName, deleteProcessoCaso, deleteEntidade, getAtributoByEnt, selectLastEntidadeID,
-    newAtributo, editAtributo, getAtributoIDbyName
+    newAtributo, editAtributo, getAtributoIDbyName, selectRelacionamentoCasoUso
 };
