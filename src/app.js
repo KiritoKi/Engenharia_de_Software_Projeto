@@ -315,6 +315,10 @@ app.post(
         let user_id = request.params.id_user;
         let project_id = request.params.id_project;
         let requirement_id = request.params.id_requirement;
+
+        let create = request.params.create;
+        console.log("CRUD AQUI = " + request.params.create);
+
         const requirement = new req_funcional(
             0,
             request.body.reqtitle,
@@ -429,7 +433,9 @@ app.get("/:id_user/project/:id_project/view/casouso",
 
             var rows = await controller.getProcessoCasoUsoByProject(project_id);
             var requisitos = await controller.selectRequirementByProject(project_id);
-            response.render("viewProcessos", { id_user: user_id, id_project: project_id, data: rows, data_req: requisitos });
+            var tabelaCasoUso = await controller.selectRelacionamentoCasoUso();
+
+            response.render("viewProcessos", { id_user: user_id, id_project: project_id, data: rows, data_req: requisitos, tabela: tabelaCasoUso });
         } catch (err) {
             response.send(err);
         }
@@ -448,6 +454,7 @@ app.get("/:id_user/delete/:id_project/casouso/:id_processo",
         response.redirect(`/${user_id}/project/${project_id}/view/casouso`);
     }
 );
+
 // Rotas para criar/editar entidade
 app.get("/:id_user/project/:id_project/entidade/:id_requirement/:id_entidade?",
     async function (request, response) {
