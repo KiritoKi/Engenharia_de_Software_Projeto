@@ -9,6 +9,11 @@
                 <tr>
                     <th scope="col">Nome</th>
                     <th scope="col">Tipo</th>
+                    <th scope="col">
+                        <a class="btn btn-sm btn-success"
+                            href="/">Cadastrar novo
+                            relacionamento</a>
+                    </th>
                 </tr>
             </thead>
             <tbody>
@@ -49,17 +54,14 @@
                 <tr>
                     <td><%= item.nome %></td>
                     <% for(const item2 of data){ %>
-                        <!-- <td><%=// item2.nome %></td> -->
-                        <% // for(const rel of relacionamentos){ %>
+                        <%  for(const rel of tabela){ %>
                             <th>
                                 <!-- Verificar se os casos possuem um relacionamento -->
-                                <% //if ((rel.fk_caso_1 == item.id and rel.fk_caso_2 == item2.id) or (rel.fk_caso_1 == item.id and rel.fk_caso_2 == item2.id)){ %>
+                                <% if ((rel.fk_caso_1 == item.id && rel.fk_caso_2 == item2.id) || (rel.fk_caso_2 == item.id && rel.fk_caso_1 == item2.id)){ %>
                                     <td>1</td>
-                                <%// } else{ %>
-                                    <td>0</td>
-                                <%// } %>   
+                                <% } %>
                             </th>
-                        <% //} %>
+                        <% } %>
                     <% } %>
                 </tr>
                 <% } %>

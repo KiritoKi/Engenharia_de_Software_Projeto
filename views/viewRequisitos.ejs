@@ -51,15 +51,24 @@
                                                     <% } %>
                                 </td>
                                 <td>
-                                    <% for (const item of entidades){ %>
-                                        <p><%= item.nome %> </p>
-                                    <% } %>
-                                        <a href="/<%= id_user %>/project/<%= id_project %>/entidade/<%= item.id %>">Cadastrar
-                                            entidade</a>
+                                <% for (const item2 of entidades){ %>
+                                    <% if(item2.fk_Requisito_funcional_id == item.id) {%> 
+                                    <p><%= item2.nome %> </p>
+                                    <% } %> 
+                                <% } %>
+                                <a href="/<%= id_user %>/project/<%= id_project %>/entidade/<%= item.id %>">Cadastrar
+                                    entidade</a>
                                 </td>
                                 <td>
-                                    <!-- ajustar -->
-                                    atributos
+                                    <% for (const item2 of entidades){ %>
+                                    <% for (const item3 of atributos){ %>
+                                    <% if(item2.fk_Requisito_funcional_id == item.id && item3.fk_entidade_id == item2.id) {%> 
+                                        
+                                        <p><%= item3.nome_atributo %> </p>
+                                    <% } %> 
+
+                                    <% } %>
+                                    <% } %>
                                 </td>
                                 <td>
                                     <%= item.condicao %>
