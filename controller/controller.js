@@ -615,6 +615,24 @@ function getAtributoIDbyName(value, fk_entidade_id) {
     });
 }
 
+function getAtributosByProject(id_project) {
+    return new Promise((resolve, reject) => {
+        const param = [id_project];
+        let sql = "SELECT atr.nome_atributo, atr.fk_entidade_id";
+        sql += " FROM atributo AS atr, entidades AS ent, requisitos_funcionais AS req";
+        sql += " WHERE atr.fk_entidade_id = ent.id AND ent.fk_Requisito_funcional_id = req.id AND req.fk_projeto_id = ? ;";
+
+        db.query(sql, param, function (err, result, fields) {
+
+            if (err) reject(err);
+            if (result)
+                resolve(result);
+            else
+                resolve(null);
+        });
+    });
+}
+
 function selectRelacionamentoCasoUso() {
     return new Promise((resolve, reject) => {
         const sql = "SELECT * FROM relacionamento_caso_uso;";
@@ -650,5 +668,5 @@ export default {
     getProcesso, newProcessoCaso, editProcessoCaso,
     getProcessoCasoUsoByProject, getEntidadeByProject, getEntidade, selectLastRequisitoID,
     newEntidade, editEntidade, getReqIDbyName, deleteProcessoCaso, deleteEntidade, getAtributoByEnt, selectLastEntidadeID,
-    newAtributo, editAtributo, getAtributoIDbyName, selectRelacionamentoCasoUso
+    newAtributo, editAtributo, getAtributoIDbyName, selectRelacionamentoCasoUso, getAtributosByProject
 };

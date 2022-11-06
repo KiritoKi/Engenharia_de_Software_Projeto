@@ -241,6 +241,7 @@ app.get(
         var descr = await controller.getDescByProject(project_id);
         var casos = await controller.getProcessoCasoUsoByProject(project_id);
         var ent = await controller.getEntidadeByProject(project_id);
+        var atr = await controller.getAtributosByProject(project_id);
 
         response.render("viewRequisitos", {
             id_user: user_id,
@@ -248,7 +249,8 @@ app.get(
             data: rows,
             descritivo: descr,
             casodeUso: casos,
-            entidades: ent
+            entidades: ent,
+            atributos: atr
         });
     }
 );
@@ -531,6 +533,8 @@ app.post("/:id_user/project/:id_project/entidade/:id_requirement/:id_entidade?",
         response.redirect(`/${user_id}/view/project/${project_id}`);
     }
 );
+
+app.get("/:id_user/project/:id_project/")
 
 // Inicia o servidor na porta definida anteriormente
 // escreve no console o endereço
