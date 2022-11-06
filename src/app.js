@@ -39,6 +39,7 @@ import entidade from "../model/entidade.js";
 import atributo from "../model/atributo.js";
 import processoCasoDeUso from "../model/processoCasoDeUso.js";
 import casoDeUso from "../model/casoDeUso.js";
+import relCasoUso from "../model/relCasoUso.js";
 
 
 // Rotas de Login
@@ -534,7 +535,44 @@ app.post("/:id_user/project/:id_project/entidade/:id_requirement/:id_entidade?",
     }
 );
 
-app.get("/:id_user/project/:id_project/")
+app.get("/:id_user/project/:id_project/createRelCasoUso",
+    async function (request, response) {
+        let user_id = request.params.id_user;
+        let project_id = request.params.id_project;
+        var data_Casos = await controller.getProcessoCasoUsoByProject(project_id);
+        try {
+            response.render("relCasosUso", {
+                id_user: user_id,
+                id_project: project_id,
+                data: [],
+                dataCasos: data_Casos,
+                type: "register"
+            });
+        } catch (err) {
+            response.send(err);
+        }
+
+    }
+);
+
+app.post("/:id_user/project/:id_project/createRelCasoUso",
+    async function (request, response) {
+        let user_id = request.params.id_user;
+        let project_id = request.params.id_project;
+
+        var caso1 = await controller.getProcessoIDbyName(request.body.caso_uso_1, project_id);
+        var caso2 = await controller.getProcessoIDbyName(request.body.caso_uso_2, project_id);
+        const rel = new relCasoUso(
+            0,
+            caso1,
+            caso2
+        );
+
+        controller.newRelCasoUso(rel);
+
+        response.redirect(`/${user_id}/project/${project_id}/view/casouso`);
+    }
+);
 
 // Inicia o servidor na porta definida anteriormente
 // escreve no console o endereço

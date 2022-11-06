@@ -649,6 +649,35 @@ function selectRelacionamentoCasoUso() {
         });
     });
 }
+
+function newRelCasoUso(rel) {
+    const params = [
+        rel.getFk_caso_1(),
+        rel.getFk_caso_2()
+    ];
+    let sql = "INSERT INTO relacionamento_caso_uso";
+    sql += "(fk_caso_1, fk_caso_2)VALUES (?,?); ";
+
+    db.query(sql, params, function (err) {
+        if (err)
+            throw console.log("INSERT-ERROR(relCasoUso) FROM = " + params + "err = " + err);
+    });
+};
+
+function getProcessoIDbyName(value, projeto_id) {
+    return new Promise((resolve, reject) => {
+        const param = [value, projeto_id];
+        const sql = "SELECT * FROM processos_casos_de_uso WHERE nome = ? AND fk_projeto_id = ?;";
+
+        db.query(sql, param, function (err, result, fields) {
+            if (err) reject(err);
+            if (result[0])
+                resolve(result[0].id);
+            else
+                resolve(null);
+        });
+    });
+}
 // Exportação das funções para o projeto
 export default {
     register,
@@ -668,5 +697,6 @@ export default {
     getProcesso, newProcessoCaso, editProcessoCaso,
     getProcessoCasoUsoByProject, getEntidadeByProject, getEntidade, selectLastRequisitoID,
     newEntidade, editEntidade, getReqIDbyName, deleteProcessoCaso, deleteEntidade, getAtributoByEnt, selectLastEntidadeID,
-    newAtributo, editAtributo, getAtributoIDbyName, selectRelacionamentoCasoUso, getAtributosByProject
+    newAtributo, editAtributo, getAtributoIDbyName, selectRelacionamentoCasoUso, getAtributosByProject,
+    newRelCasoUso, getProcessoIDbyName
 };

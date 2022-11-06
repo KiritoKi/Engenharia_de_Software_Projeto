@@ -3,7 +3,7 @@
     <body>
         <%- include("navbar.ejs"); %>
 
-            <form action="/<%=id_user%>/project/<%=id_project%>/casouso/<%=caso.id%>/rel/<%= data.id %> " method="post" class="newreqform">
+            <form action="/<%=id_user%>/project/<%=id_project%>/createRelCasoUso" method="post" class="newreqform">
                 <h1>
                     <%= type==='register' ?'Cadastre':'Edite'%> seu relacionamento de caso de uso
                 </h1>
@@ -11,7 +11,7 @@
                 <div>
                     <div class="form-outline mb-4">
                         <label>FK1</label>
-                        <select name="caso uso">
+                        <select name="caso_uso_1">
                             <option value='<%=data.fk_caso_1%>' selected hidden>
                                 <%=data.fk_caso_1%>
                             </option>
@@ -24,7 +24,7 @@
                     </div>
                     <div class="form-outline mb-4">
                         <label>FK2</label>
-                        <select name="caso uso">
+                        <select name="caso_uso_2">
                             <option value='<%=data.fk_caso_2%>' selected hidden>
                                 <%=data.fk_caso_2%>
                             </option>
