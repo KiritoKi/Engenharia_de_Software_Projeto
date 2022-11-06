@@ -29,16 +29,27 @@
                     </select>
                 </div>
                 <div class="form-outline mb-4">
-                    <label>CRUD</label>
-                    <select name="operacao_crud" value="<%= data.crud%>">
-                        <option value='<%=data.crud%>' selected hidden>
-                            <%=data.crud%>
+
+                    <!-- Não funciona pois pode ter varias possibilidades -->
+                    <!-- <label>CRUD</label>
+                    <select name="operacao_crud" value="<%= //data.crud%>">
+                        <option value='<%=//data.crud%>' selected hidden>
+                            <%=//data.crud%>
                         </option>
                         <option value='C'>C</option>
                         <option value='R'>R</option>
                         <option value='U'>U</option>
                         <option value='D'>D</option>
-                    </select>
+                    </select> -->
+
+                    <label for="create">C</label>
+                    <input type="checkbox" id='create' name='create' value='<%= data.c %>'>
+                    <label for="read">R</label>
+                    <input type="checkbox" id='read' name="read" value='<%= data.r %>'>
+                    <label for="update">U</label>
+                    <input type="checkbox" id='update' name="update" value='<%= data.u %>'>
+                    <label for="delete">D</label>
+                    <input type="checkbox" id='delete' name="delete" value='<%= data.d %>'>
                 </div>
                 <div class="form-outline mb-4">
                     <label>GET/SET</label>
