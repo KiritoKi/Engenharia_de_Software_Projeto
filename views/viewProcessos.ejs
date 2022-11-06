@@ -56,16 +56,16 @@
                                     <%= item.nome %>
                                 </td>
                                 <% for(const item2 of data){ %>
-                                    <% for(const rel of tabela){ %>
-                                        <th>
+                                    <td>
+
+                                        <% for(const rel of tabela){ %>
                                             <!-- Verificar se os casos possuem um relacionamento -->
-                                            <% if ((rel.fk_caso_1==item.id && rel.fk_caso_2==item2.id) ||
-                                                (rel.fk_caso_2==item.id && rel.fk_caso_1==item2.id)){ %>
-                                        <td>1</td>
-                                        <% } %>
-                                            </th>
+                                            <% if ((rel.fk_caso_1==item.id && rel.fk_caso_2==item2.id) || (rel.fk_caso_2==item.id && rel.fk_caso_1==item2.id)){ %>
+                                                1
                                             <% } %>
-                                                <% } %>
+                                        <% } %>
+                                    </td>
+                                <% } %>
                             </tr>
                             <% } %>
                     </tbody>
