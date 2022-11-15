@@ -463,7 +463,7 @@ app.get("/:id_user/delete/:id_project/casouso/:id_processo",
     function (request, response) {
         let project_id = request.params.id_project;
         let user_id = request.params.id_user;
-        let processo_id = request.params.id_processo
+        let processo_id = request.params.id_processo;
 
         controller.deleteProcessoCaso(processo_id);
 
