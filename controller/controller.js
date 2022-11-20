@@ -719,14 +719,13 @@ function addResultItemVerifica(item) {
 
 function getAvaliacaoByProject(project_id) {
     return new Promise((resolve, reject) => {
-        const params = [user_id];
-        let sql = "SELECT * FROM projeto WHERE fk_usuario_id = ?";
+        const params = [project_id];
+        let sql = "SELECT * FROM itemVerificacao WHERE fk_project_id = ?";
 
         db.query(sql, params, function (err, result, fields) {
             if (err) {
                 reject(err);
             }
-            console.log(result);
 
             resolve(result);
         });
@@ -753,5 +752,5 @@ export default {
     newEntidade, editEntidade, getReqIDbyName, deleteProcessoCaso, deleteEntidade, getAtributoByEnt, selectLastEntidadeID,
     newAtributo, editAtributo, getAtributoIDbyName, selectRelacionamentoCasoUso, getAtributosByProject,
     newRelCasoUso, getProcessoIDbyName,
-    newItemVerifica, deleteitemVerifica, addResultItemVerifica
+    newItemVerifica, deleteitemVerifica, addResultItemVerifica, getAvaliacaoByProject
 };

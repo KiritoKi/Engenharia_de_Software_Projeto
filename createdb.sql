@@ -155,6 +155,7 @@ CREATE TABLE itemVerificacao (
     id int PRIMARY KEY AUTO_INCREMENT,
     nome varchar(250),
     value varchar(10),
-    result int
+    result int,
+    yes_or_no int,
+    fk_project_id int
 );
-
