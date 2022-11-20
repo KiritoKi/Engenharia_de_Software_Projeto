@@ -607,3 +607,20 @@ app.post("/:id_user/project/:id_project/createRelCasoUso",
 app.listen(port, () => {
     console.log("Server is ON / http://localhost:3333");
 });
+
+
+// -------------------------------------------------
+// MODULO 2
+// -------------------------------------------------
+
+app.get("/modulo2/:user_id", async function (request, response) {
+    let user_id = request.params.user_id;
+
+    try {
+        var rows = await controller.getProjectsByUser(user_id);
+
+        response.render("modulo2.ejs", { id_user: user_id, data: rows });
+    } catch (err) {
+        response.send(err);
+    }
+});

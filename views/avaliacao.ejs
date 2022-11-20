@@ -1,0 +1,42 @@
+<%- include("head.ejs"); %>
+
+    <body>
+        <%- include("navbar.ejs"); %>
+
+            <div class="table-responsive-lg">
+                <table class="table table-striped table-lg">
+                    <thead>
+                        <tr>
+                            <th>Pergunta</th>
+                            <th>Resposta</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% // for (const item of perguntas){ %>
+                            <tr>
+                                <td>
+                                    <%=// item.texto %>
+                                    Teste
+                                </td>
+                                <td>
+                                    <select name="resp" id="resp">
+                                        <option value="Y">Y</option>
+                                        <option value="N">N</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <%=// item.texto %>
+                                    Teste 2
+                                </td>
+                                <td>
+                                    <select name="resp" id="resp">
+                                        <option value="Y">Y</option>
+                                        <option value="N">N</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <% //} %>
+                    </tbody>
+    </body>
