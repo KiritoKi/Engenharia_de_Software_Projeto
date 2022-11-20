@@ -149,8 +149,7 @@ ALTER TABLE relacionamento_caso_uso ADD CONSTRAINT fk_relacionamento_caso_uso_2
     REFERENCES processos_casos_de_uso (id)
     ON DELETE SET NULL ON UPDATE CASCADE;
 
---Module II
-
+/* Module II */
 CREATE TABLE itemVerificacao (
     id int PRIMARY KEY AUTO_INCREMENT,
     nome varchar(250),
