@@ -47,6 +47,7 @@ app.get("/", function (request, response) {
     response.render("index", { user: {} });
 });
 
+
 // Parâmetros:
 //  - username: nome do usuário
 //  - password: senha do usuário
@@ -105,6 +106,20 @@ app.post("/signin", function (request, response) {
 
     response.redirect("/");
 });
+
+
+// Rotas para a pre home
+// Parâmetros:
+//  - user_id: id do usuário
+app.get("/prehome/:user_id", async function (request, response) {
+    let user_id = request.params.user_id;
+    try {
+        response.render("prehome.ejs", { id_user: user_id});
+    } catch (err) {
+        response.send(err);
+    }
+});
+
 
 // Rotas para a home
 // Parâmetros:

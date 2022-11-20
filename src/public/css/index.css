@@ -33,3 +33,20 @@ body{
     width: 60%;
     word-wrap: break-word;
 }
+
+.module-box{
+    display: table;
+    margin: 20px;
+    width: 30%;
+    height: 100px;
+    text-align: center;
+    border-radius: 10px;
+    background-color: #DDDDDDDD;
+}
+
+.module-box a{
+    display: table-cell;
+    font-size: 32px;
+    vertical-align: middle;
+    text-decoration: none;
+}
