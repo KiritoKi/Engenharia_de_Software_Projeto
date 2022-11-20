@@ -625,13 +625,14 @@ app.get("/modulo2/:user_id", async function (request, response) {
     }
 });
 
-app.get("/modulo2/:user_id/avaliacao/", async function (request, response) {
+app.get("/modulo2/:user_id/:project_id/avaliacao/", async function (request, response) {
     let user_id = request.params.user_id;
+    let project_id = request.params.project_id;
 
     try {
-        var rows = await controller.getProjectsByUser(user_id);
+        var rows = await controller.getAvaliacaoByProject(project_id);
 
-        response.render("modulo2.ejs", { id_user: user_id, data: rows });
+        response.render("avaliacao.ejs", { id_user: user_id, data: rows });
     } catch (err) {
         response.send(err);
     }

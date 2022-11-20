@@ -159,3 +159,8 @@ CREATE TABLE itemVerificacao (
     yes_or_no int,
     fk_project_id int
 );
+
+ALTER TABLE itemVerificacao ADD CONSTRAINT FK_item_verificacao
+    FOREIGN KEY (fk_project_id)
+    REFERENCES projeto (id)
+    ON DELETE SET NULL ON UPDATE CASCADE;
