@@ -678,6 +678,44 @@ function getProcessoIDbyName(value, projeto_id) {
         });
     });
 }
+
+function newItemVerifica(item) {
+    const params = [
+        item.getNome()
+    ];
+    let sql = "INSERT INTO itemVerifica";
+    sql += "(nome)VALUES (?); ";
+
+    db.query(sql, params, function (err) {
+        if (err)
+            throw console.log("INSERT-ERROR(newItemVerifica) FROM = " + params + "err = " + err);
+    });
+}
+
+function deleteitemVerifica(id_item) {
+    let param = [id_item];
+    let sql = "DELETE FROM itemVerifica WHERE id=?;";
+
+    db.query(sql, param, function (err) {
+        if (err)
+            throw console.log(
+                "DELETE (itemVerifica)ERROR FROM ID = " + param + "err=" + err
+            );
+    });
+}
+
+function addResultItemVerifica(item) {
+    const params = [
+        item.getValue(),
+        item.getResult(),
+        item.getID()
+    ];
+    let sql = "UPDATE itemVerifica SET value = ?, result = ? WHERE id = ?;";
+
+    db.query(sql, params,
+        function (err) { if (err) throw console.log("UPDATE-ERROR(addResultItemVerifica) FROM = " + params + " err = " + err) }
+    );
+}
 // Exportação das funções para o projeto
 export default {
     register,
@@ -698,5 +736,6 @@ export default {
     getProcessoCasoUsoByProject, getEntidadeByProject, getEntidade, selectLastRequisitoID,
     newEntidade, editEntidade, getReqIDbyName, deleteProcessoCaso, deleteEntidade, getAtributoByEnt, selectLastEntidadeID,
     newAtributo, editAtributo, getAtributoIDbyName, selectRelacionamentoCasoUso, getAtributosByProject,
-    newRelCasoUso, getProcessoIDbyName
+    newRelCasoUso, getProcessoIDbyName,
+    newItemVerifica, deleteitemVerifica, addResultItemVerifica
 };
