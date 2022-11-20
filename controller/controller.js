@@ -716,6 +716,22 @@ function addResultItemVerifica(item) {
         function (err) { if (err) throw console.log("UPDATE-ERROR(addResultItemVerifica) FROM = " + params + " err = " + err) }
     );
 }
+
+function getAvaliacaoByProject(project_id) {
+    return new Promise((resolve, reject) => {
+        const params = [user_id];
+        let sql = "SELECT * FROM projeto WHERE fk_usuario_id = ?";
+
+        db.query(sql, params, function (err, result, fields) {
+            if (err) {
+                reject(err);
+            }
+            console.log(result);
+
+            resolve(result);
+        });
+    });
+}
 // Exportação das funções para o projeto
 export default {
     register,

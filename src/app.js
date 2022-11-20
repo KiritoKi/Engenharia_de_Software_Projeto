@@ -78,7 +78,7 @@ app.post("/login", async function (request, response) {
         });
     }
 
-    response.redirect(`/home/${userSelected.id}`);
+    response.redirect(`/prehome/${userSelected.id}`);
 });
 
 // Rotas de SignIn
@@ -114,7 +114,7 @@ app.post("/signin", function (request, response) {
 app.get("/prehome/:user_id", async function (request, response) {
     let user_id = request.params.user_id;
     try {
-        response.render("prehome.ejs", { id_user: user_id});
+        response.render("prehome.ejs", { id_user: user_id });
     } catch (err) {
         response.send(err);
     }
@@ -614,6 +614,18 @@ app.listen(port, () => {
 // -------------------------------------------------
 
 app.get("/modulo2/:user_id", async function (request, response) {
+    let user_id = request.params.user_id;
+
+    try {
+        var rows = await controller.getProjectsByUser(user_id);
+
+        response.render("modulo2.ejs", { id_user: user_id, data: rows });
+    } catch (err) {
+        response.send(err);
+    }
+});
+
+app.get("/modulo2/:user_id/avaliacao/", async function (request, response) {
     let user_id = request.params.user_id;
 
     try {
