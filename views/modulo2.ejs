@@ -1,0 +1,31 @@
+<%- include("head.ejs"); %>
+
+    <body>
+        <%- include("navbar.ejs"); %>
+
+            <div class="table-responsive-lg">
+                <table class="table table-striped table-lg">
+                    <thead>
+                        <tr>
+                            <th>Identificador do Projeto</th>
+                            <th>Nome do Projeto</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% for (const item of data){ %>
+                            <tr>
+                                <td>
+                                    <%= item.id %>
+                                </td>
+                                <td>
+                                    <%= item.nome %>
+                                </td>
+                                <td class="d-print-none">
+                                    <a class="btn btn-sm btn-info"
+                                        href="/modulo2/<%= id_user %>/avaliacao/">Avaliação</a>
+
+                                </td>
+                            </tr>
+                            <% } %>
+                    </tbody>
+    </body>
