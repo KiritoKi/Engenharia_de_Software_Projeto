@@ -150,16 +150,38 @@ ALTER TABLE relacionamento_caso_uso ADD CONSTRAINT fk_relacionamento_caso_uso_2
     ON DELETE SET NULL ON UPDATE CASCADE;
 
 /* Module II */
-CREATE TABLE itemVerificacao (
+
+CREATE TABLE perguntas(
     id int PRIMARY KEY AUTO_INCREMENT,
-    nome varchar(250),
-    value varchar(10),
-    result int,
-    yes_or_no int,
-    fk_project_id int
+    nome VARCHAR(250),
+    yes_or_no int
 );
 
-ALTER TABLE itemVerificacao ADD CONSTRAINT FK_item_verificacao
+CREATE TABLE itemPergunta (
+    id int PRIMARY KEY AUTO_INCREMENT,
+    value varchar(10),
+    result int,
+    fk_project_id int,
+    fk_pergunta_id int
+);
+
+ALTER TABLE itemPergunta ADD CONSTRAINT FK_item_Pergunta
     FOREIGN KEY (fk_project_id)
     REFERENCES projeto (id)
     ON DELETE SET NULL ON UPDATE CASCADE;
+
+ALTER TABLE itemPergunta ADD CONSTRAINT FK_item_Pergunta_2
+    FOREIGN KEY (fk_pergunta_id)
+    REFERENCES perguntas(id)
+    ON DELETE SET NULL ON UPDATE CASCADE;
+
+INSERT INTO perguntas (nome, yes_or_no)VALUES("É um Template PADRÃO para projetos em Engenharia de Software? (S/N)", 1);
+INSERT INTO perguntas (nome, yes_or_no)VALUES("Este é um projeto de investigação de tecnologia? (S/N)", 1);
+INSERT INTO perguntas (nome, yes_or_no)VALUES("Este é um projeto de aplicação corporativas comerciais e/ou administrativas? (S/N)", 1);
+INSERT INTO perguntas (nome, yes_or_no)VALUES("Este é um projeto da Internet(Web)? (S/N)", 0);
+INSERT INTO perguntas (nome, yes_or_no)VALUES("Seu projeto já começou? (S/N)", 0);
+
+    
+
+
+

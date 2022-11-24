@@ -679,57 +679,81 @@ function getProcessoIDbyName(value, projeto_id) {
     });
 }
 
-function newItemVerifica(item) {
+function newItemPergunta(item) {
     const params = [
-        item.getNome()
+        item.getValue(),
+        item.getFk_project_id(),
+        item.getFk_pergunta_id()
     ];
-    let sql = "INSERT INTO itemVerifica";
-    sql += "(nome)VALUES (?); ";
+    let sql = "INSERT INTO itemPergunta";
+    sql += "(value, fk_project_id, fk_pergunta_id)VALUES (?,?,?); ";
 
     db.query(sql, params, function (err) {
         if (err)
-            throw console.log("INSERT-ERROR(newItemVerifica) FROM = " + params + "err = " + err);
+            throw console.log("INSERT-ERROR(newItemPergunta) FROM = " + params + "err = " + err);
     });
 }
 
-function deleteitemVerifica(id_item) {
+function deleteitemPergunta(id_item) {
     let param = [id_item];
-    let sql = "DELETE FROM itemVerifica WHERE id=?;";
+    let sql = "DELETE FROM itemPergunta WHERE id=?;";
 
     db.query(sql, param, function (err) {
         if (err)
             throw console.log(
-                "DELETE (itemVerifica)ERROR FROM ID = " + param + "err=" + err
+                "DELETE (itemPergunta)ERROR FROM ID = " + param + "err=" + err
             );
     });
 }
 
-function addResultItemVerifica(item) {
+function addResultItemPergunta(item) {
     const params = [
         item.getValue(),
         item.getResult(),
         item.getID()
     ];
-    let sql = "UPDATE itemVerifica SET value = ?, result = ? WHERE id = ?;";
+    let sql = "UPDATE itemPergunta SET value = ?, result = ? WHERE id = ?;";
 
     db.query(sql, params,
         function (err) { if (err) throw console.log("UPDATE-ERROR(addResultItemVerifica) FROM = " + params + " err = " + err) }
     );
 }
 
-function getAvaliacaoByProject(project_id) {
+function getPerguntas() {
+    return new Promise((resolve, reject) => {
+        let sql = "SELECT id,nome FROM perguntas;";
+        db.query(sql, [], function (err, result, fields) {
+            if (err) {
+                reject(err);
+            }
+            console.log(result);
+            resolve(result);
+        });
+    });
+}
+
+function getResultPerguntas(project_id) {
     return new Promise((resolve, reject) => {
         const params = [project_id];
-        let sql = "SELECT * FROM itemVerificacao WHERE fk_project_id = ?";
-
+        let sql = "SELECT value, result from itemPergunta WHERE fk_project_id = ?;";
         db.query(sql, params, function (err, result, fields) {
             if (err) {
                 reject(err);
             }
-
+            console.log(result);
             resolve(result);
         });
     });
+}
+function calculaResult(id, value) {
+    let sql = "SELECT yes_or_no FROM perguntas Where"
+    if (value == "Y") {
+
+    }
+    else if (value == "N") {
+
+    }
+
 }
 // Exportação das funções para o projeto
 export default {
@@ -752,5 +776,5 @@ export default {
     newEntidade, editEntidade, getReqIDbyName, deleteProcessoCaso, deleteEntidade, getAtributoByEnt, selectLastEntidadeID,
     newAtributo, editAtributo, getAtributoIDbyName, selectRelacionamentoCasoUso, getAtributosByProject,
     newRelCasoUso, getProcessoIDbyName,
-    newItemVerifica, deleteitemVerifica, addResultItemVerifica, getAvaliacaoByProject
+    newItemPergunta, deleteitemPergunta, addResultItemPergunta, getResultPerguntas, getPerguntas, calculaResult
 };

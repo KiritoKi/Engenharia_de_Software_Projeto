@@ -40,6 +40,7 @@ import atributo from "../model/atributo.js";
 import processoCasoDeUso from "../model/processoCasoDeUso.js";
 import casoDeUso from "../model/casoDeUso.js";
 import relCasoUso from "../model/relCasoUso.js";
+import itemPergunta from "../model/itemPergunta.js";
 
 
 // Rotas de Login
@@ -630,10 +631,32 @@ app.get("/modulo2/:user_id/:project_id/avaliacao/", async function (request, res
     let project_id = request.params.project_id;
 
     try {
-        var rows = await controller.getAvaliacaoByProject(project_id);
-
-        response.render("avaliacao.ejs", { id_user: user_id, data: rows });
+        var perguntas = await controller.getPerguntas();
+        var respostas = await controller.getResultPerguntas(project_id);
+        response.render("avaliacao.ejs", { id_user: user_id, id_project: project_id, perguntas: perguntas, respostas: respostas });
     } catch (err) {
         response.send(err);
     }
 });
+
+app.post("/modulo2/:user_id/:project_id/avaliacao",
+    async function (request, response) {
+        let id_user = request.params.user_id;
+        let id_project = request.params.project_id;
+        let item_p;
+        let id = 1;
+        for (value of request.body.resp) {
+            item_p = new itemPergunta(
+                0,
+                value,
+                0,
+                id_project,
+                id
+            );
+            id = id + 1;
+            //controller.newItemPergunta(item_p);
+        }
+
+        response.redirect(`/modulo2/${id_user}`);
+    }
+);

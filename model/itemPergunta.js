@@ -1,18 +1,17 @@
-class itemVerificacao {
+class itemPergunta {
     id = 0;
-    nome = '';
     value = '';
     result = 0;
-    yes_or_no = 0;
     fk_project_id = 0;
+    fk_pergunta_id = 0;
 
-    constructor(id, nome, value, result, yes_or_no, fk_project_id) {
+
+    constructor(id, value, result, fk_project_id, fk_pergunta_id) {
         this.id = id;
-        this.nome = nome;
         this.value = value;
         this.result = result;
-        this.yes_or_no = yes_or_no;
         this.fk_project_id = fk_project_id;
+        this.fk_pergunta_id = fk_pergunta_id;
     }
 
     getID() {
@@ -21,11 +20,11 @@ class itemVerificacao {
     setID(value) {
         this.id = value;
     }
-    getNome() {
-        return this.nome;
+    getFk_pergunta_id() {
+        return this.fk_pergunta_id;
     }
-    setNome(value) {
-        this.nome = value;
+    setFk_pergunta_id(value) {
+        this.fk_pergunta_id = value;
     }
     getResult() {
         return this.result;
@@ -39,12 +38,6 @@ class itemVerificacao {
     setValue(value) {
         this.value = value;
     }
-    getYesOrNo() {
-        return this.yes_or_no;
-    }
-    setYesOrNo(value) {
-        this.yes_or_no = value;
-    }
     getFk_project_id() {
         return this.fk_project_id;
     }
@@ -53,4 +46,4 @@ class itemVerificacao {
     }
 };
 
-export default itemVerificacao;
+export default itemPergunta;
