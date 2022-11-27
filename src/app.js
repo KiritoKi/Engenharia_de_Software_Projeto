@@ -638,9 +638,9 @@ app.get("/modulo2/:user_id/:project_id/avaliacao/", async function (request, res
             sum += item.result;
         }
         if (sum < 50)
-            risk = 'Alto Risco'
+            risk = 'Alto Risco';
         else
-            risk = 'Baixo Risco'
+            risk = 'Baixo Risco';
 
         response.render("avaliacao.ejs", { id_user: user_id, id_project: project_id, rows: rows, sum: sum, risk: risk });
     } catch (err) {
