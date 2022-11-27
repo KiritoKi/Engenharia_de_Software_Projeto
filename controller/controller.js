@@ -755,7 +755,6 @@ function getPerguntas(project_id) {
             if (err) {
                 reject(err);
             }
-            console.log(result);
             resolve(result);
         });
     });
