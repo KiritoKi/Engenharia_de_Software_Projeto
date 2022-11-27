@@ -14,7 +14,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <% for (const item of perguntas){ %>
+                            <% for (const item of rows){ %>
                                 <tr>
                                     <!--envia ID da pergunta para o Backend-->
                                     <input type="hidden" name="idVariable" value="<%= item.id %>">
@@ -25,13 +25,15 @@
                                     </td>
                                     <td>
                                         <select name="resp">
+                                            <option value='<%=item.value%>' selected hidden>
+                                                <%=item.value%>
+                                            </option>
                                             <option value="Y">Y</option>
                                             <option value="N">N</option>
                                         </select>
                                     </td>
                                     <td>
-                                        <%= item.id %>
-                                            0
+                                        <%= item.result %>
                                     </td>
                                 </tr>
 

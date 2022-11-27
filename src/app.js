@@ -631,9 +631,8 @@ app.get("/modulo2/:user_id/:project_id/avaliacao/", async function (request, res
     let project_id = request.params.project_id;
 
     try {
-        var perguntas = await controller.getPerguntas(project_id);
-        var respostas = await controller.getResultPerguntas(project_id);
-        response.render("avaliacao.ejs", { id_user: user_id, id_project: project_id, perguntas: perguntas });
+        var rows = await controller.getPerguntas(project_id);
+        response.render("avaliacao.ejs", { id_user: user_id, id_project: project_id, rows: rows });
     } catch (err) {
         response.send(err);
     }
@@ -659,12 +658,13 @@ app.post("/modulo2/:user_id/:project_id/avaliacao",
             );
             //Busca por um ID existente
             let iPergunta_id = await controller.selectItemPerguntaIDbyProjectANDpergunta(id_project, ids_p[itera]);
+
             //Se não já foi criado no banco gera uma nova entrada de ItemPergunta
-            if (iPergunta_id === null)
+            if (iPergunta_id == null)
                 controller.newItemPergunta(item_p);
             //Se já foi criado no banco esse item é atualizado
             else {
-                item_p.setID(iPergunta_id);
+                item_p.setID(iPergunta_id.id);
                 controller.editItemPergunta(item_p);
             }
             //Segue para o proximo item

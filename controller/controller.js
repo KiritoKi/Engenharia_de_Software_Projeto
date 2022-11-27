@@ -701,8 +701,7 @@ function selectItemPerguntaIDbyProjectANDpergunta(id_projeto, id_pergunta) {
 
         db.query(sql, params, function (err, result, fields) {
             if (err) reject(err);
-            console.log("aaaq ", result[0].id === null);
-            resolve(result[0].id);
+            resolve(result[0]);
         });
     });
 
@@ -751,7 +750,7 @@ function deleteitemPergunta(id_item) {
 function getPerguntas(project_id) {
     return new Promise((resolve, reject) => {
         const params = [project_id];
-        let sql = "SELECT perguntas.*, itemPergunta.value,itemPergunta.result FROM perguntas LEFT JOIN itemPergunta ON perguntas.id = itemPergunta.fk_project_id WHERE itemPergunta.fk_project_id = ?;";
+        let sql = "SELECT p.*, i_p.value,i_p.result, i_p.fk_pergunta_id FROM perguntas AS p LEFT JOIN itemPergunta AS i_p ON p.id = i_p.fk_pergunta_id AND i_p.fk_project_id = ?;";
         db.query(sql, params, function (err, result, fields) {
             if (err) {
                 reject(err);
