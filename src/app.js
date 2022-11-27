@@ -681,6 +681,6 @@ app.post("/modulo2/:user_id/:project_id/avaliacao",
             itera += 1;
         }
 
-        response.redirect(`/modulo2/${id_user}`);
+        response.redirect(`/modulo2/${id_user}/${id_project}/avaliacao/`);
     }
 );
