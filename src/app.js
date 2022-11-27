@@ -633,10 +633,16 @@ app.get("/modulo2/:user_id/:project_id/avaliacao/", async function (request, res
     try {
         var rows = await controller.getPerguntas(project_id);
         let sum = 0;
+        let risk = '';
         for (const item of rows) {
             sum += item.result;
         }
-        response.render("avaliacao.ejs", { id_user: user_id, id_project: project_id, rows: rows, sum: sum });
+        if (sum < 50)
+            risk = 'Alto Risco'
+        else
+            risk = 'Baixo Risco'
+
+        response.render("avaliacao.ejs", { id_user: user_id, id_project: project_id, rows: rows, sum: sum, risk: risk });
     } catch (err) {
         response.send(err);
     }
