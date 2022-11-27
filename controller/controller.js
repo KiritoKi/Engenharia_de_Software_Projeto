@@ -588,7 +588,7 @@ function newAtributo(atributo) {
     });
 }
 
-function editAtributo(atributo_id) {
+function editAtributo(atributo) {
     const params = [
         atributo.getNome(),
         atributo.getID()
@@ -679,19 +679,61 @@ function getProcessoIDbyName(value, projeto_id) {
     });
 }
 
+function newPergunta(item) {
+    const params = [
+        item.getNome(),
+        item.getYes_or_no()
+    ];
+    let sql = "INSERT INTO perguntas(nome, yes_or_no)VALUES (?,?);";
+    db.query(sql, [], function (err, result, fields) {
+        if (err) reject(err);
+        resolve(result[0]);
+    });
+}
+
+function selectItemPerguntaIDbyProjectANDpergunta(id_projeto, id_pergunta) {
+    return new Promise((resolve, reject) => {
+        const params = [
+            id_projeto,
+            id_pergunta
+        ];
+        const sql = "SELECT * FROM itemPergunta WHERE fk_project_id = ? AND fk_pergunta_id = ? limit 1;";
+
+        db.query(sql, params, function (err, result, fields) {
+            if (err) reject(err);
+            console.log("aaaq ", result[0].id === null);
+            resolve(result[0].id);
+        });
+    });
+
+}
+
 function newItemPergunta(item) {
     const params = [
         item.getValue(),
+        item.getResult(),
         item.getFk_project_id(),
         item.getFk_pergunta_id()
     ];
-    let sql = "INSERT INTO itemPergunta";
-    sql += "(value, fk_project_id, fk_pergunta_id)VALUES (?,?,?); ";
 
-    db.query(sql, params, function (err) {
-        if (err)
-            throw console.log("INSERT-ERROR(newItemPergunta) FROM = " + params + "err = " + err);
-    });
+    let sql = "INSERT INTO itemPergunta(value, result, fk_project_id, fk_pergunta_id)VALUES (?,?,?,?);";
+
+    db.query(sql, params,
+        function (err) { if (err) throw console.log("INSERT-ERROR(newItemPergunta) FROM = " + params + "err = " + err); }
+    );
+}
+
+function editItemPergunta(item) {
+    const params = [
+        item.getValue(),
+        item.getResult(),
+        item.getID()
+    ];
+    let sql = "UPDATE itemPergunta SET value = ?, result = ? WHERE id = ?;";
+
+    db.query(sql, params,
+        function (err) { if (err) throw console.log("UPDATE-ERROR(itemPergunta) FROM = " + params + " err = " + err); }
+    );
 }
 
 function deleteitemPergunta(id_item) {
@@ -706,23 +748,11 @@ function deleteitemPergunta(id_item) {
     });
 }
 
-function addResultItemPergunta(item) {
-    const params = [
-        item.getValue(),
-        item.getResult(),
-        item.getID()
-    ];
-    let sql = "UPDATE itemPergunta SET value = ?, result = ? WHERE id = ?;";
-
-    db.query(sql, params,
-        function (err) { if (err) throw console.log("UPDATE-ERROR(addResultItemVerifica) FROM = " + params + " err = " + err) }
-    );
-}
-
-function getPerguntas() {
+function getPerguntas(project_id) {
     return new Promise((resolve, reject) => {
-        let sql = "SELECT id,nome FROM perguntas;";
-        db.query(sql, [], function (err, result, fields) {
+        const params = [project_id];
+        let sql = "SELECT perguntas.*, itemPergunta.value,itemPergunta.result FROM perguntas LEFT JOIN itemPergunta ON perguntas.id = itemPergunta.fk_project_id WHERE itemPergunta.fk_project_id = ?;";
+        db.query(sql, params, function (err, result, fields) {
             if (err) {
                 reject(err);
             }
@@ -734,8 +764,8 @@ function getPerguntas() {
 
 function getResultPerguntas(project_id) {
     return new Promise((resolve, reject) => {
-        const params = [project_id];
-        let sql = "SELECT value, result from itemPergunta WHERE fk_project_id = ?;";
+
+        let sql = "SELECT value, result, fk_pergunta_id from itemPergunta WHERE fk_project_id = ?;";
         db.query(sql, params, function (err, result, fields) {
             if (err) {
                 reject(err);
@@ -745,15 +775,18 @@ function getResultPerguntas(project_id) {
         });
     });
 }
-function calculaResult(id, value) {
-    let sql = "SELECT yes_or_no FROM perguntas Where"
-    if (value == "Y") {
 
-    }
-    else if (value == "N") {
-
-    }
-
+function calculaResult(value, expected) {
+    if (expected == 1)
+        if (value == 'Y')
+            return 10
+        else
+            return 0
+    else if (expected == 0)
+        if (value == 'N')
+            return 10
+        else
+            return 0
 }
 // Exportação das funções para o projeto
 export default {
@@ -776,5 +809,7 @@ export default {
     newEntidade, editEntidade, getReqIDbyName, deleteProcessoCaso, deleteEntidade, getAtributoByEnt, selectLastEntidadeID,
     newAtributo, editAtributo, getAtributoIDbyName, selectRelacionamentoCasoUso, getAtributosByProject,
     newRelCasoUso, getProcessoIDbyName,
-    newItemPergunta, deleteitemPergunta, addResultItemPergunta, getResultPerguntas, getPerguntas, calculaResult
+    newItemPergunta, deleteitemPergunta, getResultPerguntas, getPerguntas, calculaResult, newPergunta, editItemPergunta,
+    selectItemPerguntaIDbyProjectANDpergunta,
+
 };

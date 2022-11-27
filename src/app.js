@@ -631,9 +631,9 @@ app.get("/modulo2/:user_id/:project_id/avaliacao/", async function (request, res
     let project_id = request.params.project_id;
 
     try {
-        var perguntas = await controller.getPerguntas();
+        var perguntas = await controller.getPerguntas(project_id);
         var respostas = await controller.getResultPerguntas(project_id);
-        response.render("avaliacao.ejs", { id_user: user_id, id_project: project_id, perguntas: perguntas, respostas: respostas });
+        response.render("avaliacao.ejs", { id_user: user_id, id_project: project_id, perguntas: perguntas });
     } catch (err) {
         response.send(err);
     }
@@ -643,18 +643,32 @@ app.post("/modulo2/:user_id/:project_id/avaliacao",
     async function (request, response) {
         let id_user = request.params.user_id;
         let id_project = request.params.project_id;
-        let item_p;
-        let id = 1;
-        for (value of request.body.resp) {
-            item_p = new itemPergunta(
+        let ids_p = request.body.idVariable;
+        let yon_p = request.body.YesOrNo;
+        let itera = 0;
+        for (let value of request.body.resp) {
+            //Calcula resultado
+            let result = controller.calculaResult(value, yon_p[itera]);
+            //Atribui os valores ao Objeto classe itemPergunta
+            let item_p = new itemPergunta(
                 0,
                 value,
-                0,
+                result,
                 id_project,
-                id
+                ids_p[itera]
             );
-            id = id + 1;
-            //controller.newItemPergunta(item_p);
+            //Busca por um ID existente
+            let iPergunta_id = await controller.selectItemPerguntaIDbyProjectANDpergunta(id_project, ids_p[itera]);
+            //Se não já foi criado no banco gera uma nova entrada de ItemPergunta
+            if (iPergunta_id === null)
+                controller.newItemPergunta(item_p);
+            //Se já foi criado no banco esse item é atualizado
+            else {
+                item_p.setID(iPergunta_id);
+                controller.editItemPergunta(item_p);
+            }
+            //Segue para o proximo item
+            itera += 1;
         }
 
         response.redirect(`/modulo2/${id_user}`);

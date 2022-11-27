@@ -180,6 +180,9 @@ INSERT INTO perguntas (nome, yes_or_no)VALUES("Este é um projeto de investigaç
 INSERT INTO perguntas (nome, yes_or_no)VALUES("Este é um projeto de aplicação corporativas comerciais e/ou administrativas? (S/N)", 1);
 INSERT INTO perguntas (nome, yes_or_no)VALUES("Este é um projeto da Internet(Web)? (S/N)", 0);
 INSERT INTO perguntas (nome, yes_or_no)VALUES("Seu projeto já começou? (S/N)", 0);
+INSERT INTO perguntas (nome, yes_or_no)VALUES("Você planeja usar a modelagem de negócios Orientada a Objetos? (S/N)", 1);
+INSERT INTO perguntas (nome, yes_or_no)VALUES("Você planeja usar requisitos Orientados a Objetos? (S/N)", 1);
+INSERT INTO perguntas (nome, yes_or_no)VALUES("Diagramas de entidade-relacionamento (S/N)", 0);
 
     
 

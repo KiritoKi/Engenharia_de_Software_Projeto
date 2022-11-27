@@ -16,9 +16,12 @@
                         <tbody>
                             <% for (const item of perguntas){ %>
                                 <tr>
+                                    <!--envia ID da pergunta para o Backend-->
+                                    <input type="hidden" name="idVariable" value="<%= item.id %>">
+                                    <input type="hidden" name="YesOrNo" value="<%= item.yes_or_no %>">
+                                    <!--------------------------------------->
                                     <td>
                                         <%= item.nome %>
-
                                     </td>
                                     <td>
                                         <select name="resp">
@@ -27,7 +30,7 @@
                                         </select>
                                     </td>
                                     <td>
-                                        <%= item.value %>
+                                        <%= item.id %>
                                             0
                                     </td>
                                 </tr>
