@@ -1,5 +1,8 @@
-import user from "../model/user.js";
 import db from "./db.js";
+
+//----------------------------------
+//  Usuário
+//----------------------------------
 
 // Função de registro do usuário
 // Parâmetros:
@@ -45,24 +48,11 @@ function login(user) {
     });
 }
 
-// Retorna os projetos a partir de um usuário
-// Parâmetros:
-//  - user_id: id do usuário
-function getProjectsByUser(user_id) {
-    return new Promise((resolve, reject) => {
-        const params = [user_id];
-        let sql = "SELECT * FROM projeto WHERE fk_usuario_id = ?";
 
-        db.query(sql, params, function (err, result, fields) {
-            if (err) {
-                reject(err);
-            }
-            console.log(result);
+//----------------------------------
+//  Projeto
+//----------------------------------
 
-            resolve(result);
-        });
-    });
-}
 
 // Função de criação de projeto
 // Parâmetros:
@@ -76,7 +66,34 @@ function newProject(project) {
             throw console.log("INSERT-ERROR FROM = " + params + "err = " + err);
     });
 }
+// Função de edit do projeto
+// Parâmetros:
+//  - project: objeto do projeto
+function editProject(project) {
+    const params = [
+        project.getNome(),
+        project.getID()
+    ];
+    let sql = "UPDATE projeto SET nome = ? WHERE id = ?;";
 
+    db.query(sql, params,
+        function (err) { if (err) throw console.log("UPDATE-ERROR(projeto) FROM = " + params + " err = " + err) }
+    );
+}
+// Função de delete do projeto
+// Parâmetros:
+//  - id: id do projeto
+function deleteProject(id) {
+    let param = parseInt(id);
+    let sql = "DELETE FROM projeto WHERE id=?;";
+
+    db.query(sql, param, function (err) {
+        if (err)
+            throw console.log(
+                "DELETE (projeto)ERROR FROM ID = " + param + "err=" + err
+            );
+    });
+}
 // Função de get do projeto
 // Parâmetros:
 //  - id: id do projeto
@@ -96,37 +113,24 @@ function getProject(project_id) {
         );
     });
 }
-
-// Função de edit do projeto
+// Retorna os projetos a partir de um usuário
 // Parâmetros:
-//  - project: objeto do projeto
-function editProject(project) {
-    const params = [
-        project.getNome(),
-        project.getID()
-    ];
-    let sql = "UPDATE projeto SET nome = ? WHERE id = ?;";
+//  - user_id: id do usuário
+function getProjectsByUser(user_id) {
+    return new Promise((resolve, reject) => {
+        const params = [user_id];
+        let sql = "SELECT * FROM projeto WHERE fk_usuario_id = ?";
 
-    db.query(sql, params,
-        function (err) { if (err) throw console.log("UPDATE-ERROR(projeto) FROM = " + params + " err = " + err) }
-    );
-}
+        db.query(sql, params, function (err, result, fields) {
+            if (err) {
+                reject(err);
+            }
+            console.log(result);
 
-// Função de delete do projeto
-// Parâmetros:
-//  - id: id do projeto
-function deleteProject(id) {
-    let param = parseInt(id);
-    let sql = "DELETE FROM projeto WHERE id=?;";
-
-    db.query(sql, param, function (err) {
-        if (err)
-            throw console.log(
-                "DELETE (projeto)ERROR FROM ID = " + param + "err=" + err
-            );
+            resolve(result);
+        });
     });
 }
-
 // Retorna o último projeto inserido no banco de dados
 // Retornos:
 //  - result[0].id: id do projeto
@@ -142,46 +146,105 @@ function selectLastProjectID() {
     });
 }
 
-// Função de select dos requisitos baseado em um projeto
+
+//----------------------------------
+//  Descritivo
+//----------------------------------
+
+
+// Função de novo descritivo
 // Parâmetros:
-//  - project_id: id do projeto
-// Retornos:
-//  - result: requisitos encontrados na query
-function selectRequirementByProject(project_id) {
-    return new Promise((resolve, reject) => {
-        const params = [project_id];
-        let sql = "SELECT * FROM requisitos_funcionais WHERE fk_projeto_id = ?";
+//  - desc: objeto do descritivo
+function newDesc(desc) {
+    const params = [desc.getTexto(), desc.getFk_Projeto_id()];
+    let sql = "INSERT INTO descritivo (texto,fk_Projeto_id) VALUES (?,?);";
 
-        db.query(sql, params, function (err, result, fields) {
-            if (err) {
-                reject(err);
-            }
-            console.log(result);
-
-            resolve(result);
-        });
+    db.query(sql, params, function (err) {
+        if (err)
+            throw console.log("INSERT-ERROR FROM = " + params + "err = " + err);
     });
 }
-
-// Função de get de um requisito
+// Função de obter descritivo por projeto 
 // Parâmetros:
-//  - id: id do requisito
-function getRequirement(req_id) {
+//  - project_id: id do projeto
+function getDescByProject(project_id) {
     return new Promise((resolve, reject) => {
-        const params = [req_id];
-        let sql = "SELECT * FROM requisitos_funcionais WHERE id = ? limit 1";
-
+        const params = [project_id];
+        let sql = "SELECT * FROM descritivo WHERE fk_Projeto_id = ? limit 1";
         db.query(sql, params,
             function (err, result, fields) {
                 if (err) {
                     reject(err);
                 }
-
                 resolve(result[0]);
             }
         );
     });
 }
+// Função de edit do descritivo
+// Parâmetros:
+//  - desc: objeto do descritivo
+function editDesc(desc) {
+    const params = [
+        desc.getTexto(),
+        desc.getFk_Projeto_id()
+    ];
+    let sql = "UPDATE descritivo SET texto = ? WHERE fk_Projeto_id = ?;";
+
+    db.query(sql, params,
+        function (err) { if (err) throw console.log("UPDATE-ERROR(descritivo) FROM = " + params + " err = " + err) }
+    );
+}
+
+
+//----------------------------------
+//  Usuário
+//----------------------------------
+
+
+// Função de get do usuário
+// Parâmetros:
+//  - user_id: id do usuário
+function getUser(user_id) {
+    return new Promise((resolve, reject) => {
+        const params = [user_id];
+        let sql = "SELECT * FROM usuario WHERE id = ? limit 1";
+
+        db.query(sql, params, function (err, result, fields) {
+            if (err) {
+                reject(err);
+            }
+
+            resolve(result[0]);
+        });
+    });
+}
+// Função de edit do usuário
+// Parâmetros:
+//  - user: objeto do usuário
+function editUser(user) {
+    const params = [
+        user.getNome(),
+        user.getUsername(),
+        user.getPassword(),
+        user.getEmail(),
+        user.getId(),
+    ];
+    console.log("Edit: " + params);
+    let sql =
+        "UPDATE usuario SET nome = ?, username = ?, password = ?, email = ? WHERE id = ?;";
+
+    db.query(sql, params, function (err) {
+        if (err)
+            throw console.log("UPDATE-ERROR FROM = " + params + "err = " + err);
+    });
+}
+
+
+//----------------------------------
+//  RequisitosFuncionais
+//----------------------------------
+
 
 // Função de novo requisito
 // Parâmetros:
@@ -222,8 +285,6 @@ function editReqFunc(requirement) {
         function (err) { if (err) throw console.log("UPDATE-ERROR FROM = " + params + "err = " + err) }
     );
 }
-
-
 // Função de delete do requisito
 // Parâmetros:
 //  - id: id do requisito
@@ -238,162 +299,67 @@ function deleteRequisito(id) {
             );
     });
 }
-
-// Função de novo descritivo
+// Função de get de um requisito
 // Parâmetros:
-//  - desc: objeto do descritivo
-function newDesc(desc) {
-    const params = [desc.getTexto(), desc.getFk_Projeto_id()];
-    let sql = "INSERT INTO descritivo (texto,fk_Projeto_id) VALUES (?,?);";
-
-    db.query(sql, params, function (err) {
-        if (err)
-            throw console.log("INSERT-ERROR FROM = " + params + "err = " + err);
-    });
-}
-
-
-// Função de obter descritivo por projeto 
-// Parâmetros:
-//  - project_id: id do projeto
-function getDescByProject(project_id) {
+//  - id: id do requisito
+function getRequirement(req_id) {
     return new Promise((resolve, reject) => {
-        const params = [project_id];
-        let sql = "SELECT * FROM descritivo WHERE fk_Projeto_id = ? limit 1";
+        const params = [req_id];
+        let sql = "SELECT * FROM requisitos_funcionais WHERE id = ? limit 1";
+
         db.query(sql, params,
             function (err, result, fields) {
                 if (err) {
                     reject(err);
                 }
+
                 resolve(result[0]);
             }
         );
     });
 }
-
-// Função de edit do descritivo
-// Parâmetros:
-//  - desc: objeto do descritivo
-function editDesc(desc) {
-    const params = [
-        desc.getTexto(),
-        desc.getFk_Projeto_id()
-    ];
-    let sql = "UPDATE descritivo SET texto = ? WHERE fk_Projeto_id = ?;";
-
-    db.query(sql, params,
-        function (err) { if (err) throw console.log("UPDATE-ERROR(descritivo) FROM = " + params + " err = " + err) }
-    );
-}
-
-// Função de get do usuário
-// Parâmetros:
-//  - user_id: id do usuário
-function getUser(user_id) {
-    return new Promise((resolve, reject) => {
-        const params = [user_id];
-        let sql = "SELECT * FROM usuario WHERE id = ? limit 1";
-
-        db.query(sql, params, function (err, result, fields) {
-            if (err) {
-                reject(err);
-            }
-
-            resolve(result[0]);
-        });
-    });
-}
-
-// Função de edit do usuário
-// Parâmetros:
-//  - user: objeto do usuário
-function editUser(user) {
-    const params = [
-        user.getNome(),
-        user.getUsername(),
-        user.getPassword(),
-        user.getEmail(),
-        user.getId(),
-    ];
-    console.log("Edit: " + params);
-    let sql =
-        "UPDATE usuario SET nome = ?, username = ?, password = ?, email = ? WHERE id = ?;";
-
-    db.query(sql, params, function (err) {
-        if (err)
-            throw console.log("UPDATE-ERROR FROM = " + params + "err = " + err);
-    });
-}
-
-// Função de get Processos de caso de Uso
-// Parâmetros:
-//  - processo_id: id do processo
+// Função de get do id do ultimo requisito cadastrado
 // Retornos:
-//  - result[0]: retorna o processo
-function getProcesso(processo_id) {
+//  - result[0].id: id do requisito
+function selectLastRequisitoID() {
     return new Promise((resolve, reject) => {
-        const params = [processo_id];
-        let sql = "SELECT * FROM processos_casos_de_uso WHERE id = ? limit 1";
+        const sql = "SELECT * FROM requisitos_funcionais ORDER BY id DESC limit 1;";
 
-        db.query(sql, params, function (err, result, fields) {
-            if (err) {
-                reject(err);
-            }
-
-            resolve(result[0]);
+        db.query(sql, [], function (err, result, fields) {
+            if (err) reject(err);
+            resolve(result[0].id);
         });
     });
 }
-
-// Função de inserir um novo processo de caso de uso
+// Função de get do id da requisição pelo nome da requisição
 // Parâmetros:
-//  - processo para inserção
-function newProcessoCaso(processoCaso) {
-    const params = [
-        processoCaso.getNome(),
-        processoCaso.getTipo(),
-        processoCaso.getFk_projeto_id(),
-        processoCaso.getFk_requisito_id()
-    ];
-    let sql = "INSERT INTO processos_casos_de_uso";
-    sql += "(nome, tipo, fk_projeto_id, fk_requisito_id)VALUES (?,?,?,?); ";
+//  - value: nome
+//  - projeto_id: id do projeto
+// Retornos:
+//  - result[0]: retorna o id da requisição
+function getReqIDbyName(value, projeto_id) {
+    return new Promise((resolve, reject) => {
+        const param = [value, projeto_id];
+        const sql = "SELECT * FROM requisitos_funcionais WHERE nome = ? AND fk_projeto_id = ?;";
 
-    db.query(sql, params, function (err) {
-        if (err)
-            throw console.log("INSERT-ERROR(processoCaso) FROM = " + params + "err = " + err);
+        db.query(sql, param, function (err, result, fields) {
+            if (err) reject(err);
+            if (result[0])
+                resolve(result[0].id);
+            else
+                resolve(null);
+        });
     });
 }
-
-// Função de update processo caso de uso
-// Parâmetros:
-//  - processoCaso: processo para update
-function editProcessoCaso(processoCaso) {
-    const params = [
-        processoCaso.getNome(),
-        processoCaso.getTipo(),
-        processoCaso.getFk_projeto_id(),
-        processoCaso.getFk_requisito_id(),
-        processoCaso.getID()
-    ];
-    let sql =
-        "UPDATE processos_casos_de_uso SET nome = ?, tipo = ?, fk_projeto_id = ?, fk_requisito_id = ? WHERE id = ?;";
-
-    db.query(sql, params, function (err) {
-        if (err)
-            throw console.log("UPDATE-ERROR(ProcessoCaso) FROM = " + params + "err = " + err);
-    });
-}
-
-// Função de get processo caso de uso (Busca por projeto id)
+// Função de select dos requisitos baseado em um projeto
 // Parâmetros:
 //  - project_id: id do projeto
 // Retornos:
-//  - result: lista de processos de caso de uso
-function getProcessoCasoUsoByProject(project_id) {
+//  - result: requisitos encontrados na query
+function selectRequirementByProject(project_id) {
     return new Promise((resolve, reject) => {
         const params = [project_id];
-
-        let sql = "SELECT * FROM processos_casos_de_uso WHERE fk_projeto_id = ?";
+        let sql = "SELECT * FROM requisitos_funcionais WHERE fk_projeto_id = ?";
 
         db.query(sql, params, function (err, result, fields) {
             if (err) {
@@ -406,28 +372,12 @@ function getProcessoCasoUsoByProject(project_id) {
     });
 }
 
-// Função de get entidade (Busca por projeto id)
-// Parâmetros:
-//  - project_id: id do projeto
-// Retornos:
-//  - result: lista de entidades
-function getEntidadeByProject(project_id) {
-    return new Promise((resolve, reject) => {
-        const params = [project_id];
 
-        let sql = "SELECT ent.* FROM entidades AS ent, requisitos_funcionais AS req "
-        sql += "WHERE req.fk_projeto_id = ? AND ent.fk_Requisito_funcional_id=req.id;";
+//----------------------------------
+//  Entidade
+//----------------------------------
 
-        db.query(sql, params, function (err, result, fields) {
-            if (err) {
-                reject(err);
-            }
-            console.log(result);
 
-            resolve(result);
-        });
-    });
-}
 // Função insert entidade
 // Parâmetros:
 //  - entidade: entidade para insert
@@ -444,7 +394,6 @@ function newEntidade(entidade) {
             throw console.log("INSERT-ERROR(entidade) FROM = " + params + "err = " + err);
     });
 }
-
 // Função de update entidade
 // Parâmetros:
 //  - entidade: entidade para update
@@ -459,7 +408,20 @@ function editEntidade(entidade) {
         function (err) { if (err) throw console.log("UPDATE-ERROR(entidade) FROM = " + params + " err = " + err) }
     );
 }
+// Função de delete de entidade
+// Parâmetros:
+//  - id_requisito: id do requisito
+function deleteEntidade(id_requisito) {
+    let param = [id_requisito];
+    let sql = "DELETE FROM entidades WHERE fk_Requisito_funcional_id=?;";
 
+    db.query(sql, param, function (err) {
+        if (err)
+            throw console.log(
+                "DELETE (entidade)ERROR FROM ID = " + param + "err=" + err
+            );
+    });
+}
 // Função de get entidade
 // Parâmetros:
 //  - req_id: id do requisito
@@ -494,70 +456,34 @@ function selectLastEntidadeID() {
         });
     });
 }
-// Função de get do id do ultimo requisito cadastrado
+// Função de get entidade (Busca por projeto id)
+// Parâmetros:
+//  - project_id: id do projeto
 // Retornos:
-//  - result[0].id: id do requisito
-function selectLastRequisitoID() {
+//  - result: lista de entidades
+function getEntidadeByProject(project_id) {
     return new Promise((resolve, reject) => {
-        const sql = "SELECT * FROM requisitos_funcionais ORDER BY id DESC limit 1;";
+        const params = [project_id];
 
-        db.query(sql, [], function (err, result, fields) {
-            if (err) reject(err);
-            resolve(result[0].id);
+        let sql = "SELECT ent.* FROM entidades AS ent, requisitos_funcionais AS req "
+        sql += "WHERE req.fk_projeto_id = ? AND ent.fk_Requisito_funcional_id=req.id;";
+
+        db.query(sql, params, function (err, result, fields) {
+            if (err) {
+                reject(err);
+            }
+            console.log(result);
+
+            resolve(result);
         });
     });
 }
 
-// Função de get do id da requisição pelo nome da requisição
-// Parâmetros:
-//  - value: nome
-//  - projeto_id: id do projeto
-// Retornos:
-//  - result[0]: retorna o id da requisição
-function getReqIDbyName(value, projeto_id) {
-    return new Promise((resolve, reject) => {
-        const param = [value, projeto_id];
-        const sql = "SELECT * FROM requisitos_funcionais WHERE nome = ? AND fk_projeto_id = ?;";
 
-        db.query(sql, param, function (err, result, fields) {
-            if (err) reject(err);
-            if (result[0])
-                resolve(result[0].id);
-            else
-                resolve(null);
-        });
-    });
-}
+//----------------------------------
+//  Atributo
+//----------------------------------
 
-// Função de delete do processo caso de uso
-// Parâmetros:
-//  - id_requisito: id do processo
-function deleteProcessoCaso(id) {
-    let param = [id];
-    let sql = "DELETE FROM processos_casos_de_uso WHERE id=?;";
-
-    db.query(sql, param, function (err) {
-        if (err)
-            throw console.log(
-                "DELETE (processoCaso)ERROR FROM ID = " + param + "err=" + err
-            );
-    });
-}
-
-// Função de delete de entidade
-// Parâmetros:
-//  - id_requisito: id do requisito
-function deleteEntidade(id_requisito) {
-    let param = [id_requisito];
-    let sql = "DELETE FROM entidades WHERE fk_Requisito_funcional_id=?;";
-
-    db.query(sql, param, function (err) {
-        if (err)
-            throw console.log(
-                "DELETE (entidade)ERROR FROM ID = " + param + "err=" + err
-            );
-    });
-}
 
 function getAtributoByEnt(id_entidade) {
     return new Promise((resolve, reject) => {
@@ -633,6 +559,123 @@ function getAtributosByProject(id_project) {
     });
 }
 
+
+//----------------------------------
+//  ProcessoCasoUso
+//----------------------------------
+
+
+// Função de inserir um novo processo de caso de uso
+// Parâmetros:
+//  - processo para inserção
+function newProcessoCaso(processoCaso) {
+    const params = [
+        processoCaso.getNome(),
+        processoCaso.getTipo(),
+        processoCaso.getFk_projeto_id(),
+        processoCaso.getFk_requisito_id()
+    ];
+    let sql = "INSERT INTO processos_casos_de_uso";
+    sql += "(nome, tipo, fk_projeto_id, fk_requisito_id)VALUES (?,?,?,?); ";
+
+    db.query(sql, params, function (err) {
+        if (err)
+            throw console.log("INSERT-ERROR(processoCaso) FROM = " + params + "err = " + err);
+    });
+}
+// Função de update processo caso de uso
+// Parâmetros:
+//  - processoCaso: processo para update
+function editProcessoCaso(processoCaso) {
+    const params = [
+        processoCaso.getNome(),
+        processoCaso.getTipo(),
+        processoCaso.getFk_projeto_id(),
+        processoCaso.getFk_requisito_id(),
+        processoCaso.getID()
+    ];
+    let sql =
+        "UPDATE processos_casos_de_uso SET nome = ?, tipo = ?, fk_projeto_id = ?, fk_requisito_id = ? WHERE id = ?;";
+
+    db.query(sql, params, function (err) {
+        if (err)
+            throw console.log("UPDATE-ERROR(ProcessoCaso) FROM = " + params + "err = " + err);
+    });
+}
+// Função de delete do processo caso de uso
+// Parâmetros:
+//  - id_requisito: id do processo
+function deleteProcessoCaso(id) {
+    let param = [id];
+    let sql = "DELETE FROM processos_casos_de_uso WHERE id=?;";
+
+    db.query(sql, param, function (err) {
+        if (err)
+            throw console.log(
+                "DELETE (processoCaso)ERROR FROM ID = " + param + "err=" + err
+            );
+    });
+}
+// Função de get processo caso de uso (Busca por projeto id)
+// Parâmetros:
+//  - project_id: id do projeto
+// Retornos:
+//  - result: lista de processos de caso de uso
+function getProcessoCasoUsoByProject(project_id) {
+    return new Promise((resolve, reject) => {
+        const params = [project_id];
+
+        let sql = "SELECT * FROM processos_casos_de_uso WHERE fk_projeto_id = ?";
+
+        db.query(sql, params, function (err, result, fields) {
+            if (err) {
+                reject(err);
+            }
+            console.log(result);
+
+            resolve(result);
+        });
+    });
+}
+function getProcessoIDbyName(value, projeto_id) {
+    return new Promise((resolve, reject) => {
+        const param = [value, projeto_id];
+        const sql = "SELECT * FROM processos_casos_de_uso WHERE nome = ? AND fk_projeto_id = ?;";
+
+        db.query(sql, param, function (err, result, fields) {
+            if (err) reject(err);
+            if (result[0])
+                resolve(result[0].id);
+            else
+                resolve(null);
+        });
+    });
+}
+// Função de get Processos de caso de Uso
+// Parâmetros:
+//  - processo_id: id do processo
+// Retornos:
+//  - result[0]: retorna o processo
+function getProcesso(processo_id) {
+    return new Promise((resolve, reject) => {
+        const params = [processo_id];
+        let sql = "SELECT * FROM processos_casos_de_uso WHERE id = ? limit 1";
+
+        db.query(sql, params, function (err, result, fields) {
+            if (err) {
+                reject(err);
+            }
+
+            resolve(result[0]);
+        });
+    });
+}
+
+//----------------------------------
+//  RelacionamentoCasoUso
+//----------------------------------
+
+
 function selectRelacionamentoCasoUso() {
     return new Promise((resolve, reject) => {
         const sql = "SELECT * FROM relacionamento_caso_uso;";
@@ -664,20 +707,11 @@ function newRelCasoUso(rel) {
     });
 };
 
-function getProcessoIDbyName(value, projeto_id) {
-    return new Promise((resolve, reject) => {
-        const param = [value, projeto_id];
-        const sql = "SELECT * FROM processos_casos_de_uso WHERE nome = ? AND fk_projeto_id = ?;";
 
-        db.query(sql, param, function (err, result, fields) {
-            if (err) reject(err);
-            if (result[0])
-                resolve(result[0].id);
-            else
-                resolve(null);
-        });
-    });
-}
+//----------------------------------
+//  Pergunta
+//----------------------------------
+
 
 function newPergunta(item) {
     const params = [
@@ -690,6 +724,25 @@ function newPergunta(item) {
         resolve(result[0]);
     });
 }
+//Perguntas/itemPergunta
+function getPerguntas(project_id) {
+    return new Promise((resolve, reject) => {
+        const params = [project_id];
+        let sql = "SELECT p.*, i_p.value,i_p.result, i_p.fk_pergunta_id FROM perguntas AS p LEFT JOIN itemPergunta AS i_p ON p.id = i_p.fk_pergunta_id AND i_p.fk_project_id = ?;";
+        db.query(sql, params, function (err, result, fields) {
+            if (err) {
+                reject(err);
+            }
+            resolve(result);
+        });
+    });
+}
+
+
+//----------------------------------
+//  itemPergunta
+//----------------------------------
+
 
 function selectItemPerguntaIDbyProjectANDpergunta(id_projeto, id_pergunta) {
     return new Promise((resolve, reject) => {
@@ -747,19 +800,6 @@ function deleteitemPergunta(id_item) {
     });
 }
 
-function getPerguntas(project_id) {
-    return new Promise((resolve, reject) => {
-        const params = [project_id];
-        let sql = "SELECT p.*, i_p.value,i_p.result, i_p.fk_pergunta_id FROM perguntas AS p LEFT JOIN itemPergunta AS i_p ON p.id = i_p.fk_pergunta_id AND i_p.fk_project_id = ?;";
-        db.query(sql, params, function (err, result, fields) {
-            if (err) {
-                reject(err);
-            }
-            resolve(result);
-        });
-    });
-}
-
 function getResultPerguntas(project_id) {
     return new Promise((resolve, reject) => {
 
@@ -774,6 +814,13 @@ function getResultPerguntas(project_id) {
     });
 }
 
+
+
+//----------------------------------
+//  Funções Utilitárias
+//----------------------------------
+
+
 function calculaResult(value, expected) {
     if (expected == 1)
         if (value == 'Y')
@@ -786,6 +833,12 @@ function calculaResult(value, expected) {
         else
             return 0
 }
+
+
+//----------------------------------
+//  Exportação
+//----------------------------------
+
 // Exportação das funções para o projeto
 export default {
     register,
