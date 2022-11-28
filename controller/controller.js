@@ -481,6 +481,42 @@ function getEntidadeByProject(project_id) {
 
 
 //----------------------------------
+//  RelacionamentoEntidade
+//----------------------------------
+
+
+function newRelacionamentoEntidade(id_entidade_1, id_entidade_2) {
+    const params = [
+        id_entidade_1,
+        id_entidade_2
+    ];
+    let sql = "INSERT INTO relacionamento_entidades";
+    sql += "(id_ent1,id_ent2)VALUES (?,?); ";
+
+    db.query(sql, params, function (err) {
+        if (err)
+            throw console.log("INSERT-ERROR(relacionamento_entidades) FROM = " + params + "err = " + err);
+    });
+}
+
+function getRelacionamentoEntidade(id_entidade_1, id_entidade_2) {
+    return new Promise((resolve, reject) => {
+        const params = [
+            id_entidade_1,
+            id_entidade_2
+        ];
+        //Need to fix -> associatividade id_ent1 == id_entidade_2/id_ent2 == id_entidade_1
+        const sql = "SELECT * FROM relacionamento_entidades WHERE (id_ent1 = ? AND id_ent2 = ?);";
+
+        db.query(sql, [], function (err, result, fields) {
+            if (err) reject(err);
+            resolve(result[0].id);
+        });
+    });
+}
+
+
+//----------------------------------
 //  Atributo
 //----------------------------------
 

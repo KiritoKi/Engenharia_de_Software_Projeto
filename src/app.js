@@ -42,12 +42,14 @@ import casoDeUso from "../model/casoDeUso.js";
 import relCasoUso from "../model/relCasoUso.js";
 import itemPergunta from "../model/itemPergunta.js";
 
+// -------------------------------------------------
+// Login            ## ROUTE
+// -------------------------------------------------
 
-// Rotas de Login
+
 app.get("/", function (request, response) {
     response.render("index", { user: {} });
 });
-
 
 // Parâmetros:
 //  - username: nome do usuário
@@ -82,7 +84,12 @@ app.post("/login", async function (request, response) {
     response.redirect(`/prehome/${userSelected.id}`);
 });
 
-// Rotas de SignIn
+
+// -------------------------------------------------
+// SignIn            ## ROUTE
+// -------------------------------------------------
+
+
 app.get("/signin", function (request, response) {
     response.render("signin", { user: {} });
 });
@@ -109,6 +116,11 @@ app.post("/signin", function (request, response) {
 });
 
 
+// -------------------------------------------------
+// PRE HOME           ## ROUTE
+// -------------------------------------------------
+
+
 // Rotas para a pre home
 // Parâmetros:
 //  - user_id: id do usuário
@@ -120,6 +132,11 @@ app.get("/prehome/:user_id", async function (request, response) {
         response.send(err);
     }
 });
+
+
+// -------------------------------------------------
+// HOME               ## ROUTE
+// -------------------------------------------------
 
 
 // Rotas para a home
@@ -136,6 +153,12 @@ app.get("/home/:user_id", async function (request, response) {
         response.send(err);
     }
 });
+
+
+// -------------------------------------------------
+// EDIT USUARIO       ## ROUTE
+// -------------------------------------------------
+
 
 // Rotas para edit do usuário
 // Parâmetros:
@@ -171,6 +194,12 @@ app.post("/edituser/:user_id", function (request, response) {
 
     response.redirect(`/home/${user_id}`);
 });
+
+
+// -------------------------------------------------
+// NOVO/EDITAR PROJETO  ## ROUTE
+// -------------------------------------------------
+
 
 // Rotas para novo projeto ou edit do projeto
 // Parâmetros:
@@ -232,6 +261,12 @@ app.post("/:id_user/project/:id_project?", async function (request, response) {
     }
 });
 
+
+// -------------------------------------------------
+// DELETE USUARIO  ## ROUTE
+// -------------------------------------------------
+
+
 // Rotas de delete do usuário
 // Parâmetros:
 //  - user_id: id do usuário
@@ -244,6 +279,12 @@ app.get("/:id_user/delete/project/:id_project", function (request, response) {
 
     response.redirect(`/home/${id_user}`);
 });
+
+
+// -------------------------------------------------
+// VIEW DE REQUISITOS   ## ROUTE
+// -------------------------------------------------
+
 
 // Rotas para view de requisitos
 // Parâmetros:
@@ -272,7 +313,12 @@ app.get(
     }
 );
 
-// Rotas para delete do requisito
+
+// -------------------------------------------------
+// DELETE DE REQUISITOS   ## ROUTE
+// -------------------------------------------------
+
+
 // Parâmetros:
 //  - user_id: id do usuário
 //  - id_project: id do projeto
@@ -291,7 +337,12 @@ app.get(
     }
 );
 
-// Rotas para novo requisito ou edit do requisito
+
+// -------------------------------------------------
+// NOVO/EDIT DE REQUISITOS   ## ROUTE
+// -------------------------------------------------
+
+
 // Parâmetros:
 //  - id_user: id do usuário
 //  - id_project: projeto do usuário
@@ -387,7 +438,12 @@ app.post(
     }
 );
 
-//Rotas para Caso de Uso
+
+// -------------------------------------------------
+// NOVO/EDIT PROCESSO DE CASOS DE USO   ## ROUTE
+// -------------------------------------------------
+
+
 app.get("/:id_user/project/:id_project/casouso/:id_processo?",
     async function (request, response) {
         let user_id = request.params.id_user;
@@ -420,7 +476,6 @@ app.get("/:id_user/project/:id_project/casouso/:id_processo?",
     }
 );
 
-//
 app.post("/:id_user/project/:id_project/casouso/:id_processo?",
     async function (request, response) {
         let user_id = request.params.id_user;
@@ -455,7 +510,12 @@ app.post("/:id_user/project/:id_project/casouso/:id_processo?",
     }
 );
 
-//Rotas para view Caso de Uso
+
+// -------------------------------------------------
+// VIEW DE CASOS DE USO   ## ROUTE
+// -------------------------------------------------
+
+
 app.get("/:id_user/project/:id_project/view/casouso",
     async function (request, response) {
         let user_id = request.params.id_user;
@@ -474,7 +534,12 @@ app.get("/:id_user/project/:id_project/view/casouso",
     }
 );
 
-//Rotas para delete Caso de Uso
+
+// -------------------------------------------------
+// DELETE DE PROCESSO CASOS DE USO   ## ROUTE
+// -------------------------------------------------
+
+
 app.get("/:id_user/delete/:id_project/casouso/:id_processo",
     function (request, response) {
         let project_id = request.params.id_project;
@@ -487,6 +552,10 @@ app.get("/:id_user/delete/:id_project/casouso/:id_processo",
     }
 );
 
+
+// -------------------------------------------------
+// NOVO/EDIT ENTIDADE   ## ROUTE
+// -------------------------------------------------
 // Rotas para criar/editar entidade
 app.get("/:id_user/project/:id_project/entidade/:id_requirement/:id_entidade?",
     async function (request, response) {
@@ -564,6 +633,10 @@ app.post("/:id_user/project/:id_project/entidade/:id_requirement/:id_entidade?",
     }
 );
 
+// -------------------------------------------------
+// NOVO/EDIT RELACIONAMENTO CASOS DE USO   ## ROUTE
+// -------------------------------------------------
+
 app.get("/:id_user/project/:id_project/createRelCasoUso",
     async function (request, response) {
         let user_id = request.params.id_user;
@@ -603,17 +676,11 @@ app.post("/:id_user/project/:id_project/createRelCasoUso",
     }
 );
 
-// Inicia o servidor na porta definida anteriormente
-// escreve no console o endereço
-
-app.listen(port, () => {
-    console.log("Server is ON / http://localhost:3333");
-});
-
 
 // -------------------------------------------------
 // MODULO 2
 // -------------------------------------------------
+
 
 app.get("/modulo2/:user_id", async function (request, response) {
     let user_id = request.params.user_id;
@@ -626,6 +693,12 @@ app.get("/modulo2/:user_id", async function (request, response) {
         response.send(err);
     }
 });
+
+
+// -------------------------------------------------
+// AVALIAÇÃO            ## ROUTE
+// -------------------------------------------------
+
 
 app.get("/modulo2/:user_id/:project_id/avaliacao/", async function (request, response) {
     let user_id = request.params.user_id;
@@ -685,3 +758,11 @@ app.post("/modulo2/:user_id/:project_id/avaliacao",
         response.redirect(`/modulo2/${id_user}/${id_project}/avaliacao/`);
     }
 );
+
+
+// -------------------------------------------------
+// Inicia o servidor na porta definida anteriormente
+// -------------------------------------------------
+app.listen(port, () => {
+    console.log(`Server is ON / http://localhost:${port}`);
+});
