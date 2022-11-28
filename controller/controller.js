@@ -485,10 +485,10 @@ function getEntidadeByProject(project_id) {
 //----------------------------------
 
 
-function newRelacionamentoEntidade(id_entidade_1, id_entidade_2) {
+function newRelacionamentoEntidade(relacionamento) {
     const params = [
-        id_entidade_1,
-        id_entidade_2
+        relacionamento.getId_ent1(),
+        relacionamento.getId_ent2()
     ];
     let sql = "INSERT INTO relacionamento_entidades";
     sql += "(id_ent1,id_ent2)VALUES (?,?); ";
@@ -499,18 +499,14 @@ function newRelacionamentoEntidade(id_entidade_1, id_entidade_2) {
     });
 }
 
-function getRelacionamentoEntidade(id_entidade_1, id_entidade_2) {
+function getRelacionamentoEntidade() {
     return new Promise((resolve, reject) => {
-        const params = [
-            id_entidade_1,
-            id_entidade_2
-        ];
-        //Need to fix -> associatividade id_ent1 == id_entidade_2/id_ent2 == id_entidade_1
-        const sql = "SELECT * FROM relacionamento_entidades WHERE (id_ent1 = ? AND id_ent2 = ?);";
+
+        const sql = "SELECT * FROM relacionamento_entidades;";
 
         db.query(sql, [], function (err, result, fields) {
             if (err) reject(err);
-            resolve(result[0].id);
+            resolve(result[0]);
         });
     });
 }
@@ -539,10 +535,11 @@ function getAtributoByEnt(id_entidade) {
 function newAtributo(atributo) {
     const params = [
         atributo.getNome_atributo(),
+        atributo.getTipo_atributo(),
         atributo.getFk_entidade_id()
     ];
     let sql = "INSERT INTO atributo";
-    sql += "(nome_atributo, fk_entidade_id)VALUES (?,?); ";
+    sql += "(nome_atributo, tipo_atributo, fk_entidade_id)VALUES (?,?,?); ";
 
     db.query(sql, params, function (err) {
         if (err)
@@ -552,10 +549,11 @@ function newAtributo(atributo) {
 
 function editAtributo(atributo) {
     const params = [
-        atributo.getNome(),
+        atributo.getNome_atributo(),
+        atributo.getTipo_atributo(),
         atributo.getID()
     ];
-    let sql = "UPDATE atributo SET nome_atributo = ? WHERE id = ?;";
+    let sql = "UPDATE atributo SET nome_atributo = ?, tipo_atributo = ? WHERE id = ?;";
 
     db.query(sql, params,
         function (err) { if (err) throw console.log("UPDATE-ERROR(atributo) FROM = " + params + " err = " + err) }
@@ -591,6 +589,25 @@ function getAtributosByProject(id_project) {
                 resolve(result);
             else
                 resolve(null);
+        });
+    });
+}
+
+// Função de get Atributo
+// Parâmetros:
+//  - atributo_id: id do atributo
+// Retornos:
+//  - result[0]: retorna o atributo
+function getAtributo(atributo_id) {
+    return new Promise((resolve, reject) => {
+        const params = [atributo_id];
+        let sql = "SELECT * FROM atributo WHERE id = ? limit 1";
+
+        db.query(sql, params, function (err, result, fields) {
+            if (err) {
+                reject(err);
+            }
+            resolve(result[0]);
         });
     });
 }
@@ -851,7 +868,6 @@ function getResultPerguntas(project_id) {
 }
 
 
-
 //----------------------------------
 //  Funções Utilitárias
 //----------------------------------
@@ -889,14 +905,42 @@ export default {
     deleteProject,
     selectRequirementByProject,
     deleteRequisito,
-    getRequirement, getProject, getDescByProject,
-    editReqFunc, editProject, editDesc,
-    getProcesso, newProcessoCaso, editProcessoCaso,
-    getProcessoCasoUsoByProject, getEntidadeByProject, getEntidade, selectLastRequisitoID,
-    newEntidade, editEntidade, getReqIDbyName, deleteProcessoCaso, deleteEntidade, getAtributoByEnt, selectLastEntidadeID,
-    newAtributo, editAtributo, getAtributoIDbyName, selectRelacionamentoCasoUso, getAtributosByProject,
-    newRelCasoUso, getProcessoIDbyName,
-    newItemPergunta, deleteitemPergunta, getResultPerguntas, getPerguntas, calculaResult, newPergunta, editItemPergunta,
+    getRequirement,
+    getProject,
+    getDescByProject,
+    editReqFunc,
+    editProject,
+    editDesc,
+    getProcesso,
+    newProcessoCaso,
+    editProcessoCaso,
+    getProcessoCasoUsoByProject,
+    getEntidadeByProject,
+    getEntidade,
+    selectLastRequisitoID,
+    newEntidade,
+    editEntidade,
+    getReqIDbyName,
+    deleteProcessoCaso,
+    deleteEntidade,
+    getAtributoByEnt,
+    selectLastEntidadeID,
+    newAtributo,
+    editAtributo,
+    getAtributoIDbyName,
+    selectRelacionamentoCasoUso,
+    getAtributosByProject,
+    newRelCasoUso,
+    getProcessoIDbyName,
+    newItemPergunta,
+    deleteitemPergunta,
+    getResultPerguntas,
+    getPerguntas,
+    calculaResult,
+    newPergunta,
+    editItemPergunta,
     selectItemPerguntaIDbyProjectANDpergunta,
-
+    getRelacionamentoEntidade,
+    newRelacionamentoEntidade,
+    getAtributo
 };

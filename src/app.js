@@ -197,6 +197,25 @@ app.post("/edituser/:user_id", function (request, response) {
 
 
 // -------------------------------------------------
+// DELETE USUARIO  ## ROUTE
+// -------------------------------------------------
+
+
+// Rotas de delete do usuário
+// Parâmetros:
+//  - user_id: id do usuário
+//  - id_project: id do projeto
+app.get("/:id_user/delete/project/:id_project", function (request, response) {
+    const id = request.params.id_project;
+    let id_user = request.params.id_user;
+
+    controller.deleteProject(id);
+
+    response.redirect(`/home/${id_user}`);
+});
+
+
+// -------------------------------------------------
 // NOVO/EDITAR PROJETO  ## ROUTE
 // -------------------------------------------------
 
@@ -260,26 +279,6 @@ app.post("/:id_user/project/:id_project?", async function (request, response) {
         response.redirect(`/home/${id_user}`);
     }
 });
-
-
-// -------------------------------------------------
-// DELETE USUARIO  ## ROUTE
-// -------------------------------------------------
-
-
-// Rotas de delete do usuário
-// Parâmetros:
-//  - user_id: id do usuário
-//  - id_project: id do projeto
-app.get("/:id_user/delete/project/:id_project", function (request, response) {
-    const id = request.params.id_project;
-    let id_user = request.params.id_user;
-
-    controller.deleteProject(id);
-
-    response.redirect(`/home/${id_user}`);
-});
-
 
 // -------------------------------------------------
 // VIEW DE REQUISITOS   ## ROUTE
@@ -440,6 +439,30 @@ app.post(
 
 
 // -------------------------------------------------
+// VIEW DE CASOS DE USO   ## ROUTE
+// -------------------------------------------------
+
+
+app.get("/:id_user/project/:id_project/view/casouso",
+    async function (request, response) {
+        let user_id = request.params.id_user;
+        let project_id = request.params.id_project;
+
+        try {
+
+            var rows = await controller.getProcessoCasoUsoByProject(project_id);
+            var requisitos = await controller.selectRequirementByProject(project_id);
+            var tabelaCasoUso = await controller.selectRelacionamentoCasoUso();
+
+            response.render("viewProcessos", { id_user: user_id, id_project: project_id, data: rows, data_req: requisitos, tabela: tabelaCasoUso });
+        } catch (err) {
+            response.send(err);
+        }
+    }
+);
+
+
+// -------------------------------------------------
 // NOVO/EDIT PROCESSO DE CASOS DE USO   ## ROUTE
 // -------------------------------------------------
 
@@ -512,25 +535,46 @@ app.post("/:id_user/project/:id_project/casouso/:id_processo?",
 
 
 // -------------------------------------------------
-// VIEW DE CASOS DE USO   ## ROUTE
+// NOVO/EDIT RELACIONAMENTO CASOS DE USO   ## ROUTE
 // -------------------------------------------------
 
 
-app.get("/:id_user/project/:id_project/view/casouso",
+app.get("/:id_user/project/:id_project/createRelCasoUso",
+    async function (request, response) {
+        let user_id = request.params.id_user;
+        let project_id = request.params.id_project;
+        var data_Casos = await controller.getProcessoCasoUsoByProject(project_id);
+        try {
+            response.render("relCasosUso", {
+                id_user: user_id,
+                id_project: project_id,
+                data: [],
+                dataCasos: data_Casos,
+                type: "register"
+            });
+        } catch (err) {
+            response.send(err);
+        }
+
+    }
+);
+
+app.post("/:id_user/project/:id_project/createRelCasoUso",
     async function (request, response) {
         let user_id = request.params.id_user;
         let project_id = request.params.id_project;
 
-        try {
+        var entidade1 = await controller.getProcessoIDbyName(request.body.caso_uso_1, project_id);
+        var caso2 = await controller.getProcessoIDbyName(request.body.caso_uso_2, project_id);
+        const rel = new relCasoUso(
+            0,
+            caso1,
+            caso2
+        );
 
-            var rows = await controller.getProcessoCasoUsoByProject(project_id);
-            var requisitos = await controller.selectRequirementByProject(project_id);
-            var tabelaCasoUso = await controller.selectRelacionamentoCasoUso();
+        controller.newRelCasoUso(rel);
 
-            response.render("viewProcessos", { id_user: user_id, id_project: project_id, data: rows, data_req: requisitos, tabela: tabelaCasoUso });
-        } catch (err) {
-            response.send(err);
-        }
+        response.redirect(`/${user_id}/project/${project_id}/view/casouso`);
     }
 );
 
@@ -556,7 +600,8 @@ app.get("/:id_user/delete/:id_project/casouso/:id_processo",
 // -------------------------------------------------
 // NOVO/EDIT ENTIDADE   ## ROUTE
 // -------------------------------------------------
-// Rotas para criar/editar entidade
+
+
 app.get("/:id_user/project/:id_project/entidade/:id_requirement/:id_entidade?",
     async function (request, response) {
         let user_id = request.params.id_user;
@@ -611,6 +656,7 @@ app.post("/:id_user/project/:id_project/entidade/:id_requirement/:id_entidade?",
         const atr = new atributo(
             0,
             request.body.atributos,
+            0,
             0
         );
 
@@ -633,21 +679,23 @@ app.post("/:id_user/project/:id_project/entidade/:id_requirement/:id_entidade?",
     }
 );
 
+
 // -------------------------------------------------
-// NOVO/EDIT RELACIONAMENTO CASOS DE USO   ## ROUTE
+// NOVO/EDIT RELACIONAMENTO ENTIDADES   ## ROUTE
 // -------------------------------------------------
 
-app.get("/:id_user/project/:id_project/createRelCasoUso",
+
+app.get("/:id_user/project/:id_project/createRelEntidade",
     async function (request, response) {
         let user_id = request.params.id_user;
         let project_id = request.params.id_project;
-        var data_Casos = await controller.getProcessoCasoUsoByProject(project_id);
+        var data_Entidades = await controller.getEntidadeByProject(project_id);
         try {
-            response.render("relCasosUso", {
+            response.render("relEntidade", {
                 id_user: user_id,
                 id_project: project_id,
                 data: [],
-                dataCasos: data_Casos,
+                dataEntidades: data_Entidades,
                 type: "register"
             });
         } catch (err) {
@@ -657,24 +705,149 @@ app.get("/:id_user/project/:id_project/createRelCasoUso",
     }
 );
 
-app.post("/:id_user/project/:id_project/createRelCasoUso",
+app.post("/:id_user/project/:id_project/createRelEntidade",
     async function (request, response) {
         let user_id = request.params.id_user;
         let project_id = request.params.id_project;
 
-        var caso1 = await controller.getProcessoIDbyName(request.body.caso_uso_1, project_id);
-        var caso2 = await controller.getProcessoIDbyName(request.body.caso_uso_2, project_id);
-        const rel = new relCasoUso(
-            0,
-            caso1,
-            caso2
+        var entidade1 = await controller.getProcessoIDbyName(request.body.entidade_1, project_id);
+        var entidade2 = await controller.getProcessoIDbyName(request.body.entidade_2, project_id);
+        const rel = new relacionamentoEntidade(
+            entidade1,
+            entidade2
         );
 
-        controller.newRelCasoUso(rel);
+        controller.newRelacionamentoEntidade(rel);
 
-        response.redirect(`/${user_id}/project/${project_id}/view/casouso`);
+        response.redirect(`##`);
     }
 );
+
+
+// -------------------------------------------------
+// NOVO/EDIT ATRIBUTO   ## ROUTE
+// -------------------------------------------------
+
+
+//Precisa de ':id_user' ':id_project' ':id_atributo?'
+app.get("##",
+    async function (request, response) {
+        let user_id = request.params.id_user;
+        let project_id = request.params.id_project;
+        let atributo_id = request.params.id_atributo;
+
+        try {
+            //New atributo
+            if (atributo_id == null) {
+                response.render("atributo", {
+                    id_user: user_id,
+                    id_project: project_id,
+                    data: [],
+                    type: "register"
+                });
+                //edit atributo
+            } else {
+                var atributo = await controller.getAtributo(atributo_id);
+                response.render("atributos", {
+                    id_user: user_id,
+                    id_project: project_id,
+                    data: atributo,
+                    type: 'edit'
+                });
+            }
+
+        } catch (err) {
+            response.send(err);
+        }
+
+    }
+);
+
+app.post("##",
+    async function (request, response) {
+        let user_id = request.params.id_user;
+        let project_id = request.params.id_project;
+        let atributo_id = request.params.id_atributo;
+        //let entidade_id = request.params.entidade_id;
+
+        const atr = new atributo(
+            0,
+            request.body.nome_atributo,
+            request.body.tipo_atributo,
+            0//entidade_id
+        )
+
+        // Novo Atributo
+        if (atributo_id == null) {
+            //var ent_id = await controller.selectLastEntidadeID();
+            //atr.setFk_entidade_id(ent_id);
+            controller.newAtributo(atr);
+            //edit Atributo
+        } else {
+            atr.setID(atributo_id);
+            controller.editAtributo(atr);
+        }
+
+        response.redirect(`##`);
+    }
+);
+
+
+// -------------------------------------------------
+// DIAGRAMA ATRIBUTO   ## ROUTE
+// -------------------------------------------------
+
+
+app.get("##",
+    async function (request, response) {
+        let user_id = request.params.id_user;
+        let project_id = request.params.id_project;
+
+        var data_Entidades = await controller.getEntidadeByProject(project_id);
+        var relEntidades = await controller.getRelacionamentoEntidade();
+
+        var atributos;
+        var classe;
+
+        try {
+
+
+        } catch (err) {
+            response.send(err);
+        }
+
+    }
+);
+
+app.post("##",
+    async function (request, response) {
+        let user_id = request.params.id_user;
+        let project_id = request.params.id_project;
+        let atributo_id = request.params.id_atributo;
+        //let entidade_id = request.params.entidade_id;
+
+        const atr = new atributo(
+            0,
+            request.body.nome_atributo,
+            request.body.tipo_atributo,
+            0//entidade_id
+        )
+
+        // Novo Atributo
+        if (atributo_id == null) {
+            //var ent_id = await controller.selectLastEntidadeID();
+            //atr.setFk_entidade_id(ent_id);
+            controller.newAtributo(atr);
+            //edit Atributo
+        } else {
+            atr.setID(atributo_id);
+            controller.editAtributo(atr);
+        }
+
+        response.redirect(`##`);
+    }
+);
+
 
 
 // -------------------------------------------------
@@ -764,5 +937,5 @@ app.post("/modulo2/:user_id/:project_id/avaliacao",
 // Inicia o servidor na porta definida anteriormente
 // -------------------------------------------------
 app.listen(port, () => {
-    console.log(`Server is ON / http://localhost:${port}`);
+    console.log(`Server is ON -> http://localhost:${port}`);
 });
