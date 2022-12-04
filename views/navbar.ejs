@@ -1,16 +1,15 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <div class="container-fluid">
-    <a class="navbar-brand" href='/prehome/<%= id_user %>'>Início</a>
-    <button class="navbar-toggler" type="button" data-mdb-toggle="collapse" data-mdb-target="#navbarNav"
-      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      <i class="fas fa-bars"></i>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link" href="/edituser/<%= id_user %>">Editar usuário</a>
-        </li>
-      </ul>
-    </div>
+<!-- 
+  backend requirements: 
+      - id_user: user id on database
+-->
+
+
+<nav class="navbar">
+  <div>
+    <a class="navbar-link" href='/modulo1/<%= id_user %>'>Módulo 1</a>
+    <a class="navbar-link" href='/modulo2/<%= id_user %>'>Módulo 2</a>
+  </div>
+  <div >
+    <a class="navbar-link" href="/edituser/<%= id_user %>">Editar usuário</a>
   </div>
 </nav>

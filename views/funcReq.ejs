@@ -1,23 +1,25 @@
 <%- include("head.ejs"); %>
 
-    <body>
+    <body class="page-body">
         <%- include("navbar.ejs"); %>
 
-            <form action="/<%=id_user%>/project/<%=id_project%>/req/<%=data.id%>" method="post" class="newreqform">
-                <h1>
+            <form action="/<%=id_user%>/project/<%=id_project%>/req/<%=data.id%>" method="post" class="floating-form">
+                <input class="back-button" type="button" onclick="history.back()"></input>
+                
+                <h1 class="form-title">
                     <%= type==='register' ?'Cadastre':'Edite'%> seu requisito
                 </h1>
 
-                <div class="form-outline mb-4">
+                <div class="form-input">
                     <input type="text" id="form2Example2" class="form-control" name="reqtitle" value="<%= data.nome%>">
                     <label>Título do requisito</label>
                 </div>
-                <div class="form-outline mb-4">
+                <div class="form-input">
                     <input type="text" id="form2Example2" class="form-control" name="reqmethod"
                         value="<%= data.condicao%>">
                     <label>Condição</label>
                 </div>
-                <div class="form-outline mb-4">
+                <div class="form-input">
                     <label>SQL</label>
                     <select name="reqsql" value="<%= data.sql_projeto%>">
                         <option value='<%=data.sql_projeto%>' selected hidden>
@@ -28,7 +30,7 @@
                         <option value='delete'>delete</option>
                     </select>
                 </div>
-                <div class="form-outline mb-4">
+                <div class="form-input">
 
                     <!-- Não funciona pois pode ter varias possibilidades -->
                     <!-- <label>CRUD</label>
@@ -51,7 +53,7 @@
                     <label for="delete">D</label>
                     <input type="checkbox" id='delete' name="delete">
                 </div>
-                <div class="form-outline mb-4">
+                <div class="form-input">
                     <label>GET/SET</label>
                     <select name="tipo_metodo" selected="">
                         <option value='<%=data.getset%>' selected hidden>
@@ -63,7 +65,7 @@
                 </div>
 
                 <!-- Submit button -->
-                <input type="submit" class="btn btn-primary btn-block mb-4" name="submit" value="Enviar" />
+                <input type="submit" class="custom-button" name="submit" value="Enviar" />
 
             </form>
     </body>

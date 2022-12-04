@@ -48,7 +48,11 @@ import itemPergunta from "../model/itemPergunta.js";
 
 
 app.get("/", function (request, response) {
-    response.render("index", { user: {} });
+    response.render("login", { user: {} });
+});
+
+app.get("/login", function (request, response) {
+    response.render("login", { user: {} });
 });
 
 // Parâmetros:
@@ -81,7 +85,7 @@ app.post("/login", async function (request, response) {
         });
     }
 
-    response.redirect(`/prehome/${userSelected.id}`);
+    response.redirect(`/home/${userSelected.id}`);
 });
 
 
@@ -117,25 +121,7 @@ app.post("/signin", function (request, response) {
 
 
 // -------------------------------------------------
-// PRE HOME           ## ROUTE
-// -------------------------------------------------
-
-
-// Rotas para a pre home
-// Parâmetros:
-//  - user_id: id do usuário
-app.get("/prehome/:user_id", async function (request, response) {
-    let user_id = request.params.user_id;
-    try {
-        response.render("prehome.ejs", { id_user: user_id });
-    } catch (err) {
-        response.send(err);
-    }
-});
-
-
-// -------------------------------------------------
-// HOME               ## ROUTE
+//  HOME           ## ROUTE
 // -------------------------------------------------
 
 
@@ -144,11 +130,29 @@ app.get("/prehome/:user_id", async function (request, response) {
 //  - user_id: id do usuário
 app.get("/home/:user_id", async function (request, response) {
     let user_id = request.params.user_id;
+    try {
+        response.render("home.ejs", { id_user: user_id });
+    } catch (err) {
+        response.send(err);
+    }
+});
+
+
+// -------------------------------------------------
+// MODULO 1               ## ROUTE
+// -------------------------------------------------
+
+
+// Rotas para a home
+// Parâmetros:
+//  - user_id: id do usuário
+app.get("/modulo1/:user_id", async function (request, response) {
+    let user_id = request.params.user_id;
 
     try {
         var rows = await controller.getProjectsByUser(user_id);
 
-        response.render("home.ejs", { id_user: user_id, data: rows });
+        response.render("modulo1.ejs", { id_user: user_id, data: rows });
     } catch (err) {
         response.send(err);
     }
