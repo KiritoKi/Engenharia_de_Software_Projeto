@@ -1,0 +1,37 @@
+<%- include("head.ejs"); %>
+
+<body class="page-body">
+    <%- include("navbar.ejs"); %>
+
+    <form
+        action="/"
+        method="post"
+        class="floating-form"
+    >
+        <input class="back-button" type="button" onclick="history.back()" />
+
+        <h1 class="form-title">
+            <%= type==='register' ?'Cadastre':'Edite'%> seu atributo
+        </h1>
+
+        <div class="form-input">
+            <input
+                type="text"
+                id="form2Example2"
+                class="form-control"
+                name="atributotitle"
+                value="<%= data.nome %>"
+            />
+            <label>Nome do atributo</label>
+        </div>
+
+        <!-- Submit button -->
+        <input
+            type="submit"
+            class="custom-button"
+            name="submit"
+            value="Enviar"
+        />
+
+    </form>
+</body>

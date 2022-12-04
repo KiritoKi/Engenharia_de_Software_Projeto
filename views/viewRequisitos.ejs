@@ -71,8 +71,14 @@
                         </td>
                         <td>
                             <% for (const item2 of entidades){ %> <%
-                            if(item2.fk_Requisito_funcional_id == item.id) {%>
-                            <p><%= item2.nome %></p>
+                            if(item2.fk_Requisito_funcional_id === item.id) {%>
+                            <p>
+                                <!-- edit -->
+                                <a href="/<%=id_user%>/project/<%=id_project%>/entidade/<%= item.id %>/<%= item2.id %>/"><%= item2.nome %></a>
+
+                                <!-- delete -->
+                                <a href="/">-</a>
+                            </p>
                             <% } %> <% } %>
                             <a
                                 href="/<%= id_user %>/project/<%= id_project %>/entidade/<%= item.id %>"
@@ -85,7 +91,12 @@
                             if(item2.fk_Requisito_funcional_id == item.id &&
                             item3.fk_entidade_id == item2.id) {%>
 
-                            <p><%= item3.nome_atributo %></p>
+                            <p>
+                                <!-- edit -->
+                                <a href="/"><%= item3.nome_atributo %></a>
+                                <!-- delete -->
+                                <a href="/">-</a>
+                            </p>
                             <% } %> <% } %> <% } %>
                         </td>
                         <td><%= item.condicao %></td>
