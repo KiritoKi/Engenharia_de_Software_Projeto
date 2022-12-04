@@ -88,6 +88,11 @@
     text-align: center;
 }
 
+.flex-row{
+    display: flex;
+    flex-direction: row;
+}
+
 .big-button{
     background-color: #E0AFA0;
     border-radius: 5px;
@@ -111,8 +116,34 @@
     font-size: 24px;
 }
 
+.divided-head-button{
+    background-color: #E0AFA0;
+    border-radius: 5px;
+    text-decoration: none;
+    border: none;
+    box-shadow: 0px 0px 8px #000000AA;
+    padding: 5px;
+    height: 50px;
+    margin: 25px;
+    font-size: 24px;
+    min-width: 100px;
+    max-width: 400px;
+}
+
 .no-decoration-link{
     color: #463F3A;
     text-decoration: none;
     border: none;
+}
+
+.diagram-title{
+    margin-top: 100px;
+}
+
+.diagram-table{
+    background-color: #F4F3EE;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 8px #000000AA;
+    margin: 25px 0px;
 }

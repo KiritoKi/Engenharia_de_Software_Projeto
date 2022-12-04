@@ -6,19 +6,24 @@
     <div class="floating-form">
         <input class="back-button" type="button" onclick="history.back()" />
 
+        <h1 class="form-title">Casos de Uso</h1>
+
+        <div class="center-items flex-row">
+            <a
+                class="no-decoration-link"
+                href="/<%=id_user%>/project/<%=id_project%>/createRelCasoUso"
+            >
+                <div class="divided-head-button">Novo relacionamento</div>
+            </a>
+        </div>
+
         <div class="table-responsive-lg">
-            <table class="table table-striped table-lg">
+            <table class="table table-striped table-lg diagram-table">
                 <thead>
                     <tr>
                         <th scope="col">Nome</th>
                         <th scope="col">Tipo</th>
-                        <th scope="col">
-                            <a
-                                class="btn btn-sm btn-success"
-                                href="/<%=id_user%>/project/<%=id_project%>/createRelCasoUso"
-                                >Cadastrar novo relacionamento</a
-                            >
-                        </th>
+
                     </tr>
                 </thead>
                 <tbody>
@@ -28,12 +33,12 @@
                         <td><%= item.tipo %></td>
                         <td class="d-print-none">
                             <a
-                                class="btn btn-sm btn-warning"
+                                class="custom-button"
                                 href="/<%=id_user%>/project/<%=id_project%>/casouso/<%= item.id %>"
                                 >Edit</a
                             >
                             <a
-                                class="btn btn-sm btn-danger"
+                                class="custom-button"
                                 href="/<%=id_user%>/delete/<%=id_project%>/casouso/<%= item.id %>"
                                 >Delete</a
                             >
@@ -44,8 +49,12 @@
             </table>
         </div>
 
+
+        
         <div class="table-responsive-lg matrix-table">
-            <table class="table table-striped table-lg">
+            <h3 class="diagram-title">Diagrama de casos de uso</h3>
+            <p class="form-description">A matriz abaixo indica os relacionamentos dos caso de uso. Cada X representa que os casos de uso na coluna e linha correspondente possuem um relacionamento.</p>
+            <table class="table table-striped table-lg diagram-table">
                 <thead>
                     <tr>
                         <th></th>
