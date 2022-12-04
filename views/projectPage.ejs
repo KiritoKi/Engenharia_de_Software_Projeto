@@ -1,27 +1,44 @@
 <%- include("head.ejs"); %>
 
-    <body class="page-body">
-        <%- include("navbar.ejs"); %>
+<body class="page-body">
+    <%- include("navbar.ejs"); %>
 
-            <form action="/<%=id_user%>/project/<%=data_pj.id%>" method="post" class="floating-form">
-                <input class="back-button" type="button" onclick="history.back()"></input>
-                <h1>
-                    <%= type==='register' ?'Cadastre':'Edite'%> seu projeto
-                </h1>
+    <form
+        action="/<%=id_user%>/project/<%=data_pj.id%>"
+        method="post"
+        class="floating-form"
+    >
+        <input class="back-button" type="button" onclick="history.back()" />
+        <h1><%= type==='register' ?'Cadastre':'Edite'%> seu projeto</h1>
 
-                <div class="form-input">
-                    <input type="text" id="form2Example2" class="form-control" name="project_title"
-                        value="<%=data_pj.nome%>">
-                    <label>Título do projeto</label>
-                </div>
-                <div class="form-input">
-                    <textarea type="text" id="form2Example2" class="form-control"
-                        name="project_desc"><%=data_desc.texto%></textarea>
-                    <label>Descritivo</label>
-                </div>
+        <div class="form-input">
+            <input
+                type="text"
+                id="form2Example2"
+                class="form-control"
+                name="project_title"
+                value="<%=data_pj.nome%>"
+            />
+            <label>Título do projeto</label>
+        </div>
+        <div class="form-input">
+            <textarea
+                type="text"
+                id="form2Example2"
+                class="form-control"
+                name="project_desc"
+            >
+<%=data_desc.texto%></textarea
+            >
+            <label>Descritivo</label>
+        </div>
 
-                <!-- Submit button -->
-                <input type="submit" class="custom-button" name="submit" value="Enviar" />
-
-            </form>
-    </body>
+        <!-- Submit button -->
+        <input
+            type="submit"
+            class="custom-button"
+            name="submit"
+            value="Enviar"
+        />
+    </form>
+</body>

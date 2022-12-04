@@ -3,13 +3,14 @@
       - id_user: user id on database
 -->
 
-
 <nav class="navbar">
-  <div>
-    <a class="navbar-link" href='/modulo1/<%= id_user %>'>Módulo 1</a>
-    <a class="navbar-link" href='/modulo2/<%= id_user %>'>Módulo 2</a>
-  </div>
-  <div >
-    <a class="navbar-link" href="/edituser/<%= id_user %>">Editar usuário</a>
-  </div>
+    <div>
+        <a class="navbar-link" href="/modulo1/<%= id_user %>">Módulo 1</a>
+        <a class="navbar-link" href="/modulo2/<%= id_user %>">Módulo 2</a>
+    </div>
+    <div>
+        <a class="navbar-link" href="/edituser/<%= id_user %>"
+            >Editar usuário</a
+        >
+    </div>
 </nav>

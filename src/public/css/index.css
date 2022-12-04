@@ -37,7 +37,7 @@
 
 .floating-form{
     background-color: #D8D6D0;
-    min-width: 500px;
+    min-width: 600px;
     max-width: 80%;
     margin-top: 5%;
     padding: 50px;
@@ -47,13 +47,17 @@
 
 .custom-button{
     background-color: #E0AFA0;
-    border-radius: 15px;
+    border-radius: 5px;
     text-decoration: none;
     border: none;
+    color: #463F3A;
     box-shadow: 0px 0px 8px #000000AA;
     width: 75px;
     height: 35px;
+    padding: 5px;
+    margin: 10px;
 }
+
 
 .custom-button:hover{
     background-color: #E0AFA0AA;
@@ -86,13 +90,24 @@
 
 .big-button{
     background-color: #E0AFA0;
-    border-radius: 15px;
+    border-radius: 5px;
     text-decoration: none;
     border: none;
     box-shadow: 0px 0px 8px #000000AA;
     padding-top: 30px;
     height: 100px;
     margin: 25px;
+    font-size: 24px;
+}
+.head-button{
+    background-color: #E0AFA0;
+    border-radius: 5px;
+    text-decoration: none;
+    border: none;
+    box-shadow: 0px 0px 8px #000000AA;
+    padding-top: 5px;
+    height: 50px;
+    margin: 25px 25%;
     font-size: 24px;
 }
 
