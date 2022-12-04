@@ -1,8 +1,9 @@
 <%- include("head.ejs"); %>
 
-    <body>
+    <body class="page-body">
         <%- include("navbar.ejs"); %>
-            <form action="/modulo2/<%=id_user%>/<%=id_project%>/avaliacao" method="post" class="newreqform">
+            <form action="/modulo2/<%=id_user%>/<%=id_project%>/avaliacao" method="post" class="floating-form">
+                <input class="back-button" type="button" onclick="history.back()"></input>
 
                 <div class="table-responsive-lg">
                     <table class="table table-striped table-lg">
@@ -50,6 +51,6 @@
                     </table>
                 </div>
                 <!--SubmitButton-->
-                <input type="submit" class="btn btn-primary btn-block mb-4" name="submit" value="Enviar" />
+                <input type="submit" class="custom-button" name="submit" value="Enviar" />
             </form>
     </body>

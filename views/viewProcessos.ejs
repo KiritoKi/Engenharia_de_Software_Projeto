@@ -1,74 +1,76 @@
 <%- include("head.ejs"); %>
 
-    <body>
-        <%- include("navbar.ejs"); %>
+<body class="page-body">
+    <%- include("navbar.ejs"); %>
 
-            <div class="table-responsive-lg">
-                <table class="table table-striped table-lg">
-                    <thead>
-                        <tr>
-                            <th scope="col">Nome</th>
-                            <th scope="col">Tipo</th>
-                            <th scope="col">
-                                <a class="btn btn-sm btn-success"
-                                    href="/<%=id_user%>/project/<%=id_project%>/createRelCasoUso">Cadastrar novo
-                                    relacionamento</a>
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <% for (const item of data){ %>
-                            <tr>
-                                <td>
-                                    <%= item.nome %>
-                                </td>
-                                <td>
-                                    <%= item.tipo %>
-                                </td>
-                                <td class="d-print-none">
-                                    <a class="btn btn-sm btn-warning"
-                                        href="/<%=id_user%>/project/<%=id_project%>/casouso/<%= item.id %>">Edit</a>
-                                    <a class="btn btn-sm btn-danger"
-                                        href="/<%=id_user%>/delete/<%=id_project%>/casouso/<%= item.id %>">Delete</a>
-                                </td>
-                            </tr>
-                            <% } %>
-                    </tbody>
-                </table>
-            </div>
+    <div class="floating-form">
+        <input class="back-button" type="button" onclick="history.back()"></input>
 
-            <div class="table-responsive-lg matrix-table">
-                <table class="table table-striped table-lg">
-                    <thead>
-                        <tr>
-                            <th></th>
-                            <% for(const item of data){ %>
-                                <th>
-                                    <%= item.nome %>
-                                </th>
-                                <% } %>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <% for (const item of data){ %>
-                            <tr>
-                                <td>
-                                    <%= item.nome %>
-                                </td>
-                                <% for(const item2 of data){ %>
-                                    <td>
+        <div class="table-responsive-lg">
+            <table class="table table-striped table-lg">
+                <thead>
+                    <tr>
+                        <th scope="col">Nome</th>
+                        <th scope="col">Tipo</th>
+                        <th scope="col">
+                            <a
+                                class="btn btn-sm btn-success"
+                                href="/<%=id_user%>/project/<%=id_project%>/createRelCasoUso"
+                                >Cadastrar novo relacionamento</a
+                            >
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% for (const item of data){ %>
+                    <tr>
+                        <td><%= item.nome %></td>
+                        <td><%= item.tipo %></td>
+                        <td class="d-print-none">
+                            <a
+                                class="btn btn-sm btn-warning"
+                                href="/<%=id_user%>/project/<%=id_project%>/casouso/<%= item.id %>"
+                                >Edit</a
+                            >
+                            <a
+                                class="btn btn-sm btn-danger"
+                                href="/<%=id_user%>/delete/<%=id_project%>/casouso/<%= item.id %>"
+                                >Delete</a
+                            >
+                        </td>
+                    </tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
 
-                                        <% for(const rel of tabela){ %>
-                                            <!-- Verificar se os casos possuem um relacionamento -->
-                                            <% if ((rel.fk_caso_1==item.id && rel.fk_caso_2==item2.id) || (rel.fk_caso_2==item.id && rel.fk_caso_1==item2.id)){ %>
-                                                1
-                                            <% } %>
-                                        <% } %>
-                                    </td>
-                                <% } %>
-                            </tr>
-                            <% } %>
-                    </tbody>
-                </table>
-            </div>
-    </body>
+        <div class="table-responsive-lg matrix-table">
+            <table class="table table-striped table-lg">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <% for(const item of data){ %>
+                        <th><%= item.nome %></th>
+                        <% } %>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% for (const item of data){ %>
+                    <tr>
+                        <td><%= item.nome %></td>
+                        <% for(const item2 of data){ %>
+                        <td>
+                            <% for(const rel of tabela){ %>
+                            <!-- Verificar se os casos possuem um relacionamento -->
+                            <% if ((rel.fk_caso_1==item.id &&
+                            rel.fk_caso_2==item2.id) || (rel.fk_caso_2==item.id
+                            && rel.fk_caso_1==item2.id)){ %> 1 <% } %> <% } %>
+                        </td>
+                        <% } %>
+                    </tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
