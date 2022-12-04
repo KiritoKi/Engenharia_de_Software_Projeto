@@ -1,29 +1,45 @@
 <%- include("head.ejs"); %>
 
-    <body class="page-body">
-        <%- include("navbar.ejs"); %>
+<body class="page-body">
+    <%- include("navbar.ejs"); %>
 
-            <form action="/<%=id_user%>/project/<%=id_project%>/entidade/<%=id_req%>/<%= data.id %> " method="post"
-                class="floating-form">
-                <input class="back-button" type="button" onclick="history.back()"></input>
-                
-                
-                <h1 class="form-title">
-                    <%= type==='register' ?'Cadastre':'Edite'%> sua entidade
-                </h1>
+    <form
+        action="/<%=id_user%>/project/<%=id_project%>/entidade/<%=id_req%>/<%= data.id %> "
+        method="post"
+        class="floating-form"
+    >
+        <input class="back-button" type="button" onclick="history.back()" />
 
-                <div class="form-input">
-                    <input type="text" id="form2Example2" class="form-control" name="entidadetitle"
-                        value="<%= data.nome %>">
-                    <label>Nome da entidade</label>
-                </div>
-                <div class="form-input">
-                    <input type="text" id="form2Example2" class="form-control" name="atributos"
-                        value="<%= dataAtrib.nome %>">
-                    <label>Atributos</label>
-                </div>
-                <!-- Submit button -->
-                <input type="submit" class="custom-button" name="submit" value="Enviar" />
+        <h1 class="form-title">
+            <%= type==='register' ?'Cadastre':'Edite'%> sua entidade
+        </h1>
 
-            </form>
-    </body>
+        <div class="form-input">
+            <input
+                type="text"
+                id="form2Example2"
+                class="form-control"
+                name="entidadetitle"
+                value="<%= data.nome %>"
+            />
+            <label>Nome da entidade</label>
+        </div>
+        <div class="form-input">
+            <input
+                type="text"
+                id="form2Example2"
+                class="form-control"
+                name="atributos"
+                value="<%= dataAtrib.nome %>"
+            />
+            <label>Atributos</label>
+        </div>
+        <!-- Submit button -->
+        <input
+            type="submit"
+            class="custom-button"
+            name="submit"
+            value="Enviar"
+        />
+    </form>
+</body>

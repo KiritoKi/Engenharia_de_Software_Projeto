@@ -1,47 +1,58 @@
 <%- include("head.ejs"); %>
 
-    <body class="page-body">
-        <%- include("navbar.ejs"); %>
+<body class="page-body">
+    <%- include("navbar.ejs"); %>
 
-            <form action="/<%=id_user%>/project/<%=id_project%>/casouso/<%=data.id%>" method="post" class="floating-form">
-                <input class="back-button" type="button" onclick="history.back()"></input>
-                
-                <h1 class="form-title">
-                    <%= type==='register' ?'Cadastre':'Edite'%> seu processo caso de uso
-                </h1>
+    <form
+        action="/<%=id_user%>/project/<%=id_project%>/casouso/<%=data.id%>"
+        method="post"
+        class="floating-form"
+    >
+        <input class="back-button" type="button" onclick="history.back()" />
+        <h1 class="form-title">
+            <%= type==='register' ?'Cadastre':'Edite'%> seu processo caso de uso
+        </h1>
 
-                <div class="form-input">
-                    <input type="text" id="form2Example2" class="form-control" name="casotitle" value="<%= data.nome%>">
-                    <label>Nome do processo</label>
-                </div>
-                <div class="form-input">
-                    <label>Tipo</label>
-                    <select name="tipo_processo" value="<%= data.tipo%>">
-                        <option value='<%=data.tipo%>' selected hidden>
-                            <%=data.tipo%>
-                        </option>
-                        <option value='Incluir'>Incluir</option>
-                        <option value='Editar'>Editar</option>
-                        <option value='Excluir'>Excluir</option>
-                    </select>
-                </div>
-                <div>
-                    <div class="form-input">
-                        <label>RF</label>
-                        <select name="requisito_funcional">
-                            <option value='<%=data.rf%>' selected hidden>
-                                <%=data.rf%>
-                            </option>
-                            <% for(let item of dataReq){ %>
-                                <option value="<%= item.nome %>">
-                                    <%= item.nome %>
-                                </option>
-                                <% } %>
-                        </select>
-                    </div>
-                </div>
-                <!-- Submit button -->
-                <input type="submit" class="custom-button" name="submit" value="Enviar" />
-
-            </form>
-    </body>
+        <div class="form-input">
+            <input
+                type="text"
+                id="form2Example2"
+                class="form-control"
+                name="casotitle"
+                value="<%= data.nome%>"
+            />
+            <label>Nome do processo</label>
+        </div>
+        <div class="form-input">
+            <label>Tipo</label>
+            <select name="tipo_processo" value="<%= data.tipo%>">
+                <option value="<%=data.tipo%>" selected hidden>
+                    <%=data.tipo%>
+                </option>
+                <option value="Incluir">Incluir</option>
+                <option value="Editar">Editar</option>
+                <option value="Excluir">Excluir</option>
+            </select>
+        </div>
+        <div>
+            <div class="form-input">
+                <label>RF</label>
+                <select name="requisito_funcional">
+                    <option value="<%=data.rf%>" selected hidden>
+                        <%=data.rf%>
+                    </option>
+                    <% for(let item of dataReq){ %>
+                    <option value="<%= item.nome %>"><%= item.nome %></option>
+                    <% } %>
+                </select>
+            </div>
+        </div>
+        <!-- Submit button -->
+        <input
+            type="submit"
+            class="custom-button"
+            name="submit"
+            value="Enviar"
+        />
+    </form>
+</body>

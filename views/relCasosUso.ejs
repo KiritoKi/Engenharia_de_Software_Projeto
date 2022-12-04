@@ -1,45 +1,50 @@
 <%- include("head.ejs"); %>
 
-    <body class="page-body">
-        <%- include("navbar.ejs"); %>
+<body class="page-body">
+    <%- include("navbar.ejs"); %>
 
-            <form action="/<%=id_user%>/project/<%=id_project%>/createRelCasoUso" method="post" class="floating-form">
-                <input class="back-button" type="button" onclick="history.back()"></input>
-                
-                <h1 class="form-title">
-                    <%= type==='register' ?'Cadastre':'Edite'%> seu relacionamento de caso de uso
-                </h1>
+    <form
+        action="/<%=id_user%>/project/<%=id_project%>/createRelCasoUso"
+        method="post"
+        class="floating-form"
+    >
+        <input class="back-button" type="button" onclick="history.back()" />
 
-                <div>
-                    <div class="form-input">
-                        <label>FK1</label>
-                        <select name="caso_uso_1">
-                            <option value='<%=data.fk_caso_1%>' selected hidden>
-                                <%=data.fk_caso_1%>
-                            </option>
-                            <% for(let item of dataCasos){ %>
-                                <option value="<%= item.nome %>">
-                                    <%= item.nome %>
-                                </option>
-                                <% } %>
-                        </select>
-                    </div>
-                    <div class="form-input">
-                        <label>FK2</label>
-                        <select name="caso_uso_2">
-                            <option value='<%=data.fk_caso_2%>' selected hidden>
-                                <%=data.fk_caso_2%>
-                            </option>
-                            <% for(let item of dataCasos){ %>
-                                <option value="<%= item.nome %>">
-                                    <%= item.nome %>
-                                </option>
-                                <% } %>
-                        </select>
-                    </div>
-                </div>
-                <!-- Submit button -->
-                <input type="submit" class="custom-button" name="submit" value="Enviar" />
+        <h1 class="form-title">
+            <%= type==='register' ?'Cadastre':'Edite'%> seu relacionamento de
+            caso de uso
+        </h1>
 
-            </form>
-    </body>
+        <div>
+            <div class="form-input">
+                <label>FK1</label>
+                <select name="caso_uso_1">
+                    <option value="<%=data.fk_caso_1%>" selected hidden>
+                        <%=data.fk_caso_1%>
+                    </option>
+                    <% for(let item of dataCasos){ %>
+                    <option value="<%= item.nome %>"><%= item.nome %></option>
+                    <% } %>
+                </select>
+            </div>
+            <div class="form-input">
+                <label>FK2</label>
+                <select name="caso_uso_2">
+                    <option value="<%=data.fk_caso_2%>" selected hidden>
+                        <%=data.fk_caso_2%>
+                    </option>
+                    <% for(let item of dataCasos){ %>
+                    <option value="<%= item.nome %>"><%= item.nome %></option>
+                    <% } %>
+                </select>
+            </div>
+        </div>
+        <!-- Submit button -->
+        <input
+            type="submit"
+            class="custom-button"
+            name="submit"
+            value="Enviar"
+        />
+    </form>
+</body>

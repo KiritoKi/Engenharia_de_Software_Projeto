@@ -1,39 +1,53 @@
 <%- include("head.ejs"); %>
 
-    <body class="page-body">
-        <%- include("navbar.ejs"); %>
+<body class="page-body">
+    <%- include("navbar.ejs"); %>
 
-            <form action="/<%=id_user%>/project/<%=id_project%>/req/<%=data.id%>" method="post" class="floating-form">
-                <input class="back-button" type="button" onclick="history.back()"></input>
-                
-                <h1 class="form-title">
-                    <%= type==='register' ?'Cadastre':'Edite'%> seu requisito
-                </h1>
+    <form
+        action="/<%=id_user%>/project/<%=id_project%>/req/<%=data.id%>"
+        method="post"
+        class="floating-form"
+    >
+        <input class="back-button" type="button" onclick="history.back()" />
 
-                <div class="form-input">
-                    <input type="text" id="form2Example2" class="form-control" name="reqtitle" value="<%= data.nome%>">
-                    <label>Título do requisito</label>
-                </div>
-                <div class="form-input">
-                    <input type="text" id="form2Example2" class="form-control" name="reqmethod"
-                        value="<%= data.condicao%>">
-                    <label>Condição</label>
-                </div>
-                <div class="form-input">
-                    <label>SQL</label>
-                    <select name="reqsql" value="<%= data.sql_projeto%>">
-                        <option value='<%=data.sql_projeto%>' selected hidden>
-                            <%=data.sql_projeto%>
-                        </option>
-                        <option value='insert'>insert</option>
-                        <option value='update'>update</option>
-                        <option value='delete'>delete</option>
-                    </select>
-                </div>
-                <div class="form-input">
+        <h1 class="form-title">
+            <%= type==='register' ?'Cadastre':'Edite'%> seu requisito
+        </h1>
 
-                    <!-- Não funciona pois pode ter varias possibilidades -->
-                    <!-- <label>CRUD</label>
+        <div class="form-input">
+            <input
+                type="text"
+                id="form2Example2"
+                class="form-control"
+                name="reqtitle"
+                value="<%= data.nome%>"
+            />
+            <label>Título do requisito</label>
+        </div>
+        <div class="form-input">
+            <input
+                type="text"
+                id="form2Example2"
+                class="form-control"
+                name="reqmethod"
+                value="<%= data.condicao%>"
+            />
+            <label>Condição</label>
+        </div>
+        <div class="form-input">
+            <label>SQL</label>
+            <select name="reqsql" value="<%= data.sql_projeto%>">
+                <option value="<%=data.sql_projeto%>" selected hidden>
+                    <%=data.sql_projeto%>
+                </option>
+                <option value="insert">insert</option>
+                <option value="update">update</option>
+                <option value="delete">delete</option>
+            </select>
+        </div>
+        <div class="form-input">
+            <!-- Não funciona pois pode ter varias possibilidades -->
+            <!-- <label>CRUD</label>
                     <select name="operacao_crud" value="<%= //data.crud%>">
                         <option value='<%=//data.crud%>' selected hidden>
                             <%=//data.crud%>
@@ -44,28 +58,32 @@
                         <option value='D'>D</option>
                     </select> -->
 
-                    <label for="create">C</label>
-                    <input type="checkbox" id='create' name='create'>
-                    <label for="read">R</label>
-                    <input type="checkbox" id='read' name="read">
-                    <label for="update">U</label>
-                    <input type="checkbox" id='update' name="update">
-                    <label for="delete">D</label>
-                    <input type="checkbox" id='delete' name="delete">
-                </div>
-                <div class="form-input">
-                    <label>GET/SET</label>
-                    <select name="tipo_metodo" selected="">
-                        <option value='<%=data.getset%>' selected hidden>
-                            <%=data.getset%>
-                        </option>
-                        <option value='GET'>GET</option>
-                        <option value='SET'>SET</option>
-                    </select>
-                </div>
+            <label for="create">C</label>
+            <input type="checkbox" id="create" name="create" />
+            <label for="read">R</label>
+            <input type="checkbox" id="read" name="read" />
+            <label for="update">U</label>
+            <input type="checkbox" id="update" name="update" />
+            <label for="delete">D</label>
+            <input type="checkbox" id="delete" name="delete" />
+        </div>
+        <div class="form-input">
+            <label>GET/SET</label>
+            <select name="tipo_metodo" selected="">
+                <option value="<%=data.getset%>" selected hidden>
+                    <%=data.getset%>
+                </option>
+                <option value="GET">GET</option>
+                <option value="SET">SET</option>
+            </select>
+        </div>
 
-                <!-- Submit button -->
-                <input type="submit" class="custom-button" name="submit" value="Enviar" />
-
-            </form>
-    </body>
+        <!-- Submit button -->
+        <input
+            type="submit"
+            class="custom-button"
+            name="submit"
+            value="Enviar"
+        />
+    </form>
+</body>
