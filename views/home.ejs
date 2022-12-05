@@ -1,38 +1,19 @@
+<!-- 
+  backend requirements: 
+      - id_user: user id on database
+-->
+
 <%- include("head.ejs"); %>
 
-    <body>
-        <%- include("navbar.ejs"); %>
+<body class="page-body">
+    <%- include("navbar.ejs"); %>
 
-            <div class="table-responsive-lg">
-                <table class="table table-striped table-lg">
-                    <thead>
-                        <tr>
-                            <th>Identificador do Projeto</th>
-                            <th>Nome do Projeto</th>
-                            <th class="d-print-none">
-                                <a class="btn btn-sm btn-success" href="/<%=id_user%>/project">Cadastrar novo
-                                    projeto</a>
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <% for (const item of data){ %>
-                            <tr>
-                                <td>
-                                    <%= item.id %>
-                                </td>
-                                <td>
-                                    <%= item.nome %>
-                                </td>
-                                <td class="d-print-none">
-                                    <a class="btn btn-sm btn-info"
-                                        href="/<%=id_user%>/view/project/<%= item.id %>">View</a>
-                                    <a class="btn btn-sm btn-warning"
-                                        href="/<%=id_user%>/project/<%= item.id %>">Edit</a>
-                                    <a class="btn btn-sm btn-danger"
-                                        href="/<%=id_user%>/delete/project/<%= item.id %>">Delete</a>
-                                </td>
-                            </tr>
-                            <% } %>
-                    </tbody>
-    </body>
+    <div class="floating-form center-items">
+        <a class="no-decoration-link" href="/modulo1/<%= id_user %> ">
+            <div class="big-button">Modulo 1</div>
+        </a>
+        <a class="no-decoration-link" href="/modulo2/<%= id_user %> ">
+            <div class="big-button">Modulo 2</div>
+        </a>
+    </div>
+</body>

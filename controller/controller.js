@@ -429,7 +429,7 @@ function deleteEntidade(id_requisito) {
 //  - result: retorna entidade
 function getEntidade(ent_id) {
     return new Promise((resolve, reject) => {
-        const params = [req_id];
+        const params = [ent_id];
         let sql = "SELECT * FROM entidades WHERE id = ? limit 1";
 
         db.query(sql, params,

@@ -1,96 +1,125 @@
+<!-- 
+    Requirements:
+        - descritivo: the project's description
+        - id_user: the user id on the database
+        - id_project: the project id on the database
+        - data: requirements from the current project
+        - casodeUso: the use cases from the project
+        - entidades: the entities from the project
+        - atributos: the attributes from the project
+        - titulo_projeto: the project's title
+ -->
+
 <%- include("head.ejs"); %>
 
-    <body>
-        <%- include("navbar.ejs"); %>
+<body class="page-body">
+    <%- include("navbar.ejs"); %>
+    <div class="floating-form">
+        <input class="back-button" type="button" onclick="history.back()" />
 
-            <div class="descritivo">
-                <h1>Descritivo</h1>
-                <p>
-                    <%= descritivo.texto %>
-                </p>
-            </div>
+        <div class="descritivo">
+            <h1 class="form-title">Descritivo</h1>
+            <p class="form-description"><%= descritivo.texto %></p>
+        </div>
 
-            <div class="table-responsive-lg">
-                <table class="table table-striped table-lg">
-                    <thead>
-                        <tr>
-                            <th scope="col">Requisito Funcional</th>
-                            <th scope="col">Caso de uso</th>
-                            <th scope="col">Entidade MER</th>
-                            <th scope="col">Atributos Entidades</th>
-                            <th scope="col">Condições</th>
-                            <th scope="col">CRUD</th>
-                            <th scope="col">get/set</th>
-                            <th scope="col">SQL</th>
-                            <th class="d-print-none">
-                                <a class="btn btn-sm btn-success"
-                                    href="/<%=id_user%>/project/<%=id_project%>/req">Cadastrar novo
-                                    Requisito</a>
-                            </th>
-                            <th class="d-print-none">
-                                <a class="btn btn-sm btn-success"
-                                    href="/<%=id_user%>/project/<%=id_project%>/casouso">Cadastrar novo
-                                    Caso de uso</a>
-                                <a class="btn btn-sm btn-success"
-                                    href="/<%=id_user%>/project/<%=id_project%>/view/casouso">Ver casos de uso</a>
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <% for (const item of data){ %>
-                            <tr>
-                                <td>
-                                    <%= item.nome %>
-                                </td>
-                                <td>
-                                    <% for (const caso of casodeUso){ %>
-                                        <% if(caso.fk_requisito_id==item.id){ %>
-                                            <%= caso.nome %>
-                                                <% }%>
-                                                    <% } %>
-                                </td>
-                                <td>
-                                <% for (const item2 of entidades){ %>
-                                    <% if(item2.fk_Requisito_funcional_id == item.id) {%> 
-                                    <p><%= item2.nome %> </p>
-                                    <% } %> 
-                                <% } %>
-                                <a href="/<%= id_user %>/project/<%= id_project %>/entidade/<%= item.id %>">Cadastrar
-                                    entidade</a>
-                                </td>
-                                <td>
-                                    <% for (const item2 of entidades){ %>
-                                    <% for (const item3 of atributos){ %>
-                                    <% if(item2.fk_Requisito_funcional_id == item.id && item3.fk_entidade_id == item2.id) {%> 
-                                        
-                                        <p><%= item3.nome_atributo %> </p>
-                                    <% } %> 
+        <div class="center-items flex-row">
+            <a
+                class="no-decoration-link"
+                href="/<%=id_user%>/project/<%=id_project%>/req"
+            >
+                <div class="divided-head-button">Novo requisito</div>
+            </a>
 
-                                    <% } %>
-                                    <% } %>
-                                </td>
-                                <td>
-                                    <%= item.condicao %>
-                                </td>
-                                <td>
-                                    <%= item.crud %>
-                                </td>
-                                <td>
-                                    <%= item.getset %>
-                                </td>
-                                <td>
-                                    <%= item.sql_projeto %>
-                                </td>
-                                <td>
-                                    <!--empty-->
-                                </td>
-                                <td class="d-print-none">
-                                    <a class="btn btn-sm btn-warning"
-                                        href="/<%=id_user%>/project/<%=id_project%>/req/<%= item.id %>">Edit</a>
-                                    <a class="btn btn-sm btn-danger"
-                                        href="/<%=id_user%>/delete/<%=id_project%>/req/<%= item.id %>">Delete</a>
-                                </td>
-                            </tr>
-                            <% } %>
-                    </tbody>
-    </body>
+            <a
+                class="no-decoration-link"
+                href="/<%=id_user%>/project/<%=id_project%>/casouso"
+            >
+                <div class="divided-head-button">Novo caso de uso</div>
+            </a>
+
+            <a
+                class="no-decoration-link"
+                href="/<%=id_user%>/project/<%=id_project%>/view/casouso"
+            >
+                <div class="divided-head-button">Casos de uso</div>
+            </a>
+        </div>
+
+        <div class="table-responsive-lg">
+            <table class="table table-striped table-lg diagram-table">
+                <thead>
+                    <tr>
+                        <th scope="col">Requisito Funcional</th>
+                        <th scope="col">Caso de uso</th>
+                        <th scope="col">Entidade MER</th>
+                        <th scope="col">Atributos Entidades</th>
+                        <th scope="col">Condições</th>
+                        <th scope="col">CRUD</th>
+                        <th scope="col">get/set</th>
+                        <th scope="col">SQL</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <% for (const item of data){ %>
+                    <tr>
+                        <td><%= item.nome %></td>
+                        <td>
+                            <% for (const caso of casodeUso){ %> <%
+                            if(caso.fk_requisito_id==item.id){ %> <%= caso.nome
+                            %> <% }%> <% } %>
+                        </td>
+                        <td>
+                            <% for (const item2 of entidades){ %> <%
+                            if(item2.fk_Requisito_funcional_id === item.id) {%>
+                            <p>
+                                <!-- edit -->
+                                <a href="/<%=id_user%>/project/<%=id_project%>/entidade/<%= item.id %>/<%= item2.id %>/"><%= item2.nome %></a>
+
+                                <!-- delete -->
+                                <a href="/">-</a>
+                            </p>
+                            <% } %> <% } %>
+                            <a
+                                href="/<%= id_user %>/project/<%= id_project %>/entidade/<%= item.id %>"
+                                >+</a
+                            >
+                        </td>
+                        <td>
+                            <% for (const item2 of entidades){ %> <% for (const
+                            item3 of atributos){ %> <%
+                            if(item2.fk_Requisito_funcional_id == item.id &&
+                            item3.fk_entidade_id == item2.id) {%>
+
+                            <p>
+                                <!-- edit -->
+                                <a href="/"><%= item3.nome_atributo %></a>
+                                <!-- delete -->
+                                <a href="/">-</a>
+                            </p>
+                            <% } %> <% } %> <% } %>
+                        </td>
+                        <td><%= item.condicao %></td>
+                        <td><%= item.crud %></td>
+                        <td><%= item.getset %></td>
+                        <td><%= item.sql_projeto %></td>
+                        <td></td>
+                        <td class="d-print-none">
+                            <a
+                                class="custom-button"
+                                href="/<%=id_user%>/project/<%=id_project%>/req/<%= item.id %>"
+                                >Edit</a
+                            >
+                            <a
+                                class="custom-button"
+                                href="/<%=id_user%>/delete/<%=id_project%>/req/<%= item.id %>"
+                                >Delete</a
+                            >
+                        </td>
+                    </tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>

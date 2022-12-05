@@ -1,0 +1,48 @@
+<!-- 
+  backend requirements: 
+      - user: user data on database
+-->
+
+<%- include("head.ejs"); %>
+
+<body class="page-body">
+    <form action="/login" method="post" class="floating-form">
+        <h1 class="form-title">Entre</h1>
+        <!-- Username input -->
+        <div class="form-input">
+            <input
+                type="text"
+                id="form2Example1"
+                class="form-control"
+                name="username"
+                value="<%=user.username %>"
+            />
+            <label class="form-label" for="form2Example1">Usuário</label>
+        </div>
+
+        <!-- Password input -->
+        <div class="form-input">
+            <input
+                type="password"
+                id="form2Example2"
+                class="form-control"
+                name="password"
+                value="<%=user.password %>"
+            />
+            <label class="form-label" for="form2Example2">Senha</label>
+        </div>
+
+        <!-- Submit button -->
+        <input
+            type="submit"
+            class="custom-button"
+            name="submit"
+            value="Log In"
+        />
+
+        <!-- Register buttons -->
+        <div class="form-foot">
+            <p>Ainda não possui uma conta? <a href="/signin">Cadastre-se</a></p>
+        </div>
+    </form>
+</body>

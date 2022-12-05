@@ -4,33 +4,25 @@
     <%- include("navbar.ejs"); %>
 
     <form
-        action="/<%=id_user%>/project/<%=data_pj.id%>"
+        action="/"
         method="post"
         class="floating-form"
     >
         <input class="back-button" type="button" onclick="history.back()" />
-        <h1><%= type==='register' ?'Cadastre':'Edite'%> seu projeto</h1>
+
+        <h1 class="form-title">
+            <%= type==='register' ?'Cadastre':'Edite'%> seu atributo
+        </h1>
 
         <div class="form-input">
             <input
                 type="text"
                 id="form2Example2"
                 class="form-control"
-                name="project_title"
-                value="<%=data_pj.nome%>"
+                name="atributotitle"
+                value="<%= data.nome %>"
             />
-            <label>Título do projeto</label>
-        </div>
-        <div class="form-input">
-            <textarea
-                type="text"
-                id="form2Example2"
-                class="form-control"
-                name="project_desc"
-            >
-<%=data_desc.texto%></textarea
-            >
-            <label>Descritivo</label>
+            <label>Nome do atributo</label>
         </div>
 
         <!-- Submit button -->
@@ -40,5 +32,6 @@
             name="submit"
             value="Enviar"
         />
+
     </form>
 </body>
