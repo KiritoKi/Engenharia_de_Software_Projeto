@@ -684,7 +684,7 @@ app.post("/:id_user/project/:id_project/entidade/:id_requirement/:id_entidade?",
 // NOVO/EDIT RELACIONAMENTO ENTIDADES   ## ROUTE
 // -------------------------------------------------
 
-
+//Envia para o corpo: data;dataEntidades;id_user;id_project;type
 app.get("/:id_user/project/:id_project/createRelEntidade",
     async function (request, response) {
         let user_id = request.params.id_user;
@@ -704,7 +704,7 @@ app.get("/:id_user/project/:id_project/createRelEntidade",
 
     }
 );
-
+//Parametros esperados: entidade_1;entidade_2;cardinalidade;
 app.post("/:id_user/project/:id_project/createRelEntidade",
     async function (request, response) {
         let user_id = request.params.id_user;
@@ -712,9 +712,11 @@ app.post("/:id_user/project/:id_project/createRelEntidade",
 
         var entidade1 = await controller.getProcessoIDbyName(request.body.entidade_1, project_id);
         var entidade2 = await controller.getProcessoIDbyName(request.body.entidade_2, project_id);
+        var cardinalidade = request.body.cardinalidade;
         const rel = new relacionamentoEntidade(
             entidade1,
-            entidade2
+            entidade2,
+            cardinalidade
         );
 
         controller.newRelacionamentoEntidade(rel);
@@ -791,63 +793,6 @@ app.post("##",
         response.redirect(`##`);
     }
 );
-
-
-// -------------------------------------------------
-// DIAGRAMA ATRIBUTO   ## ROUTE
-// -------------------------------------------------
-
-
-app.get("##",
-    async function (request, response) {
-        let user_id = request.params.id_user;
-        let project_id = request.params.id_project;
-
-        var data_Entidades = await controller.getEntidadeByProject(project_id);
-        var relEntidades = await controller.getRelacionamentoEntidade();
-
-        var atributos;
-        var classe;
-
-        try {
-
-
-        } catch (err) {
-            response.send(err);
-        }
-
-    }
-);
-
-app.post("##",
-    async function (request, response) {
-        let user_id = request.params.id_user;
-        let project_id = request.params.id_project;
-        let atributo_id = request.params.id_atributo;
-        //let entidade_id = request.params.entidade_id;
-
-        const atr = new atributo(
-            0,
-            request.body.nome_atributo,
-            request.body.tipo_atributo,
-            0//entidade_id
-        )
-
-        // Novo Atributo
-        if (atributo_id == null) {
-            //var ent_id = await controller.selectLastEntidadeID();
-            //atr.setFk_entidade_id(ent_id);
-            controller.newAtributo(atr);
-            //edit Atributo
-        } else {
-            atr.setID(atributo_id);
-            controller.editAtributo(atr);
-        }
-
-        response.redirect(`##`);
-    }
-);
-
 
 
 // -------------------------------------------------
@@ -929,6 +874,43 @@ app.post("/modulo2/:user_id/:project_id/avaliacao",
         }
 
         response.redirect(`/modulo2/${id_user}/${id_project}/avaliacao/`);
+    }
+);
+
+
+// -------------------------------------------------
+// DIAGRAMA ATRIBUTO   ## ROUTE
+// -------------------------------------------------
+
+
+app.get("##",
+    async function (request, response) {
+        let user_id = request.params.id_user;
+        let project_id = request.params.id_project;
+
+        var data_Entidades = await controller.getEntidadeByProject(project_id);
+        var relEntidades = await controller.getRelacionamentoEntidade();
+
+        var data_Atributos = await controller.getAtributosByProject();
+        var classe;
+
+
+        try {
+            for (const entidade of data_Entidades) {
+
+            }
+            for (const rel of relEntidades)
+                response.render("diagramaAtributo", {
+                    id_user: user_id,
+                    id_project: project_id,
+                    data: [],
+                    type: "register"
+                });
+
+        } catch (err) {
+            response.send(err);
+        }
+
     }
 );
 

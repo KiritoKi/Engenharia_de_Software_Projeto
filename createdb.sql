@@ -59,6 +59,7 @@ CREATE TABLE entidades (
 CREATE TABLE relacionamento_entidades(
     id_ent1 int,
     id_ent2 int,
+    cardinalidade varchar(10),
     PRIMARY KEY (id_ent1, id_ent2)
 );
 

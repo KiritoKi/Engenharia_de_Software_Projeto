@@ -488,10 +488,11 @@ function getEntidadeByProject(project_id) {
 function newRelacionamentoEntidade(relacionamento) {
     const params = [
         relacionamento.getId_ent1(),
-        relacionamento.getId_ent2()
+        relacionamento.getId_ent2(),
+        relacionamento.getCardinalidade()
     ];
     let sql = "INSERT INTO relacionamento_entidades";
-    sql += "(id_ent1,id_ent2)VALUES (?,?); ";
+    sql += "(id_ent1,id_ent2, cardinalidade)VALUES (?,?,?); ";
 
     db.query(sql, params, function (err) {
         if (err)
@@ -506,7 +507,7 @@ function getRelacionamentoEntidade() {
 
         db.query(sql, [], function (err, result, fields) {
             if (err) reject(err);
-            resolve(result[0]);
+            resolve(result);
         });
     });
 }
