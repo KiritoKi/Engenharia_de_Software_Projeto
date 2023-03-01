@@ -10,7 +10,7 @@ CREATE TABLE descritivo (
     id int PRIMARY KEY AUTO_INCREMENT,
     texto varchar(10000),
     fk_Projeto_id int
-);
+); 
 
 CREATE TABLE usuario (
     id int PRIMARY KEY AUTO_INCREMENT,
